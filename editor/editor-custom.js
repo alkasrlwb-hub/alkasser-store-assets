@@ -1227,7 +1227,13 @@ P + '.s-product-options-option-content,' + P + '.s-product-options-option-conten
 P + '.s-product-options-option select.s-form-control{width:100%!important;height:48px!important;background-color:var(--akp-card2)!important;color:#fff!important;border:1px solid var(--akp-line)!important;border-radius:12px!important}' +
 P + '#main-content h1:not(.product-title){font-size:20px!important;line-height:1.4!important;font-weight:800!important}' +
 '@media(min-width:1024px){' + P + '#main-content h1:not(.product-title){font-size:26px!important}' + P + '#main-content h1 .ak-h1tail{display:block}}' +
-'.ak-h1tail{white-space:nowrap}';
+'.ak-h1tail{white-space:nowrap}.ak-h1tail::before{content:"| "}@media(min-width:1024px){.ak-h1tail::before{content:none}}' +
+// شريط الشراء: «اشترِ الآن» لون صافي، زر السلة حدود بلون العالم، «إضافة ملاحظة» بألوان العالم (§8-ب-5)
+P + '.sticky-product-bar salla-mini-checkout-widget{background:var(--akp-acc)!important;background-image:none!important;border-radius:12px!important}' +
+P + '.sticky-product-bar .s-button-btn.s-button-primary{background:transparent!important;border:1.5px solid var(--akp-acc)!important;color:var(--akp-acc)!important;border-radius:12px!important}' +
+P + '.sticky-product-bar .s-button-btn.s-button-primary *{color:var(--akp-acc)!important}' +
+P + '#main-content .btn--collapse{background:var(--akp-card2)!important;border:1px solid var(--akp-line)!important;color:#fff!important}' +
+P + '#main-content .btn--collapse *{color:#fff!important}';
 (document.head || document.documentElement).appendChild(st);
 var seen = [], vis = 0;
 var watch = function () {
@@ -1247,12 +1253,14 @@ if (/\/p1821944654(\D|$)/.test(location.pathname)) {
 var ms = document.querySelectorAll('#main-content .text-unicode');
 for (var j = 0; j < ms.length; j++) if (/^\s*AK-101-[A-Z]+\s*$/.test(ms[j].textContent)) ms[j].textContent = 'AK-101';
 }
+var mc = document.querySelectorAll('.sticky-product-bar salla-mini-checkout-widget');
+for (var z = 0; z < mc.length; z++) { var sr = mc[z].shadowRoot; if (sr && !sr.getElementById('ak-mc')) { var y = document.createElement('style'); y.id = 'ak-mc'; y.textContent = '.s-fast-checkout-button{background:transparent!important;border:0!important;color:var(--akp-on)!important;font-weight:800!important}.s-fast-checkout-button *{color:var(--akp-on)!important;fill:var(--akp-on)!important}'; sr.appendChild(y); } }
 var hs = document.querySelectorAll('#main-content h1');
 for (var h = 0; h < hs.length; h++) {
 var e = hs[h]; if (e.getAttribute('data-aktail') || e.children.length) continue;
 var t = e.textContent, p = t.lastIndexOf(' | '); if (p < 1) continue;
-e.setAttribute('data-aktail', '1'); e.textContent = t.slice(0, p);
-var s = document.createElement('span'); s.className = 'ak-h1tail'; s.textContent = ' ' + t.slice(p + 1).trim(); e.appendChild(s);
+e.setAttribute('data-aktail', '1'); e.textContent = t.slice(0, p) + ' ';
+var s = document.createElement('span'); s.className = 'ak-h1tail'; s.textContent = t.slice(p + 3).trim(); e.appendChild(s);
 }
 };
 var q = false, sch = function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; fix(); }); };
