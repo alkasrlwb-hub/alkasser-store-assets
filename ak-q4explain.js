@@ -187,7 +187,10 @@
       if (cmp && t.nextElementSibling !== cmp && cmp.parentNode === t.parentNode) t.insertAdjacentElement('afterend', cmp);
       if (list && !document.getElementById('ak-q4x-bot')) {
         var b = document.createElement('div'); b.id = 'ak-q4x-bot'; b.className = 'akx'; b.setAttribute('role', 'region'); b.setAttribute('aria-label', T.stepsT);
-        b.innerHTML = bot(); list.insertAdjacentElement('afterend', b);
+        b.innerHTML = bot();
+        var host = list.parentElement, anchor = list;
+        if (host && /flex|grid/.test(getComputedStyle(host).display) && host.children.length <= 3) anchor = host; // القائمة داخل صف flex: نحط الشرح تحت الصف كامل مو جنبه
+        anchor.insertAdjacentElement('afterend', b);
         list.id = list.id || 'akx-products';
       }
       return !!(t && document.getElementById('ak-q4x-bot'));
