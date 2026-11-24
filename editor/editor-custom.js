@@ -86,9 +86,9 @@ t_cats: [
 ],
 p_small_url: C.garden, p_medium_url: C.garden, p_large_url: C.garden, p_all_url: C.garden,
 p_cats: [
-{ title: 'مراجيح', image: IMG + 'p_swing_only.jpg', url: C.garden },
-{ title: 'ملاعب متكاملة', image: IMG + 'p_sw04.jpg', url: C.garden },
-{ title: 'ألعاب الروضة', image: IMG + 'w_club.jpg', url: C.kinder }
+{ title: 'مراجيح', image: IMG + 'p_swings.jpg', url: C.garden, photo: true },
+{ title: 'ملاعب متكاملة', image: IMG + 'p_playsets.jpg', url: C.garden, photo: true },
+{ title: 'ألعاب الروضة', image: IMG + 'p_kinder.jpg', url: C.kinder, photo: true }
 ],
 b_bikes_url: C.bikes, b_all_url: C.bikes,
 b_cats: [
@@ -112,7 +112,7 @@ f_cardio_url: C.treadmills, f_easy_url: C.cardio, f_strength_url: C.gym, f_boxin
 h_dining_url: C.dining, h_office_url: C.office, h_decor_url: C.decor, h_all_url: C.home,
 bundle_url: C.tables,
 worlds_on: 'tables,play,moto',
-t_tab: 'الطاولات',
+t_tab: 'رياضة وألعاب',
 t_products_title: 'طاولات الألعاب'
 }
 };
@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
 try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
 var s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@e6ff54f1ccc2775e215240926951c0a49da6f0ee/alkasser-worlds.js';
+s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@33a668521455173393bf050512b2cb05ae8ce868/alkasser-worlds.js';
 s.async = true;
 (document.head || document.documentElement).appendChild(s);
 } catch (e) {}
