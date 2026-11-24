@@ -1021,12 +1021,12 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 try {
 if (window.__AK_WAHIDE__) return; window.__AK_WAHIDE__ = 1;
 var st = document.createElement('style');
-st.textContent = '.fixed-btm{transition:opacity .2s}@media (max-width:1023px){html.ak-ship-in .fixed-btm{opacity:0;pointer-events:none}}';
+st.textContent = '.fixed-btm{transition:opacity .2s}@media (max-width:1023px){html[data-ak-ship] .fixed-btm{opacity:0!important;visibility:hidden!important;pointer-events:none!important}}';
 (document.head || document.documentElement).appendChild(st);
 var mo = null, hook = function () {
 var s = document.getElementById('ak-ship'); if (!s || s.__akIO || !window.IntersectionObserver) return;
 s.__akIO = 1;
-new IntersectionObserver(function (es) { document.documentElement.classList.toggle('ak-ship-in', es[0].isIntersecting); }).observe(s);
+new IntersectionObserver(function (es) { if (es[0].isIntersecting) document.documentElement.setAttribute('data-ak-ship', '1'); else document.documentElement.removeAttribute('data-ak-ship'); }).observe(s);
 };
 var go = function () { hook(); try { mo = new MutationObserver(function () { hook(); var s = document.getElementById('ak-ship'); if (s && s.__akIO && mo) { mo.disconnect(); mo = null; } }); mo.observe(document.body, { childList: true, subtree: true }); setTimeout(function () { if (mo) { mo.disconnect(); mo = null; } }, 20000); } catch (e) {} };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
