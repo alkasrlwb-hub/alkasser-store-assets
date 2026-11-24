@@ -195,3 +195,32 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tick, { once: true }); else tick();
   } catch (e) {}
 })();
+
+// 24 نوفمبر: AK-101 صار منتج واحد بخيار لون (أسود/بني). سلة ما تربط صور المعرض بقيمة الخيار،
+// فلما الزبون يختار «بني» نقلب المعرض لأول صورة بنية، ولما يختار «أسود» نرجعه لأول صورة.
+(function () {
+  try {
+    var PID = 1821944654, BROWN_FIRST = 'c93309a9';
+    if (!new RegExp('/p' + PID + '(\\D|$)').test(location.pathname)) return;
+    var go = function (brown) {
+      var root = document.getElementById('details-slider-' + PID);
+      var c = root && root.querySelector('.s-slider-container');
+      var sw = c && c.swiper; if (!sw || !sw.slides) return;
+      var idx = 0;
+      if (brown) {
+        idx = -1;
+        for (var i = 0; i < sw.slides.length; i++) { var im = sw.slides[i].querySelector('img'); if (im && (im.src || im.getAttribute('data-src') || '').indexOf(BROWN_FIRST) > -1) { idx = i; break; } }
+        if (idx < 0) return;
+      }
+      if (sw.activeIndex !== idx) sw.slideTo(idx);
+    };
+    document.addEventListener('change', function (e) {
+      var t = e.target;
+      if (!t || !t.closest || !t.closest('salla-product-options')) return;
+      var txt = '';
+      if (t.tagName === 'SELECT') { var o = t.options[t.selectedIndex]; txt = o ? o.text : ''; }
+      else if (t.checked) { var l = t.closest('label') || (t.id && document.querySelector('label[for="' + t.id + '"]')); txt = (l && l.textContent) || t.value || ''; }
+      if (/بني/.test(txt)) go(true); else if (/أسود/.test(txt)) go(false);
+    }, true);
+  } catch (e) {}
+})();
