@@ -893,10 +893,11 @@ var CHCSS = '.ak-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none
 + '.ak-fhide{display:none!important}i.sicon-barcode{display:none!important}';
 var chips = function () {
 try {
+if (!document.getElementById('ak-chips-css') && document.head) { var st = document.createElement('style'); st.id = 'ak-chips-css'; st.textContent = CHCSS; document.head.appendChild(st); }
+modelRow();
 var b = document.body; if (!b || !b.classList.contains('product-index') || !curId) return;
 var t = document.getElementById('page-main-title'); if (!t) return;
 var row = t.parentNode;
-if (!document.getElementById('ak-chips-css')) { var st = document.createElement('style'); st.id = 'ak-chips-css'; st.textContent = CHCSS; document.head.appendChild(st); }
 var grp = chipGroup(), F = FILT[curId];
 if (grp && !document.getElementById('ak-chips')) {
 var v = W[grp.w].v, h = '';
@@ -916,6 +917,17 @@ var after = document.getElementById('ak-chips') || row; after.parentNode.insertB
 fd.addEventListener('click', function (e) { var bt = e.target.closest('button[data-v]'); if (!bt) return; fval = bt.getAttribute('data-v'); var all = fd.querySelectorAll('button'); for (var q = 0; q < all.length; q++) all[q].classList.toggle('is-on', all[q] === bt); applyF(); });
 }
 applyF();
+} catch (e) {}
+};
+// «رقم الموديل» اللي قيمته اسم مورد/منافس (باناصر، صقر) ما يطلع للعميل (قاعدة المالك: أسماء المنافسين في كلمات SEO بس)
+var modelRow = function () {
+try {
+var ic = document.querySelectorAll('i.sicon-barcode');
+for (var i = 0; i < ic.length; i++) {
+var r = ic[i].parentNode && ic[i].parentNode.parentNode; if (!r || r.getAttribute('data-akm')) continue;
+r.setAttribute('data-akm', '1');
+if (/banasser|saqr|باناصر|صقر/i.test(r.textContent)) r.style.setProperty('display', 'none', 'important');
+}
 } catch (e) {}
 };
 var applyF = function () {
