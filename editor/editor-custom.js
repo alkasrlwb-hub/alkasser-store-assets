@@ -953,6 +953,49 @@ if (n !== t) document.title = n;
 var cq = 0, csched = function () { if (cq) return; cq = setTimeout(function () { cq = 0; chips(); fixTitle(); }, 250); };
 var cgo = function () { chips(); fixTitle(); try { new MutationObserver(csched).observe(document.body, { childList: true, subtree: true }); new MutationObserver(fixTitle).observe(document.querySelector('title') || document.head, { childList: true, characterData: true, subtree: true }); } catch (e) {} };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', cgo); else cgo();
+// المرحلة 2 (2.6): قائمة الكمبيوتر بالهيدر = العوالم الثلاثة بنفس ترتيب وأقسام القائمة الجانبية (بدل قائمة سلة القديمة). قائمة سلة نفسها باقية للجوال لأن القائمة الجانبية تاخذ روابطها منها
+var DNCSS = '@media(min-width:1024px){custom-main-menu .main-menu>li{display:none!important}#ak-dn{display:flex}}'
++ '#ak-dn{display:none;align-items:stretch;gap:4px;margin-inline-start:20px;height:100%;font-family:inherit}'
++ '#ak-dn .akn-i{position:relative;display:flex;align-items:center}'
++ '#ak-dn .akn-t{display:flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:800;color:#fff!important;text-decoration:none!important;white-space:nowrap;border:1px solid transparent}'
++ '#ak-dn .akn-t svg{opacity:.7;transition:transform .2s}#ak-dn .akn-i:hover .akn-t svg,#ak-dn .akn-i:focus-within .akn-t svg{transform:rotate(180deg)}'
++ '#ak-dn .akn-i.is-on .akn-t{border-color:var(--n-acc);color:var(--n-acc)!important}'
++ '#ak-dn .akn-p{position:absolute;top:100%;inset-inline-start:0;z-index:60;min-width:260px;padding:16px;border-radius:16px;background:var(--n-card);border:1px solid var(--n-line2);box-shadow:0 18px 40px rgba(0,0,0,.45);display:grid;gap:14px 22px;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .15s,transform .15s,visibility .15s}'
++ '#ak-dn .akn-i:hover .akn-p,#ak-dn .akn-i:focus-within .akn-p{opacity:1;visibility:visible;transform:none}'
++ '#ak-dn .akn-p.c2{grid-template-columns:repeat(2,minmax(180px,1fr))}#ak-dn .akn-p.c3{grid-template-columns:repeat(3,minmax(170px,1fr))}'
++ '#ak-dn .akn-g{display:flex;flex-direction:column;gap:2px;min-width:0}'
++ '#ak-dn .akn-h{display:block;font-size:14px;font-weight:800;color:#fff!important;text-decoration:none!important;padding:4px 0}#ak-dn a.akn-h:hover{color:var(--n-acc)!important}'
++ '#ak-dn .akn-s{display:block;font-size:13.5px;font-weight:600;color:var(--n-ink2)!important;text-decoration:none!important;padding:5px 0}#ak-dn .akn-s:hover,#ak-dn .akn-s.cur,#ak-dn .akn-h.cur{color:var(--n-acc)!important}'
++ '#ak-dn .akn-all{grid-column:1/-1;border-top:1px solid var(--n-line2);padding-top:10px;font-size:13.5px;font-weight:800;color:var(--n-acc)!important;text-decoration:none!important}'
++ '#ak-dn :focus-visible{outline:2px solid var(--n-acc);outline-offset:2px}';
+var ALLW = { tables: 'tables', play: 46021744, moto: 1599672881 };
+var dnav = function () {
+try {
+if (document.getElementById('ak-dn')) return;
+var mm = document.querySelector('custom-main-menu'); if (!mm || !mm.parentNode) return;
+if (!document.getElementById('ak-dn-css')) { var st = document.createElement('style'); st.id = 'ak-dn-css'; st.textContent = DNCSS; document.head.appendChild(st); }
+var cw = world(), h = '', order = ['tables', 'play', 'moto'];
+var CH = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+for (var o = 0; o < order.length; o++) {
+var w = order[o], L = M[w], v = W[w].v, g, p = '';
+for (var i = 0; i < L.length; i++) {
+g = L[i];
+if (g.c) { if (g.c === ALLW[w]) continue; p += '<div class="akn-g"><a class="akn-h' + (isCur(g.c) ? ' cur' : '') + '" href="' + esc(href(g.c)) + '">' + esc(g.t) + '</a></div>'; continue; }
+p += '<div class="akn-g">' + (g.all ? '<a class="akn-h' + (isCur(g.all[0]) ? ' cur' : '') + '" href="' + esc(href(g.all[0])) + '">' + esc(g.t) + '</a>' : '<span class="akn-h">' + esc(g.t) + '</span>');
+for (var j = 0; j < g.k.length; j++) p += '<a class="akn-s' + (isCur(g.k[j][0]) ? ' cur' : '') + '" href="' + esc(href(g.k[j][0])) + '">' + esc(g.k[j][1]) + '</a>';
+p += '</div>';
+}
+var allHref = ALLW[w] === 'tables' ? pre + '/?world=tables' : href(ALLW[w]);
+p += '<a class="akn-all" href="' + esc(allHref) + '">' + (w === 'tables' ? 'رئيسية رياضة وألعاب' : 'كل ' + esc(W[w].name)) + '</a>';
+h += '<div class="akn-i' + (w === cw ? ' is-on' : '') + '" style="--n-acc:' + v[6] + ';--n-card:' + v[1] + ';--n-line2:' + v[3] + ';--n-ink2:' + v[4] + '">'
++ '<a class="akn-t" href="' + esc(pre + '/?world=' + w) + '" aria-haspopup="true">' + esc(W[w].name) + CH + '</a>'
++ '<div class="akn-p ' + (L.length > 5 ? 'c3' : 'c2') + '">' + p + '</div></div>';
+}
+var nv = document.createElement('nav'); nv.id = 'ak-dn'; nv.setAttribute('aria-label', 'الأقسام'); nv.innerHTML = h;
+mm.parentNode.insertBefore(nv, mm.nextSibling);
+} catch (e) {}
+};
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', dnav); else dnav();
 // «سيكل/سياكل» تظهر «دراجة/دراجات هوائية» (قاعدة المالك) – عرض فقط، والأوصاف نفسها لمراجعة 24 ديسمبر
 var SR = [[/سيكل ثابت/g, 'دراجة ثابتة'], [/السياكل/g, 'الدراجات الهوائية'], [/سياكل/g, 'دراجات هوائية'], [/السيكل/g, 'الدراجة الهوائية'], [/سيكل/g, 'دراجة هوائية']];
 var bikeTxt = function () {
