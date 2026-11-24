@@ -637,7 +637,7 @@ document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
 try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
 var s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@214cd6476f1c883357d155c448ede8690c2acb79/alkasser-worlds.js';
+s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@e6ff54f1ccc2775e215240926951c0a49da6f0ee/alkasser-worlds.js';
 s.async = true;
 (document.head || document.documentElement).appendChild(s);
 } catch (e) {}
