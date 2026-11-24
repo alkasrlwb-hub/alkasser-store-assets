@@ -7,7 +7,7 @@
 
     var D = {
       cat: 529136902,
-      ak: { ids: [1821944654, 455856464], name: 'AK-101', sub: 'أسود أو بني' },
+      ak: { ids: [1821944654], name: 'AK-101', sub: 'أسود أو بني (تختار اللون)' },
       bn: { id: 680552681, name: 'الدوّارة', sub: 'أسود مع قماش أزرق' },
       title: 'وش الفرق بين الموديلين؟',
       lead: 'الثنتين نفس المقاس ونفس الألعاب. الفرق في الإضافات اللي على AK-101.',
@@ -146,11 +146,10 @@
         h += '<div class="akq__v ' + (same ? 'akq__v--same' : 'akq__v--no') + '" role="cell">' + esc(r[2]) + '</div>';
       });
       var u1 = urlOf(m, AK.ids[0], '/4-in-1-game-table-black/p' + AK.ids[0]);
-      var u2 = urlOf(m, AK.ids[1], '/4-in-1-game-table-brown/p' + AK.ids[1]);
       var u3 = urlOf(m, BN.id, '/p' + BN.id);
       var b = function (u, t, id) { return cur === id ? '' : '<a class="akq__btn' + (id === BN.id ? ' akq__btn--o' : '') + '" href="' + esc(u) + '">' + esc(t) + '</a>'; };
       h += '<div class="akq__gocorner" aria-hidden="true"></div>';
-      h += '<div class="akq__go">' + b(u1, K('go') + ' · ' + K('black'), AK.ids[0]) + b(u2, K('go') + ' · ' + K('brown'), AK.ids[1]) + '</div>';
+      h += '<div class="akq__go">' + b(u1, K('go'), AK.ids[0]) + '</div>';
       h += '<div class="akq__go">' + b(u3, K('go'), BN.id) + '</div>';
       h += '</div>';
       if (pa && pb && pa > pb) h += '<p class="akq__diff">' + esc(K('diff')).replace('{d}', '<span dir="ltr">' + fmt(pa - pb) + '</span>') + '</p>';
