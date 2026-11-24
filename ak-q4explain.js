@@ -49,7 +49,7 @@
     };
     for (var k in CFG) if (T[k] !== undefined) T[k] = CFG[k];
 
-    var R = 'html body .akx.akx';
+    var R = 'html body :is(#ak-q4x-top,#ak-q4x-bot).akx';
     var CSS = [
       R + '{direction:rtl;font-family:Cairo,inherit;color:#E6EEF8;background:#06101F;border-radius:18px;padding:18px 16px;margin:14px 0;overflow:hidden;line-height:1.6;text-align:right}',
       R + ' *{box-sizing:border-box}',
@@ -121,20 +121,20 @@
     };
 
     var bot = function () {
-      var h = '<section class="akx-sec"><h3>' + esc(T.stepsT) + '</h3><ol class="akx-steps">';
+      var h = '<div class="akx-sec"><h3>' + esc(T.stepsT) + '</h3><ol class="akx-steps">';
       h += T.steps.map(function (s) { return '<li>' + img(s[0], 'طاولة 4 في 1 – ' + s[2]) + '<p><i>' + s[1] + '</i>' + esc(s[2]) + '</p></li>'; }).join('');
-      h += '</ol><p class="akx-note">' + esc(T.stepsNote) + '</p></section>';
+      h += '</ol><p class="akx-note">' + esc(T.stepsNote) + '</p></div>';
       h += '<div class="akx-two">';
-      h += '<section class="akx-sec"><h3>' + esc(T.dimT) + '</h3><figure class="akx-fig">' + img('dim', 'طاولة 4 في 1 بمقاس 210 × 110 × 81 سم') + '</figure>';
+      h += '<div class="akx-sec"><h3>' + esc(T.dimT) + '</h3><figure class="akx-fig">' + img('dim', 'طاولة 4 في 1 بمقاس 210 × 110 × 81 سم') + '</figure>';
       h += '<ul class="akx-dims">' + T.dims.map(function (d) { return '<li><b><bdi>' + esc(d[0]) + '</bdi></b><span>' + esc(d[1]) + '</span></li>'; }).join('') + '</ul>';
-      h += '<p class="akx-note">' + esc(T.dimNote) + ' ' + esc(T.floor) + '</p></section>';
-      h += '<section class="akx-sec akx-room"><h3>' + esc(T.roomT) + '</h3><figure class="akx-fig">' + img('room', 'طاولة 4 في 1 في مجلس مع مساحة حولها للعب') + '</figure>';
-      h += '<ul>' + T.room.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></section>';
+      h += '<p class="akx-note">' + esc(T.dimNote) + ' ' + esc(T.floor) + '</p></div>';
+      h += '<div class="akx-sec akx-room"><h3>' + esc(T.roomT) + '</h3><figure class="akx-fig">' + img('room', 'طاولة 4 في 1 في مجلس مع مساحة حولها للعب') + '</figure>';
+      h += '<ul>' + T.room.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>';
       h += '</div>';
-      h += '<section class="akx-sec akx-end"><h3>' + esc(T.endT) + '</h3><p style="margin:0">' + esc(T.endS) + '</p><div class="akx-btns">';
+      h += '<div class="akx-sec akx-end"><h3>' + esc(T.endT) + '</h3><p style="margin:0">' + esc(T.endS) + '</p><div class="akx-btns">';
       h += '<a class="akx-btn akx-btn--p" href="' + wa(T.askMsg) + '" target="_blank" rel="noopener">' + esc(T.ask) + '</a>';
       h += '<a class="akx-btn akx-btn--o" href="' + wa(T.bulkMsg) + '" target="_blank" rel="noopener"><span>' + esc(T.bulk) + '<span class="akx-bsub">' + esc(T.bulkSub) + '</span></span></a>';
-      h += '</div><p class="akx-ship">' + esc(T.ship) + '</p></section>';
+      h += '</div><p class="akx-ship">' + esc(T.ship) + '</p></div>';
       return h;
     };
 
