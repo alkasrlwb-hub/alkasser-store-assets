@@ -35,6 +35,8 @@
       pickHelp: 'محتار؟ كلّمنا بالواتساب ونساعدك تختار.',
       stepsT: 'من بلياردو لهوكي لتنس',
       steps: [['s1', '1', 'بلياردو'], ['s3', '2', 'تقلبها: هوكي'], ['s4', '3', 'تنس، والوجه المسطح طاولة طعام أو مكتبية']],
+      stepsBlk: [['b1', '1', 'بلياردو'], ['b2', '2', 'تقلب السطح'], ['b3', '3', 'هوكي'], ['b4', '4', 'تنس، والوجه المسطح طاولة طعام أو مكتبية']],
+      togBlk: 'أسود', togBrn: 'بني',
       stepsNote: 'في AK-101 لوح التنس يبقى تحت الطاولة، تقلب بدون ما تشيله. في باناصر لازم تشيله كل ما تقلب.',
       dimT: 'المقاس بالضبط',
       dims: [['210 سم', 'الطول'], ['110 سم', 'العرض'], ['81 سم', 'الارتفاع'], ['180 كجم', 'الوزن']],
@@ -84,6 +86,7 @@
       R + ' .akx-help a{color:#22D3EE!important;font-weight:800}',
       R + ' .akx-steps{display:grid;grid-auto-flow:column;grid-auto-columns:78%;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 6px;list-style:none}',
       R + ' .akx-steps li{scroll-snap-align:start;background:#0B1630;border-radius:14px;overflow:hidden;margin:0}',
+      R + ' .akx-steps[hidden]{display:none!important}' + R + ' .akx-sh{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}' + R + ' .akx-sh h3{margin:0!important}' + R + ' .akx-tog{display:flex;gap:6px}' + R + ' .akx-tog button{display:inline-flex;align-items:center;gap:6px;background:#0B1630!important;color:#E6EEF8!important;border:1.5px solid #1E3A5F!important;border-radius:999px;padding:6px 12px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;min-height:36px}' + R + ' .akx-tog button[aria-pressed=true]{border-color:#22D3EE!important;color:#fff!important}' + R + ' .akx-tog i{display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.45)}',
       R + ' .akx-steps p{margin:0;padding:10px 12px;font-size:15px;font-weight:700}',
       R + ' .akx-steps i{font-style:normal;display:inline-flex;width:26px;height:26px;border-radius:50%;background:#22D3EE;color:#06101F!important;align-items:center;justify-content:center;font-weight:800;margin-left:8px}',
       R + ' .akx-note{font-size:13px;opacity:.85;margin:10px 0 0}',
@@ -102,7 +105,7 @@
       R + ' .akx-bsub{display:block;font-size:12px;font-weight:600;opacity:.9}',
       '@media (min-width:768px){' + R + '{padding:28px}' + R + ' .akx-dots{display:none}' + R + ' h2{font-size:40px!important}' + R + ' .akx-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;align-items:center}' +
         R + ' .akx-cards{grid-auto-flow:row;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible;margin:0;padding:0}' +
-        R + ' .akx-picks{grid-template-columns:1fr 1fr}' + R + ' .akx-steps{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;margin:0;padding:0}' +
+        R + ' .akx-picks{grid-template-columns:1fr 1fr}' + R + ' .akx-steps{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;margin:0;padding:0}' + R + ' .akx-steps.k4{grid-template-columns:repeat(4,minmax(0,1fr))}' +
         R + ' .akx-two{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}' + R + ' .akx-btn{flex:0 1 auto}}',
       '@media (min-width:1100px){' + R + ' .akx-cards{grid-template-columns:repeat(4,minmax(0,1fr))}' + R + ' .akx-top{grid-template-columns:1fr}}'
     ].join('\n');
@@ -126,10 +129,11 @@
       return h;
     };
 
+    var stepList = function (arr, col, cls, hide) { return '<ol class="akx-steps' + cls + '" data-c="' + col + '"' + (hide ? ' hidden' : '') + '>' + arr.map(function (s) { return '<li>' + img(s[0], 'طاولة 4 في 1 ' + (col === 'k' ? 'سوداء' : 'بنية') + ' - ' + s[2]) + '<p><i>' + s[1] + '</i>' + esc(s[2]) + '</p></li>'; }).join('') + '</ol>'; };
     var bot = function () {
-      var h = '<div class="akx-sec"><h3>' + esc(T.stepsT) + '</h3><ol class="akx-steps">';
-      h += T.steps.map(function (s) { return '<li>' + img(s[0], 'طاولة 4 في 1 – ' + s[2]) + '<p><i>' + s[1] + '</i>' + esc(s[2]) + '</p></li>'; }).join('');
-      h += '</ol><p class="akx-note">' + esc(T.stepsNote) + '</p></div>';
+      var h = '<div class="akx-sec"><div class="akx-sh"><h3>' + esc(T.stepsT) + '</h3><div class="akx-tog" role="group" aria-label="اللون">' + [['k', '#111418', T.togBlk], ['b', '#4A2C20', T.togBrn]].map(function (c, i) { return '<button type="button" data-c="' + c[0] + '" aria-pressed="' + (i ? 'false' : 'true') + '"><i style="background:' + c[1] + '"></i>' + esc(c[2]) + '</button>'; }).join('') + '</div></div>';
+      h += stepList(T.stepsBlk, 'k', ' k4', false) + stepList(T.steps, 'b', '', true);
+      h += '<p class="akx-note">' + esc(T.stepsNote) + '</p></div>';
       h += '<div class="akx-two">';
       h += '<div class="akx-sec"><h3>' + esc(T.dimT) + '</h3><figure class="akx-fig">' + img('dim', 'طاولة 4 في 1 بمقاس 210 × 110 × 81 سم') + '</figure>';
       h += '<ul class="akx-dims">' + T.dims.map(function (d) { return '<li><b><bdi>' + esc(d[0]) + '</bdi></b><span>' + esc(d[1]) + '</span></li>'; }).join('') + '</ul>';
@@ -188,6 +192,7 @@
       if (list && !document.getElementById('ak-q4x-bot')) {
         var b = document.createElement('div'); b.id = 'ak-q4x-bot'; b.className = 'akx'; b.setAttribute('role', 'region'); b.setAttribute('aria-label', T.stepsT);
         b.innerHTML = bot();
+        b.addEventListener('click', function (e) { var t = e.target.closest && e.target.closest('.akx-tog button'); if (!t) return; var c = t.getAttribute('data-c'); b.querySelectorAll('.akx-tog button').forEach(function (x) { x.setAttribute('aria-pressed', x === t ? 'true' : 'false'); }); b.querySelectorAll('ol.akx-steps').forEach(function (o) { o.hidden = o.getAttribute('data-c') !== c; }); });
         var host = list.parentElement, anchor = list;
         if (host && /flex|grid/.test(getComputedStyle(host).display) && host.children.length <= 3) anchor = host; // القائمة داخل صف flex: نحط الشرح تحت الصف كامل مو جنبه
         anchor.insertAdjacentElement('afterend', b);
