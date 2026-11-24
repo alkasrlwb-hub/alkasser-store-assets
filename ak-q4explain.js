@@ -66,6 +66,7 @@
       R + ' .akx-btn--o{border:1.5px solid #22D3EE;color:#22D3EE!important;background:transparent}',
       R + ' .akx-ship{font-size:13px;opacity:.85;margin:10px 0 0}',
       R + ' .akx-cards{display:grid;grid-auto-flow:column;grid-auto-columns:72%;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:16px -16px 0;padding:0 16px 6px;list-style:none}',
+      R + ' .akx-cards,' + R + ' .akx-steps{scrollbar-width:none}' + R + ' .akx-cards::-webkit-scrollbar,' + R + ' .akx-steps::-webkit-scrollbar{display:none}',
       R + ' .akx-cards li{scroll-snap-align:start;background:#0B1630;border-radius:14px;overflow:hidden;margin:0}',
       R + ' .akx-cards img,' + R + ' .akx-steps img{display:block;width:100%;aspect-ratio:4/3;height:auto;object-fit:cover;background:#0B1630}',
       R + ' .akx-cards b{display:block;font-size:16px;font-weight:800;padding:8px 12px 0;color:#fff!important}',
