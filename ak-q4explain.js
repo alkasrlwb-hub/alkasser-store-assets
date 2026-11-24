@@ -31,6 +31,7 @@
       pickT: 'وش يهمك أكثر؟',
       pick1: 'لوح التنس يبقى مكانه + عداد هوكي إلكتروني + غطاء حماية', pick1n: 'AK-101 · أسود أو بني',
       pick2: 'أقل سعر بنفس المقاس', pick2n: 'طاولة 4 في 1 الدوّارة · أسود مع أزرق',
+      colT: 'لونين: أسود أو بني', colS: 'نفس الطاولة ونفس الألعاب، تختار اللون من صفحة المنتج.',
       pickHelp: 'محتار؟ كلّمنا بالواتساب ونساعدك تختار.',
       stepsT: 'من بلياردو لهوكي لتنس',
       steps: [['s1', '1', 'بلياردو'], ['s3', '2', 'تقلبها: هوكي'], ['s4', '3', 'تنس، والوجه المسطح طاولة طعام أو مكتبية']],
@@ -72,6 +73,7 @@
       R + ' .akx-cards b{display:block;font-size:16px;font-weight:800;padding:8px 12px 0;color:#fff!important}',
       R + ' .akx-cards span{display:block;font-size:13px;opacity:.85;padding:0 12px 12px}',
       R + ' .akx-pick{margin-top:18px}',
+      R + ' .akx-cols{margin-top:18px}' + R + ' .akx-cols ul{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0;padding:0;list-style:none}' + R + ' .akx-cols li{background:#0B1630;border-radius:14px;overflow:hidden;margin:0}' + R + ' .akx-cols img{display:block;width:100%;aspect-ratio:4/3;height:auto;object-fit:cover}' + R + ' .akx-cols b{display:block;padding:8px 12px;font-weight:800;color:#fff!important}',
       R + ' .akx-picks{display:grid;gap:10px}',
       R + ' .akx-pk{display:block;background:#0B1630;border:1.5px solid #1E3A5F;border-radius:14px;padding:12px 14px;text-decoration:none!important}',
       R + ' .akx-pk:hover{border-color:#22D3EE}',
@@ -114,6 +116,7 @@
       h += '<div class="akx-btns"><a class="akx-btn akx-btn--p" href="#akx-products" data-akx-go>' + esc(T.see) + '</a><a class="akx-btn akx-btn--o" href="' + wa(T.askMsg) + '" target="_blank" rel="noopener">' + esc(T.ask) + '</a></div>';
       h += '<p class="akx-ship">' + esc(T.ship) + '</p></div>';
       h += '<ul class="akx-cards">' + T.cards.map(function (c, i) { return '<li>' + img(c[0], 'طاولة 4 في 1 – ' + c[1], i === 0) + '<b>' + esc(c[1]) + '</b><span>' + esc(c[2]) + '</span></li>'; }).join('') + '</ul></div>';
+      h += '<div class="akx-cols"><h3>' + esc(T.colT) + '</h3><ul>' + [['c_blk', 'أسود'], ['c_brn', 'بني']].map(function (c) { return '<li>' + img(c[0], 'طاولة 4 في 1 لون ' + c[1] + ' – وضع الهوكي') + '<b>' + c[1] + '</b></li>'; }).join('') + '</ul><p class="akx-note">' + esc(T.colS) + '</p></div>';
       h += '<div class="akx-pick"><h3>' + esc(T.pickT) + '</h3><div class="akx-picks">';
       h += '<a class="akx-pk" data-akx-p="' + AK + '" href="#"><b>' + esc(T.pick1) + '</b><span>' + esc(T.pick1n) + '<bdi class="akx-pr"></bdi></span></a>';
       h += '<a class="akx-pk" data-akx-p="' + BN + '" href="#"><b>' + esc(T.pick2) + '</b><span>' + esc(T.pick2n) + '<bdi class="akx-pr"></bdi></span></a>';
@@ -129,7 +132,7 @@
       h += '<div class="akx-sec"><h3>' + esc(T.dimT) + '</h3><figure class="akx-fig">' + img('dim', 'طاولة 4 في 1 بمقاس 210 × 110 × 81 سم') + '</figure>';
       h += '<ul class="akx-dims">' + T.dims.map(function (d) { return '<li><b><bdi>' + esc(d[0]) + '</bdi></b><span>' + esc(d[1]) + '</span></li>'; }).join('') + '</ul>';
       h += '<p class="akx-note">' + esc(T.dimNote) + ' ' + esc(T.floor) + '</p></div>';
-      h += '<div class="akx-sec akx-room"><h3>' + esc(T.roomT) + '</h3><figure class="akx-fig">' + img('room', 'طاولة 4 في 1 في مجلس مع مساحة حولها للعب') + '</figure>';
+      h += '<div class="akx-sec akx-room"><h3>' + esc(T.roomT) + '</h3><figure class="akx-fig">' + img('room2', 'طاولة 4 في 1 من فوق في مجلس مقاسه 5 × 4 م تقريباً') + '</figure>';
       h += '<ul>' + T.room.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>';
       h += '</div>';
       h += '<div class="akx-sec akx-end"><h3>' + esc(T.endT) + '</h3><p style="margin:0">' + esc(T.endS) + '</p><div class="akx-btns">';
