@@ -1016,3 +1016,19 @@ var go = function () { bikeTxt(); try { new MutationObserver(sched).observe(docu
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 } catch (e) {}
 })();
+/* الجولة 5: زر الواتساب العائم (.fixed-btm) يختفي على الجوال لما مربع التوصيل #ak-ship ظاهر في الشاشة، عشان ما يغطي نصه (المربع فيه زر واتساب خاص) */
+(function () {
+try {
+if (window.__AK_WAHIDE__) return; window.__AK_WAHIDE__ = 1;
+var st = document.createElement('style');
+st.textContent = '.fixed-btm{transition:opacity .2s}@media (max-width:1023px){html.ak-ship-in .fixed-btm{opacity:0;pointer-events:none}}';
+(document.head || document.documentElement).appendChild(st);
+var mo = null, hook = function () {
+var s = document.getElementById('ak-ship'); if (!s || s.__akIO || !window.IntersectionObserver) return;
+s.__akIO = 1;
+new IntersectionObserver(function (es) { document.documentElement.classList.toggle('ak-ship-in', es[0].isIntersecting); }).observe(s);
+};
+var go = function () { hook(); try { mo = new MutationObserver(function () { hook(); var s = document.getElementById('ak-ship'); if (s && s.__akIO && mo) { mo.disconnect(); mo = null; } }); mo.observe(document.body, { childList: true, subtree: true }); setTimeout(function () { if (mo) { mo.disconnect(); mo = null; } }, 20000); } catch (e) {} };
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+} catch (e) {}
+})();
