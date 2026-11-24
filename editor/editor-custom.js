@@ -1032,3 +1032,99 @@ var go = function () { hook(); try { mo = new MutationObserver(function () { hoo
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 } catch (e) {}
 })();
+/* الجولة 6: ألوان العالم في صفحة المنتج وصفحات الأقسام (store-fix-plan §8-ب-1 و5) + معرض 1:1 + حجم السعر + مسافة الزر العائم + زر السلة بلون العالم */
+(function () {
+try {
+if (window.__AK_PW__) return; window.__AK_PW__ = 1;
+// [الخلفية، البطاقة، سطح ثاني، الخط، نص ثانوي، باهت، التمييز، نص على التمييز، السعر، rgb التمييز، نهاية خلفية الصورة، الهيدر]
+var P = {
+tables: ['#06101F', '#0B1630', '#0F1D3A', '#1D2E52', '#C5D3EC', '#8FA3C8', '#22D3EE', '#06101F', '#22D3EE', '34,211,238', '#DCE6F5', '#081530'],
+play: ['#0B2620', '#0F2F27', '#133830', '#1E4A3E', '#CFE3D9', '#8DB5A4', '#F2C94C', '#1F1A05', '#F2C94C', '242,201,76', '#E6EFE9', '#092019'],
+moto: ['#0D0E10', '#15161A', '#1C1D22', '#2A2C31', '#D0D3D9', '#9A9FA8', '#E11D2E', '#FFFFFF', '#FF5A66', '225,29,46', '#E6E7EA', '#121316']
+};
+var K = ['bg', 'card', 'card2', 'line', 'ink2', 'sub', 'acc', 'on', 'price', 'rgb', 'pimg', 'bar'];
+var world = function () {
+var b = document.body; if (!b) return null;
+var one = b.classList.contains('product-single'), idx = b.classList.contains('product-index');
+if (!one && !idx) return null;
+var m = document.querySelector('meta[property="product:category"]');
+var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
+var h1 = ((document.querySelector('h1') || {}).textContent || '').replace(/\s+/g, ' ');
+var cat = (one && m && m.content) ? m.content : ((bc && bc.textContent) || '');
+var tx = cat + ' ' + h1;
+if (/سكوتر|دباب|تكتوك/.test(tx) && !/هوائية|سيكل|سياكل|جبلية/.test(h1)) return 'moto';
+if (/4 في 1|بلياردو|هوكي|فرفيرة|تنس طاولة|تنس الطاولة|طاولة ألعاب|طاولات الألعاب/.test(tx)) return 'tables';
+if (/مرجيح|مراجيح|أرجوحة|نطيط|نطاطة|ترامبولين|زحليق|زحاليق|حدائق|روض|رياض الأطفال|المدارس|هزاز|توازن|دوار|ملاعب متكاملة/.test(tx)) return 'play';
+if (/ملاعب|أرضيات|الأرضيات/.test(tx)) { var sv = ''; try { sv = localStorage.getItem('ak-world') || ''; } catch (e) {} return sv === 'play' ? 'play' : 'tables'; }
+return 'tables';
+};
+var V = 'html[data-akpw]';
+var css =
+// الشريط الترويجي (مثل «توصيل 30 ساعة بالرياض» و«خصم 40 ريال») وشارة الخصم بلون العالم
+V + ' .details-slider .ribbon,' + V + ' .details-slider .discount{background:var(--akp-acc)!important;color:var(--akp-on)!important;border:0!important;font-weight:800!important}' +
+V + ' .details-slider .ribbon *{color:var(--akp-on)!important;background-color:var(--akp-acc)!important}' +
+V + ' .details-slider .ribbon::before{border-top-color:var(--akp-acc)!important}' + V + ' .details-slider .ribbon::after{border-bottom-color:var(--akp-acc)!important}' +
+// المعرض: إطار 1:1 بخلفية فاتحة بدون أشرطة كحلية فوق وتحت الصورة
+V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container){background:radial-gradient(circle at 50% 45%,#FFFFFF 0%,var(--akp-pimg) 75%)!important;border:1px solid var(--akp-line)!important;border-radius:16px!important;overflow:hidden!important}' +
+V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container) .swiper-wrapper{background:transparent!important;height:auto!important}' +
+V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container) .swiper-slide{background:transparent!important;height:auto!important;aspect-ratio:1/1!important;display:flex!important;align-items:center!important;justify-content:center!important}' +
+V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container) .swiper-slide img{width:100%!important;height:100%!important;object-fit:contain!important;padding:4%!important;background:transparent!important;mix-blend-mode:multiply}' +
+V + ' body.product-single .details-slider .s-slider-thumbs-container,' + V + ' body.product-single .details-slider .s-slider-thumbs .swiper-wrapper{background:transparent!important}' +
+V + ' body.product-single .details-slider .s-slider-thumbs .swiper-slide img{mix-blend-mode:multiply}' +
+// وسوم المنتج تحت المعرض
+V + ' body.product-single .product-tags a{border-color:rgba(var(--akp-rgb),.55)!important;color:var(--akp-price)!important;background:transparent!important}' +
+V + ' body.product-single .details-slider .s-slider-thumbs .swiper-slide{background:radial-gradient(circle,#FFFFFF 0%,var(--akp-pimg) 80%)!important;border-radius:10px!important;border:2px solid transparent!important;overflow:hidden!important}' +
+V + ' body.product-single .details-slider .s-slider-thumbs .swiper-slide-thumb-active{border-color:var(--akp-acc)!important}' +
+// الزر العائم (يسار الشاشة على الجوال) ما يغطي آخر مصغّرة
+'@media(max-width:1023.98px){' + V + ' body.product-single .details-slider .s-slider-thumbs{padding-inline-end:64px!important}}' +
+// السعر 26px جوال و30px كمبيوتر بلون سعر العالم
+V + ' body.product-single:not(.a):not(.b):not(.c):not(.d) #main-content .sticky-product-bar :is(.price-wrapper h2,h2.total-price,div.total-price h2),html[data-akpw] body.product-single:not(.a):not(.b):not(.c):not(.d) #main-content .price-rate h2,html[data-akpw] body.product-single:not(.a):not(.b):not(.c):not(.d) #main-content .price-rate .with-disc h4{font-size:26px!important;line-height:1.3!important;font-weight:800!important;color:var(--akp-price)!important;font-variant-numeric:tabular-nums}' +
+'@media(min-width:1024px){' + V + ' body.product-single:not(.a):not(.b):not(.c):not(.d) #main-content .sticky-product-bar :is(.price-wrapper h2,h2.total-price,div.total-price h2),html[data-akpw] body.product-single:not(.a):not(.b):not(.c):not(.d) #main-content .price-rate h2,html[data-akpw] body.product-single:not(.a):not(.b):not(.c):not(.d) #main-content .price-rate .with-disc h4{font-size:30px!important}}' +
+V + ' body.product-single #main-content .price-rate .with-disc .line-through{font-size:15px!important;color:var(--akp-sub)!important}' +
+// مربع التوصيل وزر الواتساب حقه بلون العالم
+V + ' #ak-ship{border:1px solid var(--akp-line)!important;border-inline-start:4px solid var(--akp-acc)!important;box-shadow:none!important;background:var(--akp-card2)!important}' +
+V + ' #ak-ship svg{stroke:var(--akp-acc)!important}' +
+V + ' #ak-ship div[style*="34,211,238"]{background:rgba(var(--akp-rgb),.10)!important}' +
+V + ' #ak-ship div[style*="34,211,238"] b{color:var(--akp-price)!important}' +
+V + ' #ak-ship [style*="FACC15"]{color:var(--akp-price)!important}' +
+V + ' #ak-wa a,' + V + ' #ak-wa-cart a{background:var(--akp-acc)!important;box-shadow:0 6px 18px rgba(var(--akp-rgb),.30)!important}' +
+V + ' #ak-wa a svg,' + V + ' #ak-wa-cart a svg{fill:var(--akp-on)!important}' +
+V + ' #ak-wa[style*="25D366"]{border-color:var(--akp-acc)!important;background:var(--akp-card2)!important}' +
+V + ' #ak-wbadge{background:var(--akp-acc)!important;color:var(--akp-on)!important}' +
+// زر «أضف إلى السلة» في البطاقات (كان أصفر) بلون تمييز العالم
+V + ' .s-product-card-entry .s-button-btn{background:var(--akp-acc)!important;border-color:var(--akp-acc)!important;color:var(--akp-on)!important}' +
+V + ' .s-product-card-entry .s-button-btn *{color:var(--akp-on)!important}' +
+V + ' .s-product-card-entry :is(.s-product-card-price,.s-product-card-sale-price) .sicon-sar{color:inherit!important}' +
+// صفحة القسم: نشيل الفراغ الكبير تحت البطاقات (min-h-screen من الثيم)
+V + ' body.product-index #main-content div.flex.min-h-screen{min-height:0!important}' +
+// عالم المراجيح والسكوترات: خلفية الصفحة والبطاقات والهيدر والفوتر من ألوان العالم
+'html[data-akpw="play"],html[data-akpw="moto"]{background:var(--akp-bg)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) body:not(.index):not(.a),:is(html[data-akpw="play"],html[data-akpw="moto"]) body:not(.index) :is(.app-inner,#main-content){background:var(--akp-bg)!important;background-color:var(--akp-bg)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) .main-nav-container.top-navbar,:is(html[data-akpw="play"],html[data-akpw="moto"]) .main-nav-container .inner{background:var(--akp-bar)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) .main-nav-container.top-navbar{border-bottom-color:var(--akp-acc)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) .main-nav-container .s-cart-summary-count{background:var(--akp-acc)!important;color:var(--akp-on)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) footer.store-footer{background:var(--akp-bar)!important;border-top-color:var(--akp-acc)!important;box-shadow:none!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) footer.store-footer .store-footer__inner{background:var(--akp-bar)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) footer.store-footer a:hover{color:var(--akp-price)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) body.product-index .s-product-card-entry{background:var(--akp-card)!important;border:1px solid var(--akp-line)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) body.product-index :is(.s-product-card-price,.s-product-card-sale-price h4){color:var(--akp-price)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) body.product-index .s-product-card-content-subtitle,:is(html[data-akpw="play"],html[data-akpw="moto"]) body.product-index .breadcrumbs :is(a,span){color:var(--akp-sub)!important}' +
+':is(html[data-akpw="play"],html[data-akpw="moto"]) body:not(.index) #main-content .s-product-card-entry .s-product-card-sale-price h4{color:var(--akp-price)!important}';
+var st = document.createElement('style'); st.id = 'ak-pw'; st.textContent = css;
+(document.head || document.documentElement).appendChild(st);
+var paint = function () {
+var w = world(); if (!w) return;
+var r = document.documentElement;
+if (r.getAttribute('data-akpw') !== w) {
+r.setAttribute('data-akpw', w);
+for (var i = 0; i < K.length; i++) r.style.setProperty('--akp-' + K[i], P[w][i]);
+}
+// نص زر الواتساب مكتوب inline بـ!important، فنغيّره هنا بلون النص على التمييز
+var as = document.querySelectorAll('#ak-wa a, #ak-wa-cart a');
+for (var j = 0; j < as.length; j++) if (as[j].style.getPropertyValue('color') !== P[w][7]) as[j].style.setProperty('color', P[w][7], 'important');
+};
+var n = 0, t = setInterval(function () { paint(); if (++n > 40) clearInterval(t); }, 250);
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', paint); else paint();
+window.addEventListener('load', paint);
+} catch (e) {}
+})();
