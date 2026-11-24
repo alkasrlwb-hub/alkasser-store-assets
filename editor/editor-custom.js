@@ -399,7 +399,8 @@ body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام، وا
 body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('التركيب', 'نأكد تفاصيله معك بالواتساب') + OUT;
 } else if (kind === 'moto' || kind === 'fit') {
 // غير الطاولات: بدون 30 ساعة وبدون وعد تركيب
-body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('القصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + OUT;
+// قرار المالك: أجهزة اللياقة اللي سعرها فوق 1000 ريال تركيبها مجاني في الرياض (بدون 30 ساعة)
+body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام' + (kind === 'fit' && price > 1000 ? ' · تركيب مجاني' : '') + ' · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('القصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + OUT;
 if (kind === 'moto') body += note(WSPEC[akMotoType()]);
 } else {
 if (price >= 2000) {
@@ -630,7 +631,7 @@ document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
 try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
 var s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@4795dfcd2eaf416b6478adbfd241fdceecbe1ad0/alkasser-worlds.js';
+s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@9cc50fa7f3691dcc7644b5bcd0e08087a8ea9b35/alkasser-worlds.js';
 s.async = true;
 (document.head || document.documentElement).appendChild(s);
 } catch (e) {}
@@ -862,6 +863,78 @@ e.preventDefault(); e.stopPropagation(); if (e.stopImmediatePropagation) e.stopI
 open();
 }, true);
 window.akDrawer = { open: open, close: close };
+// المرحلة 2 (2.9 + 2.10): شرائح الأقسام الفرعية أعلى صفحة القسم + فلتر المقاس (البلياردو) والاستخدام (السكوترات)
+var curId = (/c(\d+)(?:\D|$)/.exec(here) || [])[1];
+var chipGroup = function () {
+if (!curId) return null;
+var id = +curId, order = [world()].concat(['tables', 'play', 'moto'].filter(function (x) { return x !== world(); }));
+for (var o = 0; o < order.length; o++) {
+var L = M[order[o]], singles = [];
+for (var i = 0; i < L.length; i++) {
+var g = L[i];
+if (g.c) { singles.push([g.c, g.t]); continue; }
+var hit = g.all && g.all[0] === id;
+for (var j = 0; j < g.k.length && !hit; j++) if (g.k[j][0] === id) hit = true;
+if (hit) { var r = g.all ? [[g.all[0], 'الكل']] : []; return { w: order[o], k: r.concat(g.k) }; }
+}
+for (var s = 0; s < singles.length; s++) if (singles[s][0] === id && singles.length > 1) return { w: order[o], k: singles };
+}
+return null;
+};
+var FILT = {
+993213184: { t: 'المقاس', k: [['', 'الكل'], ['7', '7 قدم'], ['8', '8 قدم'], ['9', '9 قدم']], f: function (c, v) { return c.getAttribute('data-aksz') === v; } },
+726194163: { t: 'الاستخدام', k: [['', 'الكل'], ['d', 'للتوصيل'], ['p', 'للمشاوير اليومية']], f: function (c, v) { var d = /توصيل|شنطة|صندوق/.test((c.querySelector('.s-product-card-content-title') || c).textContent); return v === 'd' ? d : !d; } }
+};
+var fval = '';
+var CHCSS = '.ak-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 14px;margin:0;-webkit-overflow-scrolling:touch}.ak-chips::-webkit-scrollbar{display:none}'
++ '.ak-chip{flex:none;display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:700;white-space:nowrap;text-decoration:none!important;background:var(--c-card);border:1px solid var(--c-line2);color:#fff!important;cursor:pointer;font-family:inherit}'
++ '.ak-chip.is-on{background:var(--c-acc);border-color:var(--c-acc);color:var(--c-on)!important}'
++ '.ak-chips--f .ak-chip{height:32px;font-size:13px;padding:0 12px}.ak-chips--f b{flex:none;align-self:center;font-size:13px;font-weight:700;color:var(--c-sub);margin-inline-end:2px}'
++ '.ak-fhide{display:none!important}i.sicon-barcode{display:none!important}';
+var chips = function () {
+try {
+var b = document.body; if (!b || !b.classList.contains('product-index') || !curId) return;
+var t = document.getElementById('page-main-title'); if (!t) return;
+var row = t.parentNode;
+if (!document.getElementById('ak-chips-css')) { var st = document.createElement('style'); st.id = 'ak-chips-css'; st.textContent = CHCSS; document.head.appendChild(st); }
+var grp = chipGroup(), F = FILT[curId];
+if (grp && !document.getElementById('ak-chips')) {
+var v = W[grp.w].v, h = '';
+for (var i = 0; i < grp.k.length; i++) h += '<a class="ak-chip' + (String(grp.k[i][0]) === curId ? ' is-on' : '') + '" href="' + esc(href(grp.k[i][0])) + '">' + esc(grp.k[i][1]) + '</a>';
+var d = document.createElement('nav'); d.id = 'ak-chips'; d.className = 'ak-chips'; d.setAttribute('aria-label', 'الأقسام');
+d.style.cssText = '--c-card:' + v[1] + ';--c-line2:' + v[3] + ';--c-acc:' + v[6] + ';--c-on:' + v[7] + ';--c-sub:' + v[5];
+d.innerHTML = h; row.parentNode.insertBefore(d, row.nextSibling);
+var on = d.querySelector('.is-on'); if (on && on.scrollIntoView) d.scrollLeft = on.offsetLeft - d.clientWidth / 2;
+}
+if (F && !document.getElementById('ak-filt')) {
+var w2 = W[(grp && grp.w) || world()].v, fh = '<b>' + F.t + ':</b>';
+for (var k = 0; k < F.k.length; k++) fh += '<button type="button" class="ak-chip' + (F.k[k][0] === fval ? ' is-on' : '') + '" data-v="' + F.k[k][0] + '">' + F.k[k][1] + '</button>';
+var fd = document.createElement('div'); fd.id = 'ak-filt'; fd.className = 'ak-chips ak-chips--f';
+fd.style.cssText = '--c-card:' + w2[1] + ';--c-line2:' + w2[3] + ';--c-acc:' + w2[6] + ';--c-on:' + w2[7] + ';--c-sub:' + w2[5];
+fd.innerHTML = fh;
+var after = document.getElementById('ak-chips') || row; after.parentNode.insertBefore(fd, after.nextSibling);
+fd.addEventListener('click', function (e) { var bt = e.target.closest('button[data-v]'); if (!bt) return; fval = bt.getAttribute('data-v'); var all = fd.querySelectorAll('button'); for (var q = 0; q < all.length; q++) all[q].classList.toggle('is-on', all[q] === bt); applyF(); });
+}
+applyF();
+} catch (e) {}
+};
+var applyF = function () {
+var F = FILT[curId]; if (!F) return;
+var cs = document.querySelectorAll('salla-products-list .s-product-card-entry');
+for (var i = 0; i < cs.length; i++) {
+var box = cs[i].closest('custom-salla-product-card, salla-product-card') || cs[i];
+var hide = !!fval && !F.f(cs[i], fval);
+if (hide !== box.classList.contains('ak-fhide')) box.classList.toggle('ak-fhide', hide);
+}
+};
+var fixTitle = function () {
+var t = document.title; if (t.indexOf('متجر الكاسر لوب للتجارة') < 0) return;
+var n = t.indexOf('ALKASSER LOOB') > -1 ? t.replace(/\s*\|\s*متجر الكاسر لوب للتجارة/g, '') : t.replace(/متجر الكاسر لوب للتجارة/g, 'ALKASSER LOOB');
+if (n !== t) document.title = n;
+};
+var cq = 0, csched = function () { if (cq) return; cq = setTimeout(function () { cq = 0; chips(); fixTitle(); }, 250); };
+var cgo = function () { chips(); fixTitle(); try { new MutationObserver(csched).observe(document.body, { childList: true, subtree: true }); new MutationObserver(fixTitle).observe(document.querySelector('title') || document.head, { childList: true, characterData: true, subtree: true }); } catch (e) {} };
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', cgo); else cgo();
 // «سيكل/سياكل» تظهر «دراجة/دراجات هوائية» (قاعدة المالك) – عرض فقط، والأوصاف نفسها لمراجعة 24 ديسمبر
 var SR = [[/سيكل ثابت/g, 'دراجة ثابتة'], [/السياكل/g, 'الدراجات الهوائية'], [/سياكل/g, 'دراجات هوائية'], [/السيكل/g, 'الدراجة الهوائية'], [/سيكل/g, 'دراجة هوائية']];
 var bikeTxt = function () {
