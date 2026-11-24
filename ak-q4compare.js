@@ -224,3 +224,17 @@
     }, true);
   } catch (e) {}
 })();
+
+// 24 نوفمبر: شرح «وحدة بدل أربع» في قسم 4 في 1 – يتحمّل من نفس مكان هذا الملف (ak-q4explain.js)
+(function () {
+  try {
+    var c = (window.AK_WORLDS_CONFIG && window.AK_WORLDS_CONFIG.q4x) || {};
+    if (c.on === false || window.__akq4xL) return;
+    if (!/\/c529136902(\D|$)/.test(decodeURIComponent(location.pathname))) return;
+    window.__akq4xL = 1;
+    var me = document.querySelector('script[src*="ak-q4compare.js"]');
+    var base = me ? me.src.replace(/\/ak-q4compare\.js.*$/, '') : 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@main';
+    var s = document.createElement('script'); s.src = base + '/ak-q4explain.js'; s.async = true;
+    (document.head || document.documentElement).appendChild(s);
+  } catch (e) {}
+})();
