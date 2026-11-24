@@ -1241,7 +1241,7 @@ P + '#main-content .btn--collapse *{color:#fff!important}';
 var seen = [], vis = 0;
 var watch = function () {
 if (!window.IntersectionObserver) return;
-var els = document.querySelectorAll('.akq__diff');
+var els = document.querySelectorAll('.akq__diff, #ak-wa');
 for (var i = 0; i < els.length; i++) {
 if (seen.indexOf(els[i]) > -1) continue; seen.push(els[i]);
 new IntersectionObserver(function (es) { for (var k = 0; k < es.length; k++) vis += es[k].isIntersecting ? 1 : (es[k].target.__akV ? -1 : 0), es[k].target.__akV = es[k].isIntersecting; if (vis > 0) document.documentElement.setAttribute('data-ak-wa2', '1'); else document.documentElement.removeAttribute('data-ak-wa2'); }).observe(els[i]);
