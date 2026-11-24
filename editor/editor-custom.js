@@ -749,9 +749,11 @@ moto: [
 };
 var LINKS = [['سياسة التوصيل', 'page-1343888314'], ['الاستبدال والاسترجاع', 'page-877714872'], ['من نحن', 'page-1896341707'], ['الاستخدام والخصوصية', 'page-1387788131']];
 var pre = location.pathname.indexOf('/alkasser-2023') === 0 ? '/alkasser-2023' : '';
+// روابط الأقسام كاملة (بدون الاسم سلة ترجع «الرابط غير موجود» 410)
+var SLUG = {"46021744":"/swings-trampolines-playground","48135277":"/الأرضيات","85325564":"/دبابات-شحن-وتكتوك-للمزارع","175080959":"/trampolines","180690522":"/الأوزان-والدمبلات","353917441":"/air-hockey-tables","427559449":"/كرسي-هزاز","428244369":"/game-tables","481125644":"/الملاعب-الخارجية","490123615":"/الهوم-جيم-والبنشات","529136902":"/4-in-1-game-table","726194163":"/سكوترات-كهربائية","778074738":"/bicycles","780253807":"/أرضيات-الجيم","955842393":"/الدراجات-الثابتة-وأجهزة-الكارديو","993213184":"/billiard-tables","1119897091":"/كرة-القدم-والتدريب","1130992222":"/السيور-الكهربائية","1160136731":"/كراسي-التوازن","1248444183":"/كرسي-دوار","1303174661":"/table-tennis-tables","1376791097":"/kids-swings","1499711730":"/دبابات","1599672881":"/electric-scooters","1677012877":"/kindergarten-school-play","1679231858":"/kids-bicycles","1688354139":"/الملاكمة","1721936584":"/العاب-حدائق-كبيره-مناسب-للصغار-والكبار","1767250951":"/foosball-tables","1863569496":"/إكسسوارات-وأرضيات","2020530536":"/أرضيات-الحدائق-والملاعب","2055314181":"/التنس-والمضارب"};
 var href = function (id) {
 var a = document.querySelector('#mobile-menu a[href$="c' + id + '"], .main-menu a[href$="c' + id + '"], footer a[href$="c' + id + '"]');
-return a ? a.getAttribute('href') : pre + '/c' + id;
+return a ? a.getAttribute('href') : pre + (SLUG[id] || '') + '/c' + id;
 };
 var page = function (p) { var a = document.querySelector('footer a[href$="' + p + '"], a[href$="' + p + '"]'); return a ? a.getAttribute('href') : pre + '/' + p; };
 var world = function () {
@@ -997,12 +999,12 @@ mm.parentNode.insertBefore(nv, mm.nextSibling);
 };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', dnav); else dnav();
 // «سيكل/سياكل» تظهر «دراجة/دراجات هوائية» (قاعدة المالك) – عرض فقط، والأوصاف نفسها لمراجعة 24 ديسمبر
-var SR = [[/سيكل ثابت/g, 'دراجة ثابتة'], [/السياكل/g, 'الدراجات الهوائية'], [/سياكل/g, 'دراجات هوائية'], [/السيكل/g, 'الدراجة الهوائية'], [/سيكل/g, 'دراجة هوائية']];
+var SR = [[/سيكل ثابت/g, 'دراجة ثابتة'], [/السياكل/g, 'الدراجات الهوائية'], [/سياكل/g, 'دراجات هوائية'], [/السيكل/g, 'الدراجة الهوائية'], [/سيكل/g, 'دراجة هوائية'], [/اضغط علي الصورة/g, 'اضغط على الصورة']];
 var bikeTxt = function () {
 try {
 var tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), nd;
 while ((nd = tw.nextNode())) {
-var v = nd.nodeValue; if (!v || (v.indexOf('سيكل') < 0 && v.indexOf('سياكل') < 0)) continue;
+var v = nd.nodeValue; if (!v || (v.indexOf('سيكل') < 0 && v.indexOf('سياكل') < 0 && v.indexOf('علي الصورة') < 0)) continue;
 var pn = nd.parentNode && nd.parentNode.nodeName; if (pn === 'SCRIPT' || pn === 'STYLE' || pn === 'TEXTAREA') continue;
 for (var i = 0; i < SR.length; i++) v = v.replace(SR[i][0], SR[i][1]);
 nd.nodeValue = v;
