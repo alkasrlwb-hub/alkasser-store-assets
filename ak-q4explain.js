@@ -29,13 +29,13 @@
         ['u_din', 'طاولة طعام أو طاولة مكتبية', 'بعد اللعب تتعشون عليها أو تشتغل عليها']
       ],
       pickT: 'وش يهمك أكثر؟',
-      pick1: 'لوح التنس يبقى مكانه + عداد هوكي إلكتروني + غطاء حماية', pick1n: 'AK-101 · أسود أو بني',
+      pick1: 'لوح التنس يبقى تحت الطاولة + عداد هوكي إلكتروني + غطاء حماية', pick1n: 'AK-101 · أسود أو بني',
       pick2: 'أقل سعر بنفس المقاس', pick2n: 'طاولة 4 في 1 الدوّارة · أسود مع أزرق',
       colT: 'لونين: أسود وبني', colS: 'نفس الطاولة ونفس الألعاب، تختار اللون من صفحة المنتج.',
       pickHelp: 'محتار؟ كلّمنا بالواتساب ونساعدك تختار.',
       stepsT: 'من بلياردو لهوكي لتنس',
       steps: [['s1', '1', 'بلياردو'], ['s3', '2', 'تقلبها: هوكي'], ['s4', '3', 'تنس، والوجه المسطح طاولة طعام أو مكتبية']],
-      stepsNote: 'في AK-101 لوح التنس يبقى مكانه وقت القلب.',
+      stepsNote: 'في AK-101 لوح التنس يبقى تحت الطاولة، تقلب بدون ما تشيله. في باناصر لازم تشيله كل ما تقلب.',
       dimT: 'المقاس بالضبط',
       dims: [['210 سم', 'الطول'], ['110 سم', 'العرض'], ['81 سم', 'الارتفاع'], ['180 كجم', 'الوزن']],
       dimNote: 'نفس المقاس والوزن للموديلين.',
@@ -74,7 +74,7 @@
       R + ' .akx-cards span{display:block;font-size:13px;opacity:.85;padding:0 12px 12px}',
       R + ' .akx-pick{margin-top:18px}',
       R + ' .akx-dots{display:flex;justify-content:center;gap:6px;margin:8px 0 0}' + R + ' .akx-dots span{width:7px;height:7px;border-radius:50%;background:#1E3A5F}' + R + ' .akx-dots span.on{background:#22D3EE;width:18px;border-radius:4px}',
-      R + ' .akx-cols{margin-top:18px}' + R + ' .akx-cols ul{display:flex;gap:10px;margin:0;padding:0;list-style:none;flex-wrap:wrap}' + R + ' .akx-cols li{display:flex;align-items:center;gap:10px;background:#0B1630;border:1.5px solid #1E3A5F;border-radius:999px;padding:8px 16px 8px 12px;margin:0}' + R + ' .akx-cols i{display:inline-block;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);box-shadow:0 0 0 3px #0B1630,0 0 0 4.5px rgba(255,255,255,.35)}' + R + ' .akx-cols b{font-weight:800;color:#fff!important}',
+      R + ' .akx-cols{margin-top:18px}' + R + ' .akx-cols ul{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0;padding:0;list-style:none}' + R + ' .akx-cols li{background:#0B1630;border:1.5px solid #1E3A5F;border-radius:14px;overflow:hidden;margin:0}' + R + ' .akx-cols img{display:block;width:100%;aspect-ratio:4/3;height:auto;object-fit:cover}' + R + ' .akx-cols span{display:flex;align-items:center;gap:10px;padding:10px 12px}' + R + ' .akx-cols i{display:inline-block;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);box-shadow:0 0 0 3px #0B1630,0 0 0 4.5px rgba(255,255,255,.35)}' + R + ' .akx-cols b{font-weight:800;color:#fff!important}',
       R + ' .akx-picks{display:grid;gap:10px}',
       R + ' .akx-pk{display:block;background:#0B1630;border:1.5px solid #1E3A5F;border-radius:14px;padding:12px 14px;text-decoration:none!important}',
       R + ' .akx-pk:hover{border-color:#22D3EE}',
@@ -118,7 +118,7 @@
       h += '<p class="akx-ship">' + esc(T.ship) + '</p></div>';
       h += '<ul class="akx-cards">' + T.cards.map(function (c, i) { return '<li>' + img(c[0], 'طاولة 4 في 1 – ' + c[1], i === 0) + '<b>' + esc(c[1]) + '</b><span>' + esc(c[2]) + '</span></li>'; }).join('') + '</ul></div>';
       h += '<div class="akx-dots" aria-hidden="true">' + T.cards.map(function (c, i) { return '<span' + (i ? '' : ' class="on"') + '></span>'; }).join('') + '</div>';
-      h += '<div class="akx-cols"><h3>' + esc(T.colT) + '</h3><ul>' + [['#111418', 'أسود'], ['#4A2C20', 'بني']].map(function (c) { return '<li><i style="background:' + c[0] + '"></i><b>' + c[1] + '</b></li>'; }).join('') + '</ul><p class="akx-note">' + esc(T.colS) + '</p></div>';
+      h += '<div class="akx-cols"><h3>' + esc(T.colT) + '</h3><ul>' + [['#111418', 'أسود', 'c_blk'], ['#4A2C20', 'بني', 'c_brn']].map(function (c) { return '<li>' + img(c[2], 'طاولة 4 في 1 لون ' + c[1] + ' - وضع الهوكي ولوح التنس تحت الطاولة') + '<span><i style="background:' + c[0] + '"></i><b>' + c[1] + '</b></span></li>'; }).join('') + '</ul><p class="akx-note">' + esc(T.colS) + '</p></div>';
       h += '<div class="akx-pick"><h3>' + esc(T.pickT) + '</h3><div class="akx-picks">';
       h += '<a class="akx-pk" data-akx-p="' + AK + '" href="#"><b>' + esc(T.pick1) + '</b><span>' + esc(T.pick1n) + '<bdi class="akx-pr"></bdi></span></a>';
       h += '<a class="akx-pk" data-akx-p="' + BN + '" href="#"><b>' + esc(T.pick2) + '</b><span>' + esc(T.pick2n) + '<bdi class="akx-pr"></bdi></span></a>';
