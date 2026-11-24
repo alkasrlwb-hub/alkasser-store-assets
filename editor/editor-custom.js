@@ -1021,7 +1021,7 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 try {
 if (window.__AK_WAHIDE__) return; window.__AK_WAHIDE__ = 1;
 var st = document.createElement('style');
-st.textContent = '.fixed-btm{transition:opacity .2s}@media (max-width:1023px){html[data-ak-ship] .fixed-btm{opacity:0!important;visibility:hidden!important;pointer-events:none!important}}';
+st.textContent = '.fixed-btm{transition:opacity .2s}@media (max-width:1023px){html[data-ak-ship] .fixed-btm{opacity:0!important;visibility:hidden!important;pointer-events:none!important}}.details-slider .swiper:has(.ribbon) .discount{display:none!important}';
 (document.head || document.documentElement).appendChild(st);
 var mo = null, hook = function () {
 var s = document.getElementById('ak-ship'); if (!s || s.__akIO || !window.IntersectionObserver) return;
