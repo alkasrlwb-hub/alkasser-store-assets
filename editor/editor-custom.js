@@ -366,6 +366,8 @@ var akKind = function () {
 if (/p554888247/.test(location.pathname)) return null;
 var t = akTx(), tx = t[0], nm = t[1];
 if (/سكوتر|دباب|تكتوك/.test(tx) && !/هوائية|سيكل|سياكل|جبلية/.test(nm)) return 'moto';
+// قسم المنتج أول: منتج في المراجيح أو الروضات (حتى لو اسمه «دراجة هوائية» مثل دراجة الفولاذ 6 مقاعد) ياخذ مربع المراجيح
+if (/مرجيح|مراجيح|نطيط|ترامبولين|زحليق|زحاليق|ألعاب حدائق|العاب حدائق|الروض|روضة|رياض الأطفال|المدارس|هزاز/.test(akBc(null))) return 'play';
 if (/دراجة هوائية|دراجات هوائية|الدراجات الهوائية|سيكل|سياكل|دراجة جبلية|دراجات الأطفال/.test(tx)) return null;
 if (isTablePage()) return 'table';
 if (/مرجيح|مراجيح|نطيط|ترامبولين|زحليق|زحاليق|ألعاب حدائق|العاب حدائق|الروض|روضة|المدارس|هزاز/.test(tx)) return 'play';
@@ -1165,14 +1167,24 @@ var white = uni && ring[0][0] > 240 && ring[0][1] > 240 && ring[0][2] > 240;
 var cut = pad && ((x1 - x0 + 1) * (y1 - y0 + 1)) < w * h * 0.88;
 if (white && !cut) { sl.setAttribute('data-akfit', 'w'); img.style.setProperty('mix-blend-mode', 'multiply', 'important'); return; }
 var put = function (url) {
-if (uni) { sl.setAttribute('data-akfit', 'u'); var a = [0, 0, 0]; for (var q = 0; q < ring.length; q++) for (var z = 0; z < 3; z++) a[z] += ring[q][z] / ring.length; sl.style.setProperty('background', 'rgb(' + a.map(Math.round).join(',') + ')', 'important'); }
+if (uni) { sl.setAttribute('data-akfit', 'u'); sl.style.setProperty('background', 'rgb(' + edge.join(',') + ')', 'important'); }
 else { sl.setAttribute('data-akfit', 's'); if (!sl.querySelector('.ak-fitbg')) { var b = document.createElement('div'); b.className = 'ak-fitbg'; b.style.backgroundImage = 'url("' + url + '")'; sl.insertBefore(b, sl.firstChild); } }
 if (url !== src) { img.removeAttribute('srcset'); img.src = url; }
 };
-if (!cut) { put(src); return; }
-var m = -2, sx = Math.max(0, x0 - m) / k, sy = Math.max(0, y0 - m) / k, sw = Math.min(w, x1 + m + 1) / k - sx, sh = Math.min(h, y1 + m + 1) / k - sy;
+// لون الزاوية بالضبط (بكسل داخل زوايا المحتوى) عشان خلفية الإطار تطابق الصورة
+var cr = [px(Math.min(x1, x0 + 3), Math.min(y1, y0 + 3)), px(Math.max(x0, x1 - 3), Math.min(y1, y0 + 3)), px(Math.min(x1, x0 + 3), Math.max(y0, y1 - 3)), px(Math.max(x0, x1 - 3), Math.max(y0, y1 - 3))];
+var edge = [0, 1, 2].map(function (z) { return Math.round((cr[0][z] + cr[1][z] + cr[2][z] + cr[3][z]) / 4); });
+if (!cut && !uni) { put(src); return; }
+var m = cut ? -2 : 0, sx = Math.max(0, x0 - m) / k, sy = Math.max(0, y0 - m) / k, sw = Math.min(w, x1 + m + 1) / k - sx, sh = Math.min(h, y1 + m + 1) / k - sy;
+if (!cut) { sx = 0; sy = 0; sw = W; sh = H; }
 var c2 = document.createElement('canvas'); c2.width = Math.round(sw); c2.height = Math.round(sh);
-c2.getContext('2d').drawImage(im, sx, sy, sw, sh, 0, 0, c2.width, c2.height);
+var g2 = c2.getContext('2d'); g2.drawImage(im, sx, sy, sw, sh, 0, 0, c2.width, c2.height);
+// حواف ناعمة بلون الخلفية عشان ما يبان مستطيل الصورة
+if (uni) { var col = 'rgb(' + edge.join(',') + ')', tr = 'rgba(' + edge.join(',') + ',0)', fw = Math.round(c2.width * 0.05), fh = Math.round(c2.height * 0.06), gr;
+gr = g2.createLinearGradient(0, 0, fw, 0); gr.addColorStop(0, col); gr.addColorStop(1, tr); g2.fillStyle = gr; g2.fillRect(0, 0, fw, c2.height);
+gr = g2.createLinearGradient(c2.width, 0, c2.width - fw, 0); gr.addColorStop(0, col); gr.addColorStop(1, tr); g2.fillStyle = gr; g2.fillRect(c2.width - fw, 0, fw, c2.height);
+gr = g2.createLinearGradient(0, 0, 0, fh); gr.addColorStop(0, col); gr.addColorStop(1, tr); g2.fillStyle = gr; g2.fillRect(0, 0, c2.width, fh);
+gr = g2.createLinearGradient(0, c2.height, 0, c2.height - fh); gr.addColorStop(0, col); gr.addColorStop(1, tr); g2.fillStyle = gr; g2.fillRect(0, c2.height - fh, c2.width, fh); }
 c2.toBlob(function (bl) { if (bl) put(URL.createObjectURL(bl)); }, 'image/jpeg', 0.92);
 } catch (e) { sl.setAttribute('data-akfit', 'x'); }
 };
