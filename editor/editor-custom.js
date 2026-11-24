@@ -1067,7 +1067,7 @@ V + ' .details-slider .ribbon::before{border-top-color:var(--akp-acc)!important}
 // المعرض: إطار 1:1 بخلفية فاتحة بدون أشرطة كحلية فوق وتحت الصورة
 V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container){background:radial-gradient(circle at 50% 45%,#FFFFFF 0%,var(--akp-pimg) 75%)!important;border:1px solid var(--akp-line)!important;border-radius:16px!important;overflow:hidden!important}' +
 V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container) .swiper-wrapper{background:transparent!important;height:auto!important}' +
-V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container) .swiper-slide{background:transparent!important;height:auto!important;aspect-ratio:1/1!important;display:flex!important;align-items:center!important;justify-content:center!important}' +
+V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container) .swiper-slide{background:radial-gradient(circle at 50% 45%,#FFFFFF 0%,var(--akp-pimg) 75%)!important;height:auto!important;aspect-ratio:1/1!important;display:flex!important;align-items:center!important;justify-content:center!important}' +
 V + ' body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container) .swiper-slide img{width:100%!important;height:100%!important;object-fit:contain!important;padding:4%!important;background:transparent!important;mix-blend-mode:multiply}' +
 V + ' body.product-single .details-slider .s-slider-thumbs-container,' + V + ' body.product-single .details-slider .s-slider-thumbs .swiper-wrapper{background:transparent!important}' +
 V + ' body.product-single .details-slider .s-slider-thumbs .swiper-slide img{mix-blend-mode:multiply}' +
