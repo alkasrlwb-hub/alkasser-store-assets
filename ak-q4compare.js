@@ -92,13 +92,13 @@
       '.akq__corner,.akq__gocorner{display:none}' +
       'body.product-single .s-tabs-content-wrapper .akq{margin:16px 0 4px}' +
       // ألوان الثيم تفرض لون غامق على h2/p/span/small بـ!important، فنرجّع ألواننا بقوة أعلى
-      'html body #ak-q4cmp,html body #ak-q4cmp h2,html body #ak-q4cmp b,html body #ak-q4cmp .akq__v--ak,html body #ak-q4cmp .akq__diff,html body #ak-q4cmp .akq__diff span{color:#fff!important}' +
-      'html body #ak-q4cmp .akq__lead,html body #ak-q4cmp .akq__chips li,html body #ak-q4cmp .akq__v,html body #ak-q4cmp .akq__notes li,html body #ak-q4cmp .akq__p i{color:#C5D3EC!important}' +
-      'html body #ak-q4cmp small,html body #ak-q4cmp .akq__f,html body #ak-q4cmp .akq__v--no{color:#8FA3C8!important}' +
-      'html body #ak-q4cmp .akq__p,html body #ak-q4cmp .akq__notes a{color:#22D3EE!important}' +
-      'html body #ak-q4cmp .akq__tag{color:#06101F!important}' +
-      '@media(min-width:768px){html body #ak-q4cmp .akq__f{color:#C5D3EC!important}}' +
-      'html body #ak-q4cmp .akq__v--ak{color:#fff!important}';
+      'html body #ak-q4cmp#ak-q4cmp,html body #ak-q4cmp#ak-q4cmp h2,html body #ak-q4cmp#ak-q4cmp b,html body #ak-q4cmp#ak-q4cmp .akq__v--ak,html body #ak-q4cmp#ak-q4cmp .akq__diff,html body #ak-q4cmp#ak-q4cmp .akq__diff span{color:#fff!important}' +
+      'html body #ak-q4cmp#ak-q4cmp .akq__lead,html body #ak-q4cmp#ak-q4cmp .akq__chips li,html body #ak-q4cmp#ak-q4cmp .akq__v,html body #ak-q4cmp#ak-q4cmp .akq__notes li,html body #ak-q4cmp#ak-q4cmp .akq__p i{color:#C5D3EC!important}' +
+      'html body #ak-q4cmp#ak-q4cmp small,html body #ak-q4cmp#ak-q4cmp .akq__f,html body #ak-q4cmp#ak-q4cmp .akq__v--no{color:#8FA3C8!important}' +
+      'html body #ak-q4cmp#ak-q4cmp .akq__p,html body #ak-q4cmp#ak-q4cmp .akq__notes a{color:#22D3EE!important}' +
+      'html body #ak-q4cmp#ak-q4cmp .akq__tag{color:#06101F!important}' +
+      '@media(min-width:768px){html body #ak-q4cmp#ak-q4cmp .akq__f{color:#C5D3EC!important}}' +
+      'html body #ak-q4cmp#ak-q4cmp .akq__v--ak{color:#fff!important}';
 
     var font = function () {
       if (document.getElementById('akq-font')) return;
@@ -184,7 +184,7 @@
       load(function (m) {
         if (document.getElementById('ak-q4cmp')) return;
         var s2 = spot(mode); if (!s2) return;
-        var el = document.createElement('section');
+        var el = document.createElement('div'); el.setAttribute('role', 'region');
         el.id = 'ak-q4cmp'; el.className = 'akq'; el.setAttribute('aria-label', K('title'));
         el.innerHTML = build(m, mode);
         s2[0].insertAdjacentElement(s2[1], el);
