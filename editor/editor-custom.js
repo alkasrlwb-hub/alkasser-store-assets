@@ -1229,9 +1229,11 @@ P + '#main-content h1:not(.product-title){font-size:20px!important;line-height:1
 '@media(min-width:1024px){' + P + '#main-content h1:not(.product-title){font-size:26px!important}' + P + '#main-content h1 .ak-h1tail{display:block}}' +
 '.ak-h1tail{white-space:nowrap}.ak-h1tail::before{content:"| "}@media(min-width:1024px){.ak-h1tail::before{content:none}}' +
 // شريط الشراء: «اشترِ الآن» لون صافي، زر السلة حدود بلون العالم، «إضافة ملاحظة» بألوان العالم (§8-ب-5)
-P + '.sticky-product-bar salla-mini-checkout-widget{background:var(--akp-acc)!important;background-image:none!important;border-radius:12px!important}' +
-P + '.sticky-product-bar .s-button-btn.s-button-primary{background:transparent!important;border:1.5px solid var(--akp-acc)!important;color:var(--akp-acc)!important;border-radius:12px!important}' +
-P + '.sticky-product-bar .s-button-btn.s-button-primary *{color:var(--akp-acc)!important}' +
+P + '.navbar-details{background:var(--akp-bar)!important;border-top:1px solid var(--akp-line)!important;box-shadow:0 -6px 18px rgba(0,0,0,.35)!important}' +
+P + ':is(.sticky-product-bar,.navbar-details) salla-button.s-button-wrap{background:transparent!important;background-image:none!important}' +
+P + ':is(.sticky-product-bar,.navbar-details) salla-mini-checkout-widget{background:var(--akp-acc)!important;background-image:none!important;border-radius:12px!important}' +
+P + ':is(.sticky-product-bar,.navbar-details) .s-button-btn.s-button-primary{background:transparent!important;border:1.5px solid var(--akp-acc)!important;color:var(--akp-acc)!important;border-radius:12px!important}' +
+P + ':is(.sticky-product-bar,.navbar-details) .s-button-btn.s-button-primary *{color:var(--akp-acc)!important}' +
 P + '#main-content .btn--collapse{background:var(--akp-card2)!important;border:1px solid var(--akp-line)!important;color:#fff!important}' +
 P + '#main-content .btn--collapse *{color:#fff!important}';
 (document.head || document.documentElement).appendChild(st);
@@ -1253,7 +1255,7 @@ if (/\/p1821944654(\D|$)/.test(location.pathname)) {
 var ms = document.querySelectorAll('#main-content .text-unicode');
 for (var j = 0; j < ms.length; j++) if (/^\s*AK-101-[A-Z]+\s*$/.test(ms[j].textContent)) ms[j].textContent = 'AK-101';
 }
-var mc = document.querySelectorAll('.sticky-product-bar salla-mini-checkout-widget');
+var mc = document.querySelectorAll('.sticky-product-bar salla-mini-checkout-widget, .navbar-details salla-mini-checkout-widget');
 for (var z = 0; z < mc.length; z++) { var sr = mc[z].shadowRoot; if (sr && !sr.getElementById('ak-mc')) { var y = document.createElement('style'); y.id = 'ak-mc'; y.textContent = '.s-fast-checkout-button{background:transparent!important;border:0!important;color:var(--akp-on)!important;font-weight:800!important}.s-fast-checkout-button *{color:var(--akp-on)!important;fill:var(--akp-on)!important}'; sr.appendChild(y); } }
 var hs = document.querySelectorAll('#main-content h1');
 for (var h = 0; h < hs.length; h++) {
