@@ -1211,3 +1211,52 @@ var n = 0, t = setInterval(function () { run(); if (++n > 40) clearInterval(t); 
 window.addEventListener('load', run);
 } catch (e) {}
 })();
+/* الجولة 6 (طلبات المنسّق والمراجع): الزر العائم يختفي عند مربع «فرق السعر» في شرح 4 في 1، إطار تابي مثل تمارا، خيار المنتج بعرض كامل، عنوان المنتج 20/26 وذيل «| …» ما ينقسم (وعلى الكمبيوتر سطر لحاله)، ورقم موديل AK-101 بدون لاحقة اللون (عرض فقط) */
+(function () {
+try {
+if (window.__AK_R10__) return; window.__AK_R10__ = 1;
+var P = 'html[data-akpw] body.product-single ';
+var st = document.createElement('style'); st.id = 'ak-r10';
+st.textContent = '@media(max-width:1023px){html[data-ak-wa2] .fixed-btm{opacity:0!important;visibility:hidden!important;pointer-events:none!important}}' +
+P + '#tabbyPromoWrapper{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;border-radius:0!important}' +
+P + 'salla-installment .mb-5{margin-bottom:12px!important}' +
+P + '.s-product-options-option{display:block!important}' +
+P + '.s-product-options-option-label{display:block!important;width:100%!important;margin:0 0 8px!important;color:#fff!important;text-align:start}' +
+P + '.s-product-options-option-label small{color:var(--akp-sub)!important;margin-inline-start:6px}' +
+P + '.s-product-options-option-content,' + P + '.s-product-options-option-content > div{width:100%!important;max-width:100%!important}' +
+P + '.s-product-options-option select.s-form-control{width:100%!important;height:48px!important;background-color:var(--akp-card2)!important;color:#fff!important;border:1px solid var(--akp-line)!important;border-radius:12px!important}' +
+P + '#main-content h1:not(.product-title){font-size:20px!important;line-height:1.4!important;font-weight:800!important}' +
+'@media(min-width:1024px){' + P + '#main-content h1:not(.product-title){font-size:26px!important}' + P + '#main-content h1 .ak-h1tail{display:block}}' +
+'.ak-h1tail{white-space:nowrap}';
+(document.head || document.documentElement).appendChild(st);
+var seen = [], vis = 0;
+var watch = function () {
+if (!window.IntersectionObserver) return;
+var els = document.querySelectorAll('.akq__diff');
+for (var i = 0; i < els.length; i++) {
+if (seen.indexOf(els[i]) > -1) continue; seen.push(els[i]);
+new IntersectionObserver(function (es) { for (var k = 0; k < es.length; k++) vis += es[k].isIntersecting ? 1 : (es[k].target.__akV ? -1 : 0), es[k].target.__akV = es[k].isIntersecting; if (vis > 0) document.documentElement.setAttribute('data-ak-wa2', '1'); else document.documentElement.removeAttribute('data-ak-wa2'); }).observe(els[i]);
+}
+};
+var fix = function () {
+var b = document.body; if (!b) return;
+watch();
+if (!b.classList.contains('product-single')) return;
+// AK-101: موديل واحد للونين، فنعرض «AK-101» بس
+if (/\/p1821944654(\D|$)/.test(location.pathname)) {
+var ms = document.querySelectorAll('#main-content .text-unicode');
+for (var j = 0; j < ms.length; j++) if (/^\s*AK-101-[A-Z]+\s*$/.test(ms[j].textContent)) ms[j].textContent = 'AK-101';
+}
+var hs = document.querySelectorAll('#main-content h1');
+for (var h = 0; h < hs.length; h++) {
+var e = hs[h]; if (e.getAttribute('data-aktail') || e.children.length) continue;
+var t = e.textContent, p = t.lastIndexOf(' | '); if (p < 1) continue;
+e.setAttribute('data-aktail', '1'); e.textContent = t.slice(0, p);
+var s = document.createElement('span'); s.className = 'ak-h1tail'; s.textContent = ' ' + t.slice(p + 1).trim(); e.appendChild(s);
+}
+};
+var q = false, sch = function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; fix(); }); };
+var go = function () { fix(); try { new MutationObserver(sch).observe(document.body, { childList: true, subtree: true, characterData: true }); } catch (e) {} };
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+} catch (e) {}
+})();
