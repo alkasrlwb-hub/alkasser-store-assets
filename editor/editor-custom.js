@@ -120,7 +120,7 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@ca2fa9b/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
+try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@0cdb305/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
