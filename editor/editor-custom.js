@@ -1139,6 +1139,8 @@ st.textContent = 'html[data-akpw] body.product-single #main-content h1{line-heig
 'html[data-akpw] body.product-single .details-slider .swiper-slide[data-akfit]{position:relative;overflow:hidden}' +
 'html[data-akpw] body.product-single .details-slider .swiper-slide[data-akfit] img{mix-blend-mode:normal!important;position:relative;z-index:1}' +
 'html[data-akpw] body.product-single .details-slider .swiper-slide:is([data-akfit="u"],[data-akfit="s"]) img{padding:0!important}' +
+// تابي وتمارا داخل إطار بلون العالم (§8-ب-5 البند 7)، والمحتوى الداخلي ما نلمسه
+'html[data-akpw] body.product-single salla-installment :is(tamara-widget,#tabbyPromo){display:block!important;background:var(--akp-card)!important;border:1px solid var(--akp-line)!important;border-radius:12px!important;padding:8px!important;overflow:hidden}' +
 '.ak-fitbg{position:absolute;inset:-8%;background-size:cover;background-position:center;filter:blur(18px) brightness(.9);z-index:0;pointer-events:none}';
 (document.head || document.documentElement).appendChild(st);
 var near = function (a, b, t) { return Math.abs(a[0] - b[0]) <= t && Math.abs(a[1] - b[1]) <= t && Math.abs(a[2] - b[2]) <= t; };
