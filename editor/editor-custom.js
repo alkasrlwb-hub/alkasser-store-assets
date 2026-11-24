@@ -207,12 +207,18 @@ var AD = /[٠-٩۰-۹]/;
 var FOOT = 'وجهتك لطاولات الألعاب في السعودية: بلياردو وهوكي وتنس وفرفيرة و4 في 1، مع المراجيح وألعاب الروضات والسكوترات والدراجات الهوائية. نوصّل مجاناً في الرياض وجدة والدمام والقصيم، وباقي المدن كلّمنا على الواتساب قبل الطلب ونتأكد لك من الشحن.';
 // اللي يجي من قوقل لصفحة قسم أو منتج: نحفظ عالمه ونخلي الشعار و«الرئيسية» يودونه لنفس العالم
 var WRX = [['moto', /سكوتر|دباب|تكتوك|سيكل|سياكل|دراجة هوائية|دراجات هوائية|دراجة جبلية/], ['play', /مراجيح|مرجيحة|نطيط|ترامبولين|ألعاب حدائق|العاب حدائق|روض|زحليق|ألعاب أطفال|العاب اطفال|مدارس/], ['tables', /طاول|بلياردو|هوكي|تنس|فرفيرة|رياض|لياقة|سير|جيم|أوزان|دمبل|ملاكمة|كرة القدم|ملاعب|أرضيات/]];
+// مسار الصفحة في سلة ياخذ آخر قسم زاره العميل (مثلاً سير كهربائي يطلع تحت «طاولات بلياردو»)، فقسم المنتج الحقيقي ناخذه من product:category
+var akBc = function (bc) {
+var m = document.querySelector('meta[property="product:category"]');
+if (m && m.content && document.body && document.body.classList.contains('product-single')) return m.content;
+return (bc && bc.textContent) || '';
+};
 var worldSync = function () {
 try {
 var b = document.body; if (!b || b.classList.contains('index')) return;
 if (!(b.classList.contains('product-index') || b.classList.contains('product-single'))) return;
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
-var tx = ((bc && bc.textContent) || '') + ' ' + ((document.querySelector('h1') || {}).textContent || '');
+var tx = akBc(bc) + ' ' + ((document.querySelector('h1') || {}).textContent || '');
 var w = null; for (var i = 0; i < WRX.length && !w; i++) if (WRX[i][1].test(tx)) w = WRX[i][0];
 if (!w) return;
 if (localStorage.getItem('ak-world') !== w) localStorage.setItem('ak-world', w);
@@ -336,7 +342,7 @@ var isTablePage = function () {
 if (/p554888247/.test(location.pathname)) return false;
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
 var nm = ((document.querySelector('h1') || {}).textContent || '');
-var tx = ((bc && bc.textContent) || '') + ' ' + nm;
+var tx = akBc(bc) + ' ' + nm;
 if (/سكوتر|دباب|تكتوك|دراجة|دراجات|سيكل|مرجيح|مراجيح|نطيط|زحليق|ألعاب حدائق|العاب حدائق/.test(tx)) return false;
 if (/4 في 1|بلياردو|هوكي|فرفيرة|تنس طاولة/.test(tx)) return true;
 if (/طعام|كراسي|مكتب/.test(tx)) return false;
@@ -353,7 +359,7 @@ return 0;
 var akTx = function () {
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
 var nm = ((document.querySelector('h1') || {}).textContent || '').replace(/\s+/g, ' ').trim();
-return [((bc && bc.textContent) || '') + ' ' + nm, nm];
+return [akBc(bc) + ' ' + nm, nm];
 };
 // نوع المنتج عشان مربع التوصيل: طاولة / لياقة / ملاعب وأرضيات / مراجيح / سكوترات
 var akKind = function () {
@@ -433,7 +439,7 @@ if (b.classList.contains('product-single') && !document.getElementById('ak-wa'))
 var box = document.getElementById('ak-ship') || document.querySelector('salla-installment, .salla-installment') || document.querySelector('form.product-form'); if (!box || !box.parentNode) return; var afterBox = box.id === 'ak-ship';
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
 var nm = ((document.querySelector('h1') || {}).textContent || '').replace(/\s+/g, ' ').trim();
-var tx = ((bc && bc.textContent) || '') + ' ' + nm;
+var tx = akBc(bc) + ' ' + nm;
 var w = null; for (var i = 0; i < WRX.length && !w; i++) if (WRX[i][1].test(tx)) w = WRX[i][0];
 var kind = akKind(), link = '\n' + nm + '\n' + location.origin + location.pathname, el;
 if (kind === 'play') {
