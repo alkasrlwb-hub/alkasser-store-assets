@@ -51,6 +51,8 @@ var SPORT_ALL = [
 // مؤقتًا: عالم اللياقة مخفي، فقسم «الرياضة» يعرض الطاولات بس
 var SPORT = [];
 window.AK_WORLDS_CONFIG = {
+// أرقام الواتساب لكل عالم (المكان الوحيد اللي تتغير منه)
+WA: { tables: '966598060796', play: '966598060796', moto: '966567886993' },
 imgBase: BASE + '/img',
 products: {
 moto: [
@@ -109,10 +111,12 @@ t_tab: 'الطاولات',
 t_products_title: 'طاولات الألعاب'
 }
 };
+window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
+window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
-var HIDEID = /\/c(99902540|1338663500|428900685|2112701251|1473413965|1130992222|955842393|490123615|180690522|1688354139|1863569496|2055314181|1640674614)(\D|$)|\/blog(\/|$)/;
+var HIDEID = /\/c(99902540|1338663500|428900685|2112701251|1473413965|1130992222|955842393|490123615|180690522|1688354139|1863569496|2055314181|1640674614|1448847542|1165578940|1945475206|1340798385)(\D|$)|\/blog(\/|$)/;
 // الأقسام المخفية لو أحد دخلها برابط مباشر يرجع للرئيسية
 try { if (HIDEID.test(decodeURIComponent(location.pathname))) location.replace(pre + '/' + (location.search.indexOf('preview') > -1 ? '?preview=true' : '')); } catch (e) {}
 var st = document.createElement('style');
@@ -137,7 +141,10 @@ css += '.ak-worlds-root .ak-products .swiper-wrapper:not(:has(>:nth-child(3))){j
 '.main-nav-container.top-navbar,.main-nav-container .inner{background:#06101F!important}.main-nav-container.top-navbar{border-bottom:2px solid #22D3EE!important;box-shadow:0 4px 18px rgba(0,0,0,.45)!important}.main-nav-container .inner, .main-nav-container .inner a, .main-nav-container .inner button, .main-nav-container .inner i, .main-nav-container .inner salla-button, .main-nav-container .inner .header-btn{color:#fff!important}.main-nav-container .s-cart-summary-count{background:#22D3EE!important;color:#06101F!important}@media(min-width:1024px){.main-nav-container .inner .main-menu > li > a, .main-nav-container .inner .main-menu > li > a *{color:#E6EEF8!important}.main-nav-container .inner .main-menu > li > a:hover{color:#22D3EE!important}}@media(max-width:1023.98px){.main-nav-container .inner .mobile-menu, .main-nav-container .inner .mobile-menu a, .main-nav-container .inner .mobile-menu i{color:#0E2A47!important}}.main-nav-container .inner .sub-menu, .main-nav-container .inner .sub-menu a{color:#0E2A47!important}' +
 'html body .app-inner{background:#06101F!important}footer.store-footer{background:#06101F!important;border-top:3px solid #22D3EE!important;box-shadow:0 -10px 30px rgba(34,211,238,.08)}footer.store-footer .store-footer__inner{background:linear-gradient(180deg,#0B2350,#06101F)!important}footer.store-footer,footer.store-footer p,footer.store-footer div,footer.store-footer span,footer.store-footer li,footer.store-footer a{color:#DCE6F5!important}footer.store-footer h3{color:#fff!important}footer.store-footer a:hover{color:#22D3EE!important}footer.store-footer .copyright-div{border-top:1px solid #1D2E52!important;color:#9FB3CF!important}.ak-tile--all{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:100%;text-align:center;background:radial-gradient(circle at 50% 30%,rgba(34,211,238,.35),transparent 60%),linear-gradient(160deg,#0B2350,#06101F)!important;border:1px solid #22D3EE!important;box-shadow:0 0 24px rgba(34,211,238,.25) inset;color:#fff!important;text-decoration:none}.ak-tile--all i{font-style:normal;font-size:44px;line-height:1;color:#22D3EE}.ak-tile--all b{font-size:clamp(17px,4.4vw,22px);color:#fff}.ak-tile--all small{font-size:13px;color:#22D3EE;font-weight:700}';
 // فحص قبل الإطلاق: الأقسام الفاضية تنخفي، سعر العرض يبان، وصفحات المنتج والسلة والبحث وباقي الصفحات بألوان العالم بدل نص أبيض على بيج
-css += '.ak-empty-off{display:none!important}' +
+css += 'footer.store-footer .footer-item:has(> salla-contacts),footer.store-footer salla-contacts,footer.store-footer a.logo-footer,footer.store-footer .footer-item > a.flex.items-center{display:none!important}' +
+'.fixed-btm{transition:transform .2s ease,opacity .2s ease!important}.fixed-btm.ak-fab-off{opacity:0!important;pointer-events:none!important}' +
+'#ak-wbadge{display:flex;align-items:center;gap:8px;width:max-content;max-width:100%;margin:12px 0 4px;padding:6px 12px;border-radius:6px;background:#E11D2E;color:#fff;font-weight:800;font-size:13px;line-height:1.4}#ak-wbadge svg{flex:none}' +
+'.ak-empty-off{display:none!important}' +
 'html body .ak-worlds-root .ak-worlds .ak-products .s-product-card-sale-price h4{color:var(--ak-price)!important}' +
 'body.product-index .s-product-card-content-subtitle{color:#9FB3CF!important;opacity:1!important}' +
 'body.product-index .s-product-card-content-title a{-webkit-line-clamp:2!important;font-size:16px!important;line-height:1.5!important;min-height:48px}' +
@@ -351,6 +358,16 @@ if (/الملاعب الخارجية|كرة القدم|أرضيات/.test(tx)) r
 if (/السيور|سير كهربائي|سير مشي|كارديو|الدراجات الثابتة|الهوم جيم|البنشات|الأوزان|الدمبلات|الملاكمة|أجهزة رياضية/.test(tx)) return 'fit';
 return null;
 };
+// كهربائي (سكوترات، دبابات شحن كهربائية، تكتوك) = الماطور · بنزين = المكينة
+var akMotoType = function () {
+var t = akTx(), nm = t[1];
+if (/كهربائ|سكوتر|تكتوك/.test(nm)) return 'e';
+if (/بنزين|\d\s*cc|سي\s*سي|بوكسر|سويد|زلزال/i.test(t[0])) return 'p';
+return /دباب/.test(nm) ? 'p' : 'e';
+};
+var WBADGE = { e: 'ضمان 6 أشهر على الماطور', p: 'ضمان 6 أشهر على المكينة' };
+var WSPEC = { e: '6 أشهر على الماطور، ولا يشمل سوء الاستخدام', p: '6 أشهر على المكينة، ولا يشمل سوء الاستخدام' };
+WSPEC.e = 'ضمان ' + WSPEC.e; WSPEC.p = 'ضمان ' + WSPEC.p;
 var shipBox = function () {
 try {
 var b = document.body; if (!b || !b.classList.contains('product-single')) return;
@@ -378,7 +395,7 @@ body = row('الرياض', RIY) + row('جدة', 'توصيل مجاني خلال 
 } else {
 body = row('الرياض', RIY) + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('القصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('التركيب في جدة والدمام والقصيم', 'مجاني إذا كانت سلتك 2000 ريال أو أكثر بعد الخصم، وإلا يوصلك بكرتونه أو نركّبه لك بـ150 ريال') + OUT;
 }
-if (kind === 'moto') body += note('ضمان 6 أشهر على ' + (/بنزين|\d\s*cc|بوكسر|سويد|زلزال/i.test(akTx()[0]) ? 'المكينة' : 'الماطور') + '، ولا يشمل سوء الاستخدام');
+if (kind === 'moto') body += note(WSPEC[akMotoType()]);
 }
 var d = document.createElement('div'); d.id = 'ak-ship'; d.setAttribute('data-kind', kind);
 d.setAttribute('style', 'margin:14px 0 16px;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#0B2350,#06101F);border:2px solid #22D3EE;box-shadow:0 0 22px rgba(34,211,238,.25);color:#fff;text-align:start');
@@ -386,7 +403,7 @@ d.innerHTML = '<div style="display:flex;align-items:center;gap:10px;font-weight:
 an.parentNode.insertBefore(d, an);
 } catch (e) {}
 };
-var waNum = function (w) { return w === 'moto' ? '966567886993' : '966598060796'; };
+var waNum = function (w) { var W = (window.AK_WORLDS_CONFIG && window.AK_WORLDS_CONFIG.WA) || {}; return W[w] || W.tables; };
 var waBtn = function (num, txt, label, sub) {
 var a = document.createElement('a');
 a.href = 'https://wa.me/' + num + '?text=' + encodeURIComponent(txt);
@@ -409,7 +426,7 @@ var w = null; for (var i = 0; i < WRX.length && !w; i++) if (WRX[i][1].test(tx))
 var kind = akKind(), link = '\n' + nm + '\n' + location.origin + location.pathname, el;
 if (kind === 'play') {
 // المراجيح والروضات: الشراء متاح، ونشجع العميل يتأكد من التوفر بالواتساب (غير إجباري)
-el = waBtn('966598060796', 'السلام عليكم، ودي أتأكد من توفر هذا المنتج:' + link, 'تواصل معنا على الواتساب', '');
+el = waBtn(waNum('play'), 'السلام عليكم، ودي أتأكد من توفر هذا المنتج:' + link, 'تواصل معنا على الواتساب', '');
 var hd = document.createElement('div');
 hd.setAttribute('style', 'margin:0 0 10px;font-weight:800;font-size:17px;line-height:1.5;color:#fff;text-align:center');
 hd.textContent = 'تواصل معنا للتأكد من توفر المنتج';
@@ -472,11 +489,127 @@ box.classList.add('ak-menu-off');
 }
 } catch (e) {}
 };
-var tick = function () { hideMenu(); hideOut(); sportTiles(); digits(); footTxt(); catBg(); worldSync(); shipBox(); contactWa(); waFix(); cartCard(); };
+// فوتر كل العوالم: بدون «تواصل معنا» ولا الشعار ولا «متجر الكاسر لوب للتجارة»، وأي رقم يظهر في عالم السكوترات = رقم السكوترات من الإعدادات
+var footFix = function () {
+try {
+var f = document.querySelector('footer.store-footer'); if (!f) return;
+var cr = f.querySelectorAll('.copyright-text a');
+for (var i = 0; i < cr.length; i++) if (cr[i].textContent.indexOf('للتجارة') > -1) cr[i].textContent = 'الكاسر لوب';
+if (curWorld() !== 'moto') return;
+var W = window.AK_WORLDS_CONFIG.WA, mo = W.moto, re = new RegExp('(\\+?966|0)' + W.tables.slice(3), 'g');
+var as = f.querySelectorAll('a[href^="tel:"]');
+for (var j = 0; j < as.length; j++) if (as[j].getAttribute('href') !== 'tel:+' + mo) as[j].setAttribute('href', 'tel:+' + mo);
+var w = document.createTreeWalker(f, NodeFilter.SHOW_TEXT, null), nd;
+while ((nd = w.nextNode())) if (re.test(nd.nodeValue)) { re.lastIndex = 0; nd.nodeValue = nd.nodeValue.replace(re, '+' + mo); }
+} catch (e) {}
+};
+// شارة الضمان تحت المعرض بلون العالم + سطر «الضمان» في المواصفات (عرض فقط، الحقل نفسه بيتعدل في مراجعة المحتوى)
+var warrantyFix = function () {
+try {
+var b = document.body; if (!b || !b.classList.contains('product-single')) return;
+var kind = akKind(), rows = document.querySelectorAll('.s-metadata-row'), i, k, v;
+if (kind !== 'moto') {
+for (i = 0; i < rows.length; i++) { k = rows[i].querySelector('.s-metadata-row-name'); if (k && /ضمان/.test(k.textContent) && !rows[i].classList.contains('ak-menu-off')) rows[i].classList.add('ak-menu-off'); }
+return;
+}
+var t = akMotoType();
+var rb = document.querySelectorAll('.ribbon');
+for (i = 0; i < rb.length; i++) if (/ضمان/.test(rb[i].textContent) && !rb[i].classList.contains('ak-menu-off')) rb[i].classList.add('ak-menu-off');
+var sl = document.querySelector('salla-slider.details-slider');
+var bd = document.getElementById('ak-wbadge');
+if (sl && sl.parentNode && !bd) {
+bd = document.createElement('div'); bd.id = 'ak-wbadge';
+bd.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><span></span>';
+sl.parentNode.insertBefore(bd, sl.nextSibling);
+}
+if (bd && bd.lastChild.textContent !== WBADGE[t]) bd.lastChild.textContent = WBADGE[t];
+var val = WSPEC[t].replace(/^ضمان /, '');
+for (i = 0; i < rows.length; i++) {
+k = rows[i].querySelector('.s-metadata-row-name'); v = rows[i].querySelector('.s-metadata-row-value');
+if (k && v && /ضمان/.test(k.textContent) && v.textContent.trim() !== val) v.textContent = val;
+}
+} catch (e) {}
+};
+// أي «خلال 24 ساعة» معروض عن التوصيل/التركيب يصير 30 ساعة (عرض فقط)
+var H24 = /((?:خلال|غضون|توصيل|التوصيل|التركيب|تركيب|نوصل|يوصل)[^.،\n]{0,24}?)24(\s*ساع)/g;
+var hoursFix = function () {
+try {
+var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), nd;
+while ((nd = w.nextNode())) {
+var v = nd.nodeValue;
+if (!v || v.indexOf('24') < 0) continue;
+var p = nd.parentNode && nd.parentNode.nodeName;
+if (p === 'SCRIPT' || p === 'STYLE' || p === 'TEXTAREA') continue;
+H24.lastIndex = 0; if (!H24.test(v)) continue;
+H24.lastIndex = 0; nd.nodeValue = v.replace(H24, '$130$2');
+}
+} catch (e) {}
+};
+// القائمة الجانبية: «رياضة وألعاب» فيها الملاعب الخارجية وكرة القدم وأرضيات الجيم، والملاعب كمان تحت «ألعاب الحدائق» (قرار المالك 05:10)
+var SPORT_MENU = ['481125644', '1119897091', '780253807'];
+var menuFix = function () {
+try {
+var ul = document.querySelector('#mobile-menu ul.main-menu'); if (!ul) return;
+var gs = ul.querySelectorAll(':scope > li[id="1473413965"]'), sp = null, i;
+for (i = 0; i < gs.length; i++) if (gs[i].querySelector(':scope > ul')) sp = gs[i];
+var src = null;
+if (sp) {
+var lab = sp.querySelector(':scope > span');
+if (lab && lab.textContent.trim() !== 'رياضة وألعاب') lab.textContent = 'رياضة وألعاب';
+if (sp.classList.contains('ak-menu-off')) sp.classList.remove('ak-menu-off');
+var sub = sp.querySelector(':scope > ul'), kids = sub.children;
+for (i = 0; i < kids.length; i++) { var on = SPORT_MENU.indexOf(kids[i].id) > -1; if (on === kids[i].classList.contains('ak-menu-off')) kids[i].classList.toggle('ak-menu-off', !on); }
+var order = []; for (i = 0; i < kids.length; i++) if (SPORT_MENU.indexOf(kids[i].id) > -1) order.push(kids[i].id);
+if (order.join() !== SPORT_MENU.join()) for (i = 0; i < SPORT_MENU.length; i++) { var li = sub.querySelector(':scope > li[id="' + SPORT_MENU[i] + '"]'); if (li) sub.appendChild(li); }
+src = sub.querySelector(':scope > li[id="481125644"]');
+}
+var gd = ul.querySelectorAll(':scope > li[id="46021744"]'), gsub = null;
+for (i = 0; i < gd.length; i++) if (gd[i].querySelector(':scope > ul')) gsub = gd[i].querySelector(':scope > ul');
+if (gsub && src && !gsub.querySelector('[data-ak-clone]')) {
+var c = src.cloneNode(true); c.removeAttribute('id'); c.setAttribute('data-ak-clone', '481125644'); c.classList.remove('ak-menu-off');
+var fl = gsub.querySelector(':scope > li[id="2020530536"]');
+gsub.insertBefore(c, fl ? fl.nextSibling : null);
+}
+} catch (e) {}
+};
+// زر الواتساب العائم ما يغطي أي زر: يرتفع لأقرب مكان فاضي، ولو ما فيه يختفي لحظياً
+var fabGuard = function () {
+try {
+var f = document.querySelector('.fixed-btm'); if (!f) return;
+if (window.innerWidth >= 1024) { f.style.removeProperty('transform'); f.classList.remove('ak-fab-off'); return; }
+var prev = f.style.transform;
+f.style.setProperty('transition', 'none', 'important'); f.style.removeProperty('transform');
+var r = f.getBoundingClientRect();
+f.style.transform = prev; void f.offsetWidth; f.style.removeProperty('transition');
+if (!r.width) return;
+var hit = function (x, y) {
+if (y < 64 || y > window.innerHeight - 2) return true;
+var els = document.elementsFromPoint(x, y);
+for (var i = 0; i < els.length; i++) {
+var el = els[i]; if (f.contains(el)) continue;
+var c = el.closest && el.closest('a,button,[role="button"],input,select,textarea,label,summary,salla-add-product-button,salla-button,salla-quantity-input');
+if (c && !f.contains(c)) { var cr = c.getBoundingClientRect(); if (cr.height > 0 && cr.height < 140) return true; }
+}
+return false;
+};
+var steps = [0, 64, 128, 192, 256, 320], pad = 3;
+for (var s = 0; s < steps.length; s++) {
+var t = r.top - steps[s], bt = r.bottom - steps[s], cx = (r.left + r.right) / 2, cy = (t + bt) / 2;
+if (!hit(cx, cy) && !hit(cx, t + pad) && !hit(cx, bt - pad) && !hit(r.left + pad, cy) && !hit(r.right - pad, cy)) {
+var tf = steps[s] ? 'translateY(-' + steps[s] + 'px)' : '';
+if (f.style.transform !== tf) f.style.transform = tf;
+f.classList.remove('ak-fab-off'); return;
+}
+}
+f.classList.add('ak-fab-off');
+} catch (e) {}
+};
+try { var fq = 0, fab = function () { if (fq) return; fq = requestAnimationFrame(function () { fq = 0; fabGuard(); }); }; window.addEventListener('scroll', fab, { passive: true }); window.addEventListener('resize', fab); } catch (e) {}
+var tick = function () { hideMenu(); menuFix(); hideOut(); sportTiles(); digits(); footTxt(); catBg(); worldSync(); shipBox(); contactWa(); waFix(); cartCard(); footFix(); warrantyFix(); hoursFix(); fabGuard(); };
 tick();
 document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
-try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; hideMenu(); hideOut(); sportTiles(); digits(); footTxt(); catBg(); worldSync(); shipBox(); contactWa(); waFix(); cartCard(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
+try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
 var s = document.createElement('script');
 s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@58b92496a89f9f651543bf929a392331aeee5fef/alkasser-worlds.js';
 s.async = true;
