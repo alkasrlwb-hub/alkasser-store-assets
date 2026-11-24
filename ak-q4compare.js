@@ -90,7 +90,15 @@
       '.akq__gocorner{display:block!important;border-top:1px solid var(--ln)}' +
       '.akq__go{border-inline-start:1px solid var(--ln)}}' +
       '.akq__corner,.akq__gocorner{display:none}' +
-      'body.product-single .s-tabs-content-wrapper .akq{margin:16px 0 4px}';
+      'body.product-single .s-tabs-content-wrapper .akq{margin:16px 0 4px}' +
+      // ألوان الثيم تفرض لون غامق على h2/p/span/small بـ!important، فنرجّع ألواننا بقوة أعلى
+      'html body #ak-q4cmp,html body #ak-q4cmp h2,html body #ak-q4cmp b,html body #ak-q4cmp .akq__v--ak,html body #ak-q4cmp .akq__diff,html body #ak-q4cmp .akq__diff span{color:#fff!important}' +
+      'html body #ak-q4cmp .akq__lead,html body #ak-q4cmp .akq__chips li,html body #ak-q4cmp .akq__v,html body #ak-q4cmp .akq__notes li,html body #ak-q4cmp .akq__p i{color:#C5D3EC!important}' +
+      'html body #ak-q4cmp small,html body #ak-q4cmp .akq__f,html body #ak-q4cmp .akq__v--no{color:#8FA3C8!important}' +
+      'html body #ak-q4cmp .akq__p,html body #ak-q4cmp .akq__notes a{color:#22D3EE!important}' +
+      'html body #ak-q4cmp .akq__tag{color:#06101F!important}' +
+      '@media(min-width:768px){html body #ak-q4cmp .akq__f{color:#C5D3EC!important}}' +
+      'html body #ak-q4cmp .akq__v--ak{color:#fff!important}';
 
     var font = function () {
       if (document.getElementById('akq-font')) return;
@@ -123,7 +131,7 @@
     var build = function (m, mode) {
       var cur = pid();
       var pa = priceOf(m, AK.ids), pb = priceOf(m, [BN.id]);
-      var pr = function (v) { return v ? '<span class="akq__p" dir="ltr">' + fmt(v) + '<i>ريال</i></span>' : ''; };
+      var pr = function (v) { return v ? '<span class="akq__p" dir="ltr">' + fmt(v) + ' <i>ريال</i></span>' : ''; };
       var isAk = AK.ids.indexOf(cur) > -1, isBn = cur === BN.id;
       var h = '<h2>' + esc(K('title')) + '</h2><p class="akq__lead">' + esc(K('lead')) + '</p>';
       h += '<ul class="akq__chips">' + K('common').map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('') + '</ul>';
