@@ -25,7 +25,7 @@
       cards: [
         ['u_bil', 'بلياردو', 'قماش أزرق وجيوب، ومعها العصي والكرات'],
         ['u_hok', 'هوكي هوائي', 'تحدي سريع بين اثنين'],
-        ['u_ten', 'تنس طاولة', 'الشبكة والمضارب والكور معها'],
+        ['b4', 'تنس طاولة', 'الشبكة والمضارب والكور معها'],
         ['u_din', 'طاولة طعام أو طاولة مكتبية', 'بعد اللعب تتعشون عليها أو تشتغل عليها']
       ],
       pickT: 'وش يهمك أكثر؟',
@@ -35,8 +35,8 @@
       pickHelp: 'محتار؟ كلّمنا بالواتساب ونساعدك تختار.',
       stepsT: 'من بلياردو لهوكي لتنس',
       steps: [['s1', '1', 'بلياردو'], ['s3', '2', 'تقلبها: هوكي'], ['s4', '3', 'تنس، والوجه المسطح طاولة طعام أو طاولة مكتبية']],
-      stepsBlk: [['b1', '1', 'بلياردو'], ['b2', '2', 'تقلب السطح'], ['b3', '3', 'هوكي'], ['b4', '4', 'تنس، والوجه المسطح طاولة طعام أو طاولة مكتبية']],
-      togBlk: 'أسود', togBrn: 'بني',
+      stepsBlk: [['b1', '1', 'بلياردو'], ['real:https://cdn.files.salla.network/products/112199751/2417bf79-3826-49e1-b8da-ffbe9e903b40-standard.webp', '2', 'تقلب السطح'], ['b3', '3', 'هوكي'], ['b4', '4', 'تنس، والوجه المسطح طاولة طعام أو طاولة مكتبية']],
+      togBlk: 'أسود', togBrn: 'بني', brownSteps: false,
       stepsNote: 'في AK-101 لوح التنس يبقى تحت الطاولة، تقلب بدون ما تشيله. في باناصر لازم تشيله كل ما تقلب.',
       dimT: 'المقاس بالضبط',
       dims: [['210 سم', 'الطول'], ['110 سم', 'العرض'], ['81 سم', 'الارتفاع'], ['180 كجم', 'الوزن']],
@@ -86,7 +86,7 @@
       R + ' .akx-help a{color:#22D3EE!important;font-weight:800}',
       R + ' .akx-steps{display:grid;grid-auto-flow:column;grid-auto-columns:78%;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 6px;list-style:none}',
       R + ' .akx-steps li{scroll-snap-align:start;background:#0B1630;border-radius:14px;overflow:hidden;margin:0}',
-      R + ' .akx-steps[hidden]{display:none!important}' + R + ' .akx-sh{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}' + R + ' .akx-sh h3{margin:0!important}' + R + ' .akx-tog{display:flex;gap:6px}' + R + ' .akx-tog button{display:inline-flex;align-items:center;gap:6px;background:#0B1630!important;color:#E6EEF8!important;border:1.5px solid #1E3A5F!important;border-radius:999px;padding:6px 12px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;min-height:36px}' + R + ' .akx-tog button[aria-pressed=true]{border-color:#22D3EE!important;color:#fff!important}' + R + ' .akx-tog i{display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.45)}',
+      R + ' .akx-steps[hidden],' + R + ' .akx-tog[hidden]{display:none!important}' + R + ' .akx-crop{overflow:hidden;aspect-ratio:4/3}' + R + ' .akx-steps .akx-crop img{height:100%;transform:scale(1.16)}' + R + ' .akx-sh{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}' + R + ' .akx-sh h3{margin:0!important}' + R + ' .akx-tog{display:flex;gap:6px}' + R + ' .akx-tog button{display:inline-flex;align-items:center;gap:6px;background:#0B1630!important;color:#E6EEF8!important;border:1.5px solid #1E3A5F!important;border-radius:999px;padding:6px 12px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;min-height:36px}' + R + ' .akx-tog button[aria-pressed=true]{border-color:#22D3EE!important;color:#fff!important}' + R + ' .akx-tog i{display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.45)}',
       R + ' .akx-steps p{margin:0;padding:10px 12px;font-size:15px;font-weight:700;line-height:1.5;min-height:calc(3em + 20px);box-sizing:border-box}',
       R + ' .akx-steps i{font-style:normal;display:inline-flex;width:26px;height:26px;border-radius:50%;background:#22D3EE;color:#06101F!important;align-items:center;justify-content:center;font-weight:800;margin-left:8px}',
       R + ' .akx-note{font-size:13px!important;line-height:1.6;opacity:.85;margin:10px 0 0}',
@@ -129,10 +129,10 @@
       return h;
     };
 
-    var stepList = function (arr, col, cls, hide) { return '<ol class="akx-steps' + cls + '" data-c="' + col + '"' + (hide ? ' hidden' : '') + '>' + arr.map(function (s) { return '<li>' + img(s[0], 'طاولة 4 في 1 ' + (col === 'k' ? 'سوداء' : 'بنية') + ' - ' + s[2]) + '<p><i>' + s[1] + '</i>' + esc(s[2]) + '</p></li>'; }).join('') + '</ol>'; };
+    var stepList = function (arr, col, cls, hide) { return '<ol class="akx-steps' + cls + '" data-c="' + col + '"' + (hide ? ' hidden' : '') + '>' + arr.map(function (s) { var al = 'طاولة 4 في 1 ' + (col === 'k' ? 'سوداء' : 'بنية') + ' - ' + s[2]; return '<li>' + (s[0].indexOf('real:') === 0 ? '<div class="akx-crop"><img src="' + s[0].slice(5) + '" alt="' + esc(al) + '" width="640" height="480" loading="lazy" decoding="async"></div>' : img(s[0], al)) + '<p><i>' + s[1] + '</i>' + esc(s[2]) + '</p></li>'; }).join('') + '</ol>'; };
     var bot = function () {
-      var h = '<div class="akx-sec"><div class="akx-sh"><h3>' + esc(T.stepsT) + '</h3><div class="akx-tog" role="group" aria-label="اللون">' + [['k', '#111418', T.togBlk], ['b', '#4A2C20', T.togBrn]].map(function (c, i) { return '<button type="button" data-c="' + c[0] + '" aria-pressed="' + (i ? 'false' : 'true') + '"><i style="background:' + c[1] + '"></i>' + esc(c[2]) + '</button>'; }).join('') + '</div></div>';
-      h += stepList(T.stepsBlk, 'k', ' k4', false) + stepList(T.steps, 'b', '', true);
+      var h = '<div class="akx-sec"><div class="akx-sh"><h3>' + esc(T.stepsT) + '</h3><div class="akx-tog"' + (T.brownSteps ? ' role="group" aria-label="اللون"' : ' hidden') + '>' + [['k', '#111418', T.togBlk], ['b', '#4A2C20', T.togBrn]].map(function (c, i) { return '<button type="button" data-c="' + c[0] + '" aria-pressed="' + (i ? 'false' : 'true') + '"><i style="background:' + c[1] + '"></i>' + esc(c[2]) + '</button>'; }).join('') + '</div></div>';
+      h += stepList(T.stepsBlk, 'k', ' k4', false) + (T.brownSteps ? stepList(T.steps, 'b', '', true) : '');
       h += '<p class="akx-note">' + esc(T.stepsNote) + '</p></div>';
       h += '<div class="akx-two">';
       h += '<div class="akx-sec"><h3>' + esc(T.dimT) + '</h3><figure class="akx-fig">' + img('dim', 'طاولة 4 في 1 بمقاس 210 × 110 × 81 سم') + '</figure>';
