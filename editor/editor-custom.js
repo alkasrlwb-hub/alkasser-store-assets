@@ -1128,3 +1128,72 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 window.addEventListener('load', paint);
 } catch (e) {}
 })();
+/* الجولة 6 (ملاحظات مراجع الذوق): صورة المعرض تعبي الإطار (قص الحواف البيضاء + خلفية بلون الصورة أو خلفية مغبّشة للمشاهد) + سطر H1 بـ1.4 + «ماطور» بدل «موتور/دينمو» في عالم السكوترات (عرض فقط) */
+(function () {
+try {
+if (window.__AK_FIT__) return; window.__AK_FIT__ = 1;
+var st = document.createElement('style'); st.id = 'ak-fit';
+st.textContent = 'html[data-akpw] body.product-single #main-content h1{line-height:1.4!important}' +
+'html[data-akpw] body.product-single .details-slider .swiper-slide[data-akfit]{position:relative;overflow:hidden}' +
+'html[data-akpw] body.product-single .details-slider .swiper-slide[data-akfit] img{mix-blend-mode:normal!important;position:relative;z-index:1}' +
+'html[data-akpw] body.product-single .details-slider .swiper-slide:is([data-akfit="u"],[data-akfit="s"]) img{padding:0!important}' +
+'.ak-fitbg{position:absolute;inset:-8%;background-size:cover;background-position:center;filter:blur(18px) brightness(.9);z-index:0;pointer-events:none}';
+(document.head || document.documentElement).appendChild(st);
+var near = function (a, b, t) { return Math.abs(a[0] - b[0]) <= t && Math.abs(a[1] - b[1]) <= t && Math.abs(a[2] - b[2]) <= t; };
+var fit = function (img) {
+var sl = img.closest('.swiper-slide'); if (!sl || sl.getAttribute('data-akfit')) return;
+var src = img.currentSrc || img.src; if (!src || /^blob:|^data:/.test(src)) return;
+sl.setAttribute('data-akfit', 'p');
+var im = new Image(); im.crossOrigin = 'anonymous';
+im.onload = function () {
+try {
+var W = im.naturalWidth, H = im.naturalHeight, k = Math.min(1, 300 / Math.max(W, H)), w = Math.round(W * k), h = Math.round(H * k);
+var c = document.createElement('canvas'); c.width = w; c.height = h; var x = c.getContext('2d'); x.drawImage(im, 0, 0, w, h);
+var d = x.getImageData(0, 0, w, h).data, px = function (i, j) { var o = (j * w + i) * 4; return [d[o], d[o + 1], d[o + 2]]; };
+var cs = [px(1, 1), px(w - 2, 1), px(1, h - 2), px(w - 2, h - 2)], bg = cs[0];
+var pad = near(cs[0], cs[1], 14) && near(cs[0], cs[2], 14) && near(cs[0], cs[3], 14);
+var x0 = 0, y0 = 0, x1 = w - 1, y1 = h - 1;
+if (pad) {
+x0 = w; y0 = h; x1 = -1; y1 = -1;
+for (var j = 0; j < h; j++) for (var i = 0; i < w; i++) if (!near(px(i, j), bg, 26)) { if (i < x0) x0 = i; if (i > x1) x1 = i; if (j < y0) y0 = j; if (j > y1) y1 = j; }
+if (x1 < 0) return;
+}
+// لون حافة المحتوى: لو موحّد نخلي خلفية الإطار بنفس اللون، وإلا (مشهد كامل) خلفية مغبّشة من نفس الصورة
+var ring = [px(x0, y0), px(x1, y0), px(x0, y1), px(x1, y1), px((x0 + x1) >> 1, y0), px((x0 + x1) >> 1, y1), px(x0, (y0 + y1) >> 1), px(x1, (y0 + y1) >> 1)];
+var uni = true; for (var r = 1; r < ring.length; r++) if (!near(ring[0], ring[r], 22)) uni = false;
+var white = uni && ring[0][0] > 240 && ring[0][1] > 240 && ring[0][2] > 240;
+var cut = pad && ((x1 - x0 + 1) * (y1 - y0 + 1)) < w * h * 0.88;
+if (white && !cut) { sl.setAttribute('data-akfit', 'w'); img.style.setProperty('mix-blend-mode', 'multiply', 'important'); return; }
+var put = function (url) {
+if (uni) { sl.setAttribute('data-akfit', 'u'); var a = [0, 0, 0]; for (var q = 0; q < ring.length; q++) for (var z = 0; z < 3; z++) a[z] += ring[q][z] / ring.length; sl.style.setProperty('background', 'rgb(' + a.map(Math.round).join(',') + ')', 'important'); }
+else { sl.setAttribute('data-akfit', 's'); if (!sl.querySelector('.ak-fitbg')) { var b = document.createElement('div'); b.className = 'ak-fitbg'; b.style.backgroundImage = 'url("' + url + '")'; sl.insertBefore(b, sl.firstChild); } }
+if (url !== src) { img.removeAttribute('srcset'); img.src = url; }
+};
+if (!cut) { put(src); return; }
+var m = -2, sx = Math.max(0, x0 - m) / k, sy = Math.max(0, y0 - m) / k, sw = Math.min(w, x1 + m + 1) / k - sx, sh = Math.min(h, y1 + m + 1) / k - sy;
+var c2 = document.createElement('canvas'); c2.width = Math.round(sw); c2.height = Math.round(sh);
+c2.getContext('2d').drawImage(im, sx, sy, sw, sh, 0, 0, c2.width, c2.height);
+c2.toBlob(function (bl) { if (bl) put(URL.createObjectURL(bl)); }, 'image/jpeg', 0.92);
+} catch (e) { sl.setAttribute('data-akfit', 'x'); }
+};
+im.onerror = function () { sl.setAttribute('data-akfit', 'x'); };
+im.src = src;
+};
+var MOT = /موتور|دينمو/g;
+var words = function () {
+if (document.documentElement.getAttribute('data-akpw') !== 'moto') return;
+var mc = document.getElementById('main-content'); if (!mc) return;
+var tw = document.createTreeWalker(mc, NodeFilter.SHOW_TEXT, null), n;
+while ((n = tw.nextNode())) if (MOT.test(n.nodeValue)) { MOT.lastIndex = 0; n.nodeValue = n.nodeValue.replace(MOT, 'ماطور'); }
+MOT.lastIndex = 0;
+};
+var run = function () {
+if (!document.documentElement.getAttribute('data-akpw')) return;
+var ims = document.querySelectorAll('body.product-single .details-slider .s-slider-container:not(.s-slider-thumbs-container) .swiper-slide img');
+for (var i = 0; i < ims.length; i++) if (ims[i].complete && ims[i].naturalWidth) fit(ims[i]);
+words();
+};
+var n = 0, t = setInterval(function () { run(); if (++n > 40) clearInterval(t); }, 300);
+window.addEventListener('load', run);
+} catch (e) {}
+})();
