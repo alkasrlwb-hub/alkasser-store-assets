@@ -584,6 +584,7 @@ f.style.transform = prev; void f.offsetWidth; f.style.removeProperty('transition
 if (!r.width) return;
 var hit = function (x, y) {
 if (y < 64 || y > window.innerHeight - 2) return true;
+if (x < 0 || x > window.innerWidth) return false;
 var els = document.elementsFromPoint(x, y);
 for (var i = 0; i < els.length; i++) {
 var el = els[i]; if (f.contains(el)) continue;
@@ -592,10 +593,13 @@ if (c && !f.contains(c)) { var cr = c.getBoundingClientRect(); if (cr.height > 0
 }
 return false;
 };
-var steps = [0, 64, 128, 192, 256, 320], pad = 3;
+var steps = [0, 64, 128, 192, 256, 320], m = 4;
+var clear = function (t) {
+for (var gy = 0; gy < 5; gy++) for (var gx = 0; gx < 5; gx++) if (hit(r.left - m + gx * (r.width + 2 * m) / 4, t - m + gy * (r.height + 2 * m) / 4)) return false;
+return true;
+};
 for (var s = 0; s < steps.length; s++) {
-var t = r.top - steps[s], bt = r.bottom - steps[s], cx = (r.left + r.right) / 2, cy = (t + bt) / 2;
-if (!hit(cx, cy) && !hit(cx, t + pad) && !hit(cx, bt - pad) && !hit(r.left + pad, cy) && !hit(r.right - pad, cy)) {
+if (clear(r.top - steps[s])) {
 var tf = steps[s] ? 'translateY(-' + steps[s] + 'px)' : '';
 if (f.style.transform !== tf) f.style.transform = tf;
 f.classList.remove('ak-fab-off'); return;
@@ -604,7 +608,7 @@ f.classList.remove('ak-fab-off'); return;
 f.classList.add('ak-fab-off');
 } catch (e) {}
 };
-try { var fq = 0, fab = function () { if (fq) return; fq = requestAnimationFrame(function () { fq = 0; fabGuard(); }); }; window.addEventListener('scroll', fab, { passive: true }); window.addEventListener('resize', fab); } catch (e) {}
+try { var fq = 0, fab = function () { if (fq) return; fq = requestAnimationFrame(function () { fq = 0; fabGuard(); }); }; window.addEventListener('scroll', fab, { passive: true }); window.addEventListener('resize', fab); setInterval(function () { if (window.innerWidth < 1024) fab(); }, 400); } catch (e) {}
 var tick = function () { hideMenu(); menuFix(); hideOut(); sportTiles(); digits(); footTxt(); catBg(); worldSync(); shipBox(); contactWa(); waFix(); cartCard(); footFix(); warrantyFix(); hoursFix(); fabGuard(); };
 tick();
 document.addEventListener('DOMContentLoaded', tick);
