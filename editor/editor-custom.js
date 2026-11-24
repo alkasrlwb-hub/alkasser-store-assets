@@ -325,7 +325,7 @@ if (allT && cols > 1) { var spn = 'span ' + (cols - (vis % cols)); if (allT.getA
 }
 } catch (e) {}
 };
-// صفحة المنتج: صندوق «توصيل وتركيب مجاني» للطاولات فقط (الرياض 30 ساعة، جدة والدمام 3-5 أيام)
+// صفحة المنتج: صندوق التوصيل. «30 ساعة» والتركيب للطاولات بس، وباقي المنتجات الرياض 2–3 أيام (قرار المالك)
 var isTablePage = function () {
 if (/p554888247/.test(location.pathname)) return false;
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
@@ -388,17 +388,19 @@ var OUT = row('باقي المدن', 'كلّمنا قبل الطلب نتأكد 
 var RIY = 'توصيل وتركيب مجاني خلال 30 ساعة · الدفع عند الاستلام متاح';
 var body = '';
 if (kind === 'play') {
-body = row('الرياض', 'توصيل مجاني، والتركيب وموعده نأكده معك بالواتساب') + row('جدة والدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام، والتركيب نأكد تفاصيله معك بالواتساب') + OUT;
+body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام، والتركيب وموعده نأكده معك بالواتساب') + row('جدة والدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام، والتركيب نأكد تفاصيله معك بالواتساب') + OUT;
 } else if (kind === 'court') {
-body = row('الرياض', 'توصيل مجاني · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('التركيب', 'نأكد تفاصيله معك بالواتساب') + OUT;
+body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('التركيب', 'نأكد تفاصيله معك بالواتساب') + OUT;
+} else if (kind === 'moto' || kind === 'fit') {
+// غير الطاولات: بدون 30 ساعة وبدون وعد تركيب
+body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('القصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + OUT;
+if (kind === 'moto') body += note(WSPEC[akMotoType()]);
 } else {
-if (kind === 'fit') RIY = 'توصيل وتركيب مجاني · الدفع عند الاستلام متاح';
 if (price >= 2000) {
 body = row('الرياض', RIY) + row('جدة', 'توصيل مجاني خلال 3–5 أيام · تركيب مجاني · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران', 'توصيل مجاني خلال 3–5 أيام · تركيب مجاني · الدفع أونلاين') + row('القصيم', 'توصيل مجاني خلال 3–5 أيام · تركيب مجاني · الدفع أونلاين') + OUT + note('التركيب المجاني في جدة والدمام والقصيم إذا كانت سلتك 2000 ريال أو أكثر بعد الخصم');
 } else {
 body = row('الرياض', RIY) + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('القصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('التركيب في جدة والدمام والقصيم', 'مجاني إذا كانت سلتك 2000 ريال أو أكثر بعد الخصم، وإلا يوصلك بكرتونه أو نركّبه لك بـ150 ريال') + OUT;
 }
-if (kind === 'moto') body += note(WSPEC[akMotoType()]);
 }
 var d = document.createElement('div'); d.id = 'ak-ship'; d.setAttribute('data-kind', kind);
 d.setAttribute('style', 'margin:14px 0 16px;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#0B2350,#06101F);border:2px solid #22D3EE;box-shadow:0 0 22px rgba(34,211,238,.25);color:#fff;text-align:start');
@@ -535,14 +537,18 @@ if (k && v && /ضمان/.test(k.textContent) && v.textContent.trim() !== val) v.
 };
 // أي «خلال 24 ساعة» معروض عن التوصيل/التركيب يصير 30 ساعة (عرض فقط)
 var H24 = /((?:خلال|غضون|توصيل|التوصيل|التركيب|تركيب|نوصل|يوصل)[^.،\n]{0,24}?)24(\s*ساع)/g;
+// وفي صفحة منتج مو طاولة (سكوتر، مرجيحة، لياقة، دراجة…) أي «خلال 24/30 ساعة» يصير «خلال 2–3 أيام» (30 ساعة للطاولات بس)
+var HNT = /((?:خلال|غضون|توصيل|التوصيل|التركيب|تركيب|نوصل|يوصل)[^.،\n]{0,24}?)(?:24|30)\s*ساعة/g;
 var hoursFix = function () {
 try {
+var bb = document.body, nt = bb && bb.classList.contains('product-single') && akKind() !== 'table';
 var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), nd;
 while ((nd = w.nextNode())) {
 var v = nd.nodeValue;
-if (!v || v.indexOf('24') < 0) continue;
+if (!v || (v.indexOf('24') < 0 && !(nt && v.indexOf('30') > -1))) continue;
 var p = nd.parentNode && nd.parentNode.nodeName;
 if (p === 'SCRIPT' || p === 'STYLE' || p === 'TEXTAREA') continue;
+if (nt && !(nd.parentNode.closest && nd.parentNode.closest('#ak-ship'))) { HNT.lastIndex = 0; if (HNT.test(v)) { HNT.lastIndex = 0; nd.nodeValue = v.replace(HNT, '$12–3 أيام'); continue; } }
 H24.lastIndex = 0; if (!H24.test(v)) continue;
 H24.lastIndex = 0; nd.nodeValue = v.replace(H24, '$130$2');
 }
