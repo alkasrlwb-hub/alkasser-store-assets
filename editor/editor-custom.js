@@ -120,7 +120,7 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@5d5757b/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
+try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@2c6bb7f/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
@@ -954,8 +954,7 @@ var cq = 0, csched = function () { if (cq) return; cq = setTimeout(function () {
 var cgo = function () { chips(); fixTitle(); try { new MutationObserver(csched).observe(document.body, { childList: true, subtree: true }); new MutationObserver(fixTitle).observe(document.querySelector('title') || document.head, { childList: true, characterData: true, subtree: true }); } catch (e) {} };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', cgo); else cgo();
 // المرحلة 2 (2.6): قائمة الكمبيوتر بالهيدر = العوالم الثلاثة بنفس ترتيب وأقسام القائمة الجانبية (بدل قائمة سلة القديمة). قائمة سلة نفسها باقية للجوال لأن القائمة الجانبية تاخذ روابطها منها
-var DNCSS = '@media(min-width:1024px){custom-main-menu .main-menu>li{display:none!important}#ak-dn{display:flex}}'
-+ '#ak-dn{display:none;align-items:stretch;gap:4px;margin-inline-start:20px;height:100%;font-family:inherit}'
+var DNCSS = '#ak-dn{display:none;align-items:stretch;gap:4px;margin-inline-start:20px;height:100%;font-family:inherit}'
 + '#ak-dn .akn-i{position:relative;display:flex;align-items:center}'
 + '#ak-dn .akn-t{display:flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:800;color:#fff!important;text-decoration:none!important;white-space:nowrap;border:1px solid transparent}'
 + '#ak-dn .akn-t svg{opacity:.7;transition:transform .2s}#ak-dn .akn-i:hover .akn-t svg,#ak-dn .akn-i:focus-within .akn-t svg{transform:rotate(180deg)}'
@@ -967,7 +966,8 @@ var DNCSS = '@media(min-width:1024px){custom-main-menu .main-menu>li{display:non
 + '#ak-dn .akn-h{display:block;font-size:14px;font-weight:800;color:#fff!important;text-decoration:none!important;padding:4px 0}#ak-dn a.akn-h:hover{color:var(--n-acc)!important}'
 + '#ak-dn .akn-s{display:block;font-size:13.5px;font-weight:600;color:var(--n-ink2)!important;text-decoration:none!important;padding:5px 0}#ak-dn .akn-s:hover,#ak-dn .akn-s.cur,#ak-dn .akn-h.cur{color:var(--n-acc)!important}'
 + '#ak-dn .akn-all{grid-column:1/-1;border-top:1px solid var(--n-line2);padding-top:10px;font-size:13.5px;font-weight:800;color:var(--n-acc)!important;text-decoration:none!important}'
-+ '#ak-dn :focus-visible{outline:2px solid var(--n-acc);outline-offset:2px}';
++ '#ak-dn :focus-visible{outline:2px solid var(--n-acc);outline-offset:2px}'
++ '@media(min-width:1024px){custom-main-menu .main-menu>li{display:none!important}#ak-dn{display:flex}}';
 var ALLW = { tables: 'tables', play: 46021744, moto: 1599672881 };
 var dnav = function () {
 try {
