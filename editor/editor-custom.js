@@ -123,8 +123,8 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
-try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@8908a64b81d95fb2462f01104969ee2e92d9ced9/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
+// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@752407e5917ff1ebce1f7cf75b122fc020335097/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
@@ -727,7 +727,6 @@ var COURTS = [[481125644, 'الملاعب الخارجية'], [1119897091, 'كر
 var M = {
 tables: [
 { t: 'طاولات الألعاب', k: [[993213184, 'طاولات بلياردو'], [353917441, 'طاولات هوكي'], [1303174661, 'طاولات تنس الطاولة'], [1767250951, 'طاولات فرفيرة'], [529136902, 'طاولات 4 في 1']], all: [428244369, 'كل طاولات الألعاب'] },
-{ t: 'دراجات هوائية', k: [[778074738, 'دراجات الكبار والشباب'], [1679231858, 'دراجات الأطفال']] },
 { t: 'أجهزة كارديو', k: [[1130992222, 'السيور الكهربائية'], [955842393, 'الدراجات الثابتة وأجهزة الكارديو']] },
 { t: 'الهوم جيم والأوزان', k: [[490123615, 'الهوم جيم والبنشات'], [180690522, 'الأوزان والدمبلات'], [1863569496, 'إكسسوارات وأرضيات']] },
 { t: 'الملاكمة', c: 1688354139 },
@@ -748,6 +747,8 @@ moto: [
 { t: 'سكوترات كهربائية', c: 726194163 },
 { t: 'دبابات', c: 1499711730 },
 { t: 'دبابات شحن وتكتوك', c: 85325564 },
+// الجولة 9: الدراجات صارت في عالم السكوترات بس (انشالت من قائمة الرياضة)
+{ t: 'دراجات هوائية', k: [[778074738, 'دراجات الكبار والشباب'], [1679231858, 'دراجات الأطفال']] },
 { t: 'كل السكوترات والدبابات', c: 1599672881 }
 ]
 };
@@ -1050,13 +1051,16 @@ var K = ['bg', 'card', 'card2', 'line', 'ink2', 'sub', 'acc', 'on', 'price', 'rg
 var world = function () {
 var b = document.body; if (!b) return null;
 var one = b.classList.contains('product-single'), idx = b.classList.contains('product-index');
+// الجولة 9: السلة تاخذ ألوان السكوترات لو العميل جاي من عالم السكوترات (العالمين الفاتحين يمشون من ak-light)
+if (b.classList.contains('cart')) { var cw = ''; try { cw = localStorage.getItem('ak-world') || ''; } catch (e) {} return cw === 'moto' ? 'moto' : null; }
 if (!one && !idx) return null;
 var m = document.querySelector('meta[property="product:category"]');
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
 var h1 = ((document.querySelector('h1') || {}).textContent || '').replace(/\s+/g, ' ');
 var cat = (one && m && m.content) ? m.content : ((bc && bc.textContent) || '');
 var tx = cat + ' ' + h1;
-if (/سكوتر|دباب|تكتوك/.test(tx) && !/هوائية|سيكل|سياكل|جبلية/.test(h1)) return 'moto';
+// الجولة 9: الدراجات الهوائية ودراجات الأطفال في عالم السكوترات (الدراجات الثابتة حق اللياقة ما تدخل)
+if (/سكوتر|دباب|تكتوك|دراج(ة|ات) هوائي|الدراجات الهوائية|دراجات الأطفال|دراجات الكبار|سيكل|سياكل/.test(tx) && !/ثابت/.test(tx)) return 'moto';
 if (/4 في 1|بلياردو|هوكي|فرفيرة|تنس طاولة|تنس الطاولة|طاولة ألعاب|طاولات الألعاب/.test(tx)) return 'tables';
 if (/مرجيح|مراجيح|أرجوحة|نطيط|نطاطة|ترامبولين|زحليق|زحاليق|حدائق|روض|رياض الأطفال|المدارس|هزاز|توازن|دوار|ملاعب متكاملة/.test(tx)) return 'play';
 if (/ملاعب|أرضيات|الأرضيات/.test(tx)) { var sv = ''; try { sv = localStorage.getItem('ak-world') || ''; } catch (e) {} return sv === 'play' ? 'play' : 'tables'; }
