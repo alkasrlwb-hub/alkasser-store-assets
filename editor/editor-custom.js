@@ -123,8 +123,8 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9 + r10 من الجولة 10 + r11 من الجولة 11) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
-try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@b4b69d763643da0e10ac38f8817143d1ebe66646/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
+// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9 + r10 من الجولة 10 + r11 من الجولة 11 + r12 من الجولة 12) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@f8b8ce851581ec23b8f04d4bebebc2a5380a79df/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
@@ -242,7 +242,7 @@ var bd = document.body;
 if (bd && /(^|\s)product-index-/.test(bd.className) && !bd.classList.contains('product-index')) bd.classList.add('product-index');
 if (!document.body || !document.body.classList.contains('product-index')) return;
 var els = document.querySelectorAll('main, .app-inner');
-if (document.documentElement.hasAttribute('data-aklight')) { for (var j = 0; j < els.length; j++) els[j].style.removeProperty('background-color'); return; } // الثيم الفاتح (قرار المالك 03:33)
+var pw0 = document.documentElement.getAttribute('data-akpw'); if (document.documentElement.hasAttribute('data-aklight') || pw0 !== 'moto') { for (var j = 0; j < els.length; j++) els[j].style.removeProperty('background-color'); return; } // الجولة 12: الكحلي الغامق ما ينرسم إلا في السكوترات // الثيم الفاتح (قرار المالك 03:33)
 // الجولة 9: صفحات أقسام السكوترات والدراجات فحمي #0D0E10 بدل الكحلي
 var mo = document.documentElement.getAttribute('data-akpw') === 'moto', bgc = mo ? '#0D0E10' : '#06101F', bgr = mo ? 'rgb(13, 14, 16)' : 'rgb(6, 16, 31)';
 for (var i = 0; i < els.length; i++) if (els[i].style.getPropertyValue('background-color') !== bgr) els[i].style.setProperty('background-color', bgc, 'important');
@@ -1139,6 +1139,28 @@ for (var i = 0; i < K.length; i++) r.style.setProperty('--akp-' + K[i], P[w][i])
 var as = document.querySelectorAll('#ak-wa a, #ak-wa-cart a');
 for (var j = 0; j < as.length; j++) if (as[j].style.getPropertyValue('color') !== P[w][7]) as[j].style.setProperty('color', P[w][7], 'important');
 };
+// الجولة 12: الرياضة والمراجيح فاتحين من أول رسمة (قبل ما توصل الحزمة). ينطبق بس لين ak-light يحط data-aklight
+var LP = ':is(html[data-akpw="tables"],html[data-akpw="play"]):not([data-aklight]):not(#ak-lp)', LB = LP + ' body:not(#ak-lp2)';
+var lst = document.createElement('style'); lst.id = 'ak-lp';
+lst.textContent = 'html[data-akpw="tables"]{--akl-bg:#F4F7FB;--akl-s2:#EEF3F9;--akl-fg:#0B1A33;--akl-ink:#24375A;--akl-sub:#55667F;--akl-line:#E1E8F2;--akl-link:#0E7490}' +
+'html[data-akpw="play"]{--akl-bg:#FFFBF2;--akl-s2:#FFF6E0;--akl-fg:#0B2620;--akl-ink:#1E4A3E;--akl-sub:#5B7468;--akl-line:#EFE6D2;--akl-link:#0B2620}' +
+LP + ',' + LB + ',' + LB + ' .app-inner,' + LB + ' main,' + LB + ' #main-content{background:var(--akl-bg)!important;background-color:var(--akl-bg)!important;color:var(--akl-fg)!important}' +
+LB + ' #main-content :is(h1,h2,h3,h4,h5,.section-title,.title){color:var(--akl-fg)!important}' +
+LB + ' #main-content :is(p,label,li,small,.s-filters-label){color:var(--akl-ink)!important}' +
+LB + ' .breadcrumbs,' + LB + ' .breadcrumbs :is(a,span,i){color:var(--akl-sub)!important}' +
+LB + ' .main-nav-container.top-navbar,' + LB + ' .main-nav-container .inner,' + LB + ' .navbar-details{background:#FFFFFF!important;background-image:none!important}' +
+LB + ' .main-nav-container .inner :is(a,button,i,svg,.header-btn){color:var(--akl-fg)!important;fill:currentColor}' +
+LB + ' #main-content .s-product-card-entry{background:#FFFFFF!important;background-image:none!important;border:1px solid var(--akl-line)!important;color:var(--akl-fg)!important}' +
+LB + ' #main-content .s-product-card-entry :is(.s-product-card-content-title,.s-product-card-content-title a){color:var(--akl-fg)!important}' +
+LB + ' #main-content .s-product-card-entry .s-product-card-content-subtitle{color:var(--akl-sub)!important}' +
+LB + ' #main-content :is(.s-product-card-price,.s-product-card-sale-price h4,.price-rate h2,.price-wrapper h2,h2.total-price){color:var(--akl-link)!important}' +
+LB + ' footer.store-footer,' + LB + ' footer.store-footer .store-footer__inner{background:var(--akl-s2)!important;background-image:none!important}' +
+LB + ' footer.store-footer :is(p,a,span,h2,h3,h4,li,i,small,b,div){color:var(--akl-ink)!important}' +
+// تدرج الثيم الأخضر-البنفسجي على البطاقات (app.css: .s-product-card-entry) ما يبان في أي عالم ولا أي صفحة.
+// نفس أولوية قاعدة الثيم وبعدها، فأي لون بطاقة من عوالمنا (أولوية أعلى) يبقى زي ما هو
+'.s-product-card-entry{background-image:none;background-color:#FFFFFF}';
+(document.head || document.documentElement).appendChild(lst);
+try { if (document.body) paint(); } catch (e) {}
 var n = 0, t = setInterval(function () { paint(); if (++n > 40) clearInterval(t); }, 250);
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', paint); else paint();
 window.addEventListener('load', paint);
