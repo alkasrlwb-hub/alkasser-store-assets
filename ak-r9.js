@@ -132,7 +132,11 @@
     // 4) شريط الشراء
     var bar = null, src = null, io = null, srcVis = true;
     var WA_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2zm5.8 14.1c-.24.68-1.42 1.3-1.95 1.34-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.11-1.48-1.11-2.82 0-1.34.7-2 .95-2.27.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47.24.56.8 1.94.87 2.08.07.14.12.3.02.48-.09.18-.14.3-.27.46l-.41.48c-.14.13-.28.28-.12.55.16.27.71 1.17 1.52 1.89 1.05.93 1.93 1.22 2.2 1.36.27.13.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.06.11.06.66-.18 1.35z"/></svg>';
+    var vis = function (e) { return !!(e && e.getClientRects().length); };
     var priceNode = function () {
+      // الجولة 10: السعر اللي يتحدّث مع الخيار هو h2.total-price الظاهر في صندوق الشراء (مو سعر .price-rate فوق، هذا ثابت)
+      var c = D.querySelectorAll('#main-content .sticky-product-bar h2.total-price, #main-content h2.total-price');
+      for (var i = 0; i < c.length; i++) if (!c[i].closest('.navbar-details') && vis(c[i])) return c[i];
       return D.querySelector('#main-content .price-rate .with-disc h4, #main-content .price-rate h2, #main-content .sticky-product-bar .total-price h2, #main-content h2.total-price');
     };
     var syncBar = function () {
@@ -195,7 +199,11 @@
       var c = W[world()]; if (c && H.style.getPropertyValue('--ak9-tt') !== c[5]) H.style.setProperty('--ak9-tt', c[5]);
     };
     var q = false, sch = function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; run(); }); };
-    var go = function () { run(); try { new MutationObserver(sch).observe(D.body, { childList: true, subtree: true }); } catch (e) {} };
+    var go = function () {
+      run(); try { new MutationObserver(sch).observe(D.body, { childList: true, subtree: true, characterData: true }); } catch (e) {}
+      // الجولة 10: لما العميل يغيّر الخيار، نعيد قراءة السعر بعد ما سلة تحدّثه
+      D.addEventListener('change', function (ev) { if (ev.target && ev.target.closest && ev.target.closest('salla-product-options')) { setTimeout(sch, 400); setTimeout(sch, 1500); } }, true);
+    };
     if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', go); else go();
     var n = 0, t = setInterval(function () { run(); if (++n > 30) clearInterval(t); }, 400);
   } catch (e) {}
