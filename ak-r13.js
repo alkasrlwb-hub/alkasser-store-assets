@@ -57,7 +57,7 @@
       + P + ' footer.store-footer,' + P + ' footer.store-footer .store-footer__inner,' + P + ' footer.store-footer > div{background:#EEF3F9!important;background-image:none!important;box-shadow:none!important}'
       + M + ' .breadcrumbs,' + M + ' .breadcrumbs :is(a,span,i){color:#55667F!important}'
       // ===== المقال =====
-      + M + ' .blog-single .main-content{background:#FFFFFF!important;border:1px solid #E1E8F2;border-radius:16px!important;padding:20px 16px!important;box-shadow:0 8px 24px -18px rgba(11,26,51,.25)}'
+      + M + ' .blog-single .main-content{background:#FFFFFF!important;border:1px solid #E1E8F2;border-radius:16px!important;padding:18px 14px!important;box-shadow:0 8px 24px -18px rgba(11,26,51,.25)}'
       + '@media(min-width:1024px){' + M + ' .blog-single .main-content{padding:36px 40px!important}}'
       + M + ' .blog-single h1.article-title{font-size:24px!important;line-height:1.5!important;color:#0B1A33!important;font-weight:800!important;margin-bottom:10px!important}'
       + '@media(min-width:1024px){' + M + ' .blog-single h1.article-title{font-size:32px!important}}'
@@ -81,8 +81,8 @@
       + M + ' article.article-body .ak-tw table{width:100%!important;min-width:100%;border-collapse:collapse!important;margin:0!important;font-size:14.5px!important;line-height:1.6!important}'
       + M + ' article.article-body .ak-tw.ak-wide table{width:max-content!important}'
       + M + ' article.article-body .ak-tw :is(td,th){padding:10px 12px!important;border-bottom:1px solid #E1E8F2!important;text-align:start!important;vertical-align:top;font-size:14.5px!important;min-width:84px}'
-      + M + ' article.article-body .ak-tw.ak-wide :is(td,th){max-width:240px}'
-      + M + ' article.article-body .ak-tw tr:first-child :is(td,th),' + M + ' article.article-body .ak-tw thead :is(td,th){background:#EEF3F9!important;color:#0B1A33!important;font-weight:800!important}'
+      + M + ' article.article-body .ak-tw.ak-wide :is(td,th){min-width:112px;max-width:230px}'
+      + M + ' article.article-body .ak-tw :is(thead :is(td,th),th,table:not(:has(thead)) tbody > tr:first-child > td){background:#EEF3F9!important;color:#0B1A33!important;font-weight:800!important}'
       + M + ' article.article-body .ak-tw tr:last-child td{border-bottom:0!important}'
       + M + ' article.article-body .ak-tw tbody tr:nth-child(even) td{background:#FAFCFE}'
       + M + ' article.article-body .ak-tw-hint{display:none;margin:-14px 0 18px;font-size:12.5px!important;color:#55667F!important}'
@@ -114,6 +114,10 @@
       + M + ' .blog-page .post-entry__image img{object-fit:cover}'
       + M + ' .blog-page .blog-slider__slide :is(h3,h3 a,p,span,a,i){color:#FFFFFF!important}'
       + M + ' .blog-page .blog-slider__slide img{object-fit:cover}'
+      // طبقة السلايدر: تدرّج من تحت بدل الرمادي على الصورة كلها
+      + M + ' .blog-page .blog-slider__slide.has-overlay::after{background:linear-gradient(0deg,rgba(0,0,0,.74) 0%,rgba(0,0,0,.42) 42%,rgba(0,0,0,0) 72%)!important;background-color:transparent!important}'
+      + M + ' .blog-page .blog-slider .swiper-pagination-bullet{background:rgba(255,255,255,.7)!important;opacity:1!important}'
+      + M + ' .blog-page .blog-slider .swiper-pagination-bullet-active{background:#22D3EE!important}'
       + M + ' .blog-page .dropdown__trigger,' + M + ' .blog-page .dropdown__trigger *{color:#0E7490!important}'
       + M + ' .blog-page .dropdown__menu{background:#FFFFFF!important;color:#0B1A33!important}'
       // مقالات المراجيح القديمة وتصنيفها: ما تطلع في القوائم
@@ -156,7 +160,7 @@
         }
         // جدول عريض (أعمدة كثيرة): يتمرر أفقياً بدل ما يضغط النص
         var cols = 0, r = t.rows && t.rows[0]; if (r) cols = r.cells.length;
-        var wide = cols >= 4 && w.clientWidth < cols * 110;
+        var wide = cols >= 3 && w.clientWidth < cols * 135;
         w.classList.toggle('ak-wide', wide);
       }
     };
@@ -176,10 +180,53 @@
         put(); hideOld(); digits(); tables(); more();
       } catch (e) {}
     };
-    var n = 0;
-    var tick = function () { run(); if (++n < 30) setTimeout(tick, n < 8 ? 250 : 1000); };
+    var n = 0, mo = null;
+    var watch = function () {
+      // صفحة المدونة تحمّل مقالات زيادة لما تنزل (salla-infinite-scroll): نعيد الإخفاء والأرقام على الجديد
+      if (mo || !window.MutationObserver) return; var mc = document.getElementById('main-content'); if (!mc) return;
+      var q = 0; mo = new MutationObserver(function () { if (q) return; q = setTimeout(function () { q = 0; run(); }, 120); });
+      mo.observe(mc, { childList: true, subtree: true });
+    };
+    var tick = function () { run(); watch(); if (++n < 30) setTimeout(tick, n < 8 ? 250 : 1000); };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tick); else tick();
     window.addEventListener('load', run);
     window.addEventListener('resize', function () { try { tables(); } catch (e) {} });
+  } catch (e) {}
+})();
+/* الجولة 13 (شكوى المالك 20:15): لمس البطاقات والشرائط على الآيفون.
+   السبب: الثيم الأصلي (app.css 47569131 نسخة 1.32.0) يحط على كل بطاقة:
+   - `.s-product-card-entry .s-product-card-content::before` خلفية بنفسجي (#5C02FF → #8f6897) خلف المحتوى مع transition 1 ثانية،
+   - `.s-product-card-entry:hover` ظل أخضر ليموني، و`salla-add-product-button:hover` تدرج ليموني ← بنفسجي.
+   والآيفون يشغّل :hover أول ما الإصبع يلمس البطاقة وهو يسحب، فيطلع اللون ويثقل السحب. ومحركنا كمان يرفع البطاقة ويلوّن إطارها في :hover.
+   الحل: نشيل البنفسجي نهائياً في كل العوالم، وما فيه أي تأثير hover على اللمس، وظل خفيف بس على الكمبيوتر بالماوس.
+   وشرائط المنتجات: بدون تظليل نص ولا وميض لمس، والتمرير ما ينحجز. */
+(function () {
+  try {
+    if (window.__AK_R13T__) return;
+    window.__AK_R13T__ = 1;
+    var P = 'html:not(#ak-t1) body:not(#ak-t2):not(#ak-t3)';
+    var CARD = P + ' .s-product-card-entry';
+    var STRIP = ':is(salla-products-slider,salla-slider.s-products-slider-slider,.s-products-slider-wrapper,.ak-products,.ak-allt,.ak-pkl,.ak-osl,.ak-strip)';
+    var css = ''
+      // البنفسجي حق الثيم: يروح في كل الحالات
+      + CARD + ' .s-product-card-content::before{content:none!important;display:none!important;background:none!important;transition:none!important}'
+      + CARD + ' salla-add-product-button:hover{background:none!important}'
+      + CARD + ',' + CARD + ' .s-product-card-content{background-image:none!important}'
+      // اللمس: بدون وميض، وبدون تظليل نص داخل البطاقات والشرائط، وبدون قائمة الضغط المطوّل على الصور والروابط
+      + P + ' ' + STRIP + ',' + CARD + '{-webkit-user-select:none!important;user-select:none!important;-webkit-tap-highlight-color:transparent!important}'
+      + P + ' ' + STRIP + ' :is(a,img),' + CARD + ' :is(a,img){-webkit-touch-callout:none!important;-webkit-tap-highlight-color:transparent!important;-webkit-user-drag:none}'
+      // الشرائط الأفقية حقنا (مو Swiper): تمرير أصلي ناعم، والسناب «proximity» بدل «mandatory»
+      + P + ' :is(.ak-pkl,.ak-osl,.ak-allt__strip,.ak-allt__nav){touch-action:pan-x pan-y!important;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scroll-snap-type:x proximity!important}'
+      // أجهزة اللمس: ولا أي تأثير hover/active/focus على البطاقة (لا لون ولا ظل ولا حركة ولا تكبير صورة)
+      + '@media (hover:none),(pointer:coarse){'
+      + CARD + ':is(:hover,:active,:focus,:focus-within){box-shadow:none!important;transform:none!important;background-image:none!important}'
+      + P + ' .ak-worlds-root .ak-products .s-product-card-entry:is(:hover,:active,:focus-within){border-color:var(--ak-line)!important;transform:none!important}'
+      + CARD + ':hover .s-product-card-image img,' + CARD + ' .s-product-card-image:hover,' + CARD + ' .s-product-card-image:hover img{transform:none!important;opacity:1!important}'
+      + CARD + ' :is(a,img,.s-product-card-image,.s-product-card-content){transition:none!important}'
+      + '}'
+      // الكمبيوتر بالماوس: ظل خفيف بس (بدل الظل الليموني حق الثيم)
+      + '@media (hover:hover) and (pointer:fine){' + CARD + ':hover{box-shadow:0 6px 18px -10px rgba(11,26,51,.22)!important}}';
+    var st = document.createElement('style'); st.id = 'ak-r13t'; st.textContent = css;
+    (document.head || document.documentElement).appendChild(st);
   } catch (e) {}
 })();
