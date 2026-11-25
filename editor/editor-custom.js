@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
 try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
 var s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@00d9e3bf12e8b544e70b681c6e16bae20cefea1f/alkasser-worlds.js';
+s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@92c83c795b4de0080e9497810a989dec78522c08/alkasser-worlds.js';
 s.async = true;
 (document.head || document.documentElement).appendChild(s);
 } catch (e) {}
@@ -1273,6 +1273,19 @@ var s = document.createElement('span'); s.className = 'ak-h1tail'; s.textContent
 };
 var q = false, sch = function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; fix(); }); };
 var go = function () { fix(); try { new MutationObserver(sch).observe(document.body, { childList: true, subtree: true, characterData: true }); } catch (e) {} };
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+} catch (e) {}
+})();
+/* المرحلة 3 (مراجع الذوق): الفوتر على الجوال (الوصف سطر كامل والروابط عمودين) + الزر العائم يختفي داخل الفوتر + صف كروت الأقسام المكرر ينخفي لما تكون شرائح القسم موجودة + شارة المقاس تحت داخل الصورة بعيد عن القلب */
+(function () {
+try {
+if (window.__AK_P3__) return; window.__AK_P3__ = 1;
+var st = document.createElement('style'); st.id = 'ak-p3';
+st.textContent = '@media(max-width:1023.98px){footer.store-footer .footer-div{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px!important}footer.store-footer .footer-div>*{width:auto!important;max-width:none!important;margin:0!important}footer.store-footer .footer-div>.footer-item:first-child,footer.store-footer .footer-div>.footer-item:nth-child(2){grid-column:1/-1}footer.store-footer .footer-item:first-child .max-w-sm{max-width:none!important}footer.store-footer .s-menu-footer-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}footer.store-footer .s-menu-footer-list>*{min-height:40px;display:flex;align-items:center}footer.store-footer{padding-bottom:88px!important}html[data-ak-foot] .fixed-btm{opacity:0!important;pointer-events:none!important}}' +
+'html:has(nav.ak-chips) salla-slider.sub-categories{display:none!important}' +
+'#main-content .s-product-card-image .ak-szb{inset-block-start:auto!important;inset-block-end:8px!important}';
+(document.head || document.documentElement).appendChild(st);
+var go = function () { var f = document.querySelector('footer.store-footer'); if (!f || !window.IntersectionObserver) return; new IntersectionObserver(function (es) { if (es[0].isIntersecting) document.documentElement.setAttribute('data-ak-foot', '1'); else document.documentElement.removeAttribute('data-ak-foot'); }).observe(f); };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 } catch (e) {}
 })();
