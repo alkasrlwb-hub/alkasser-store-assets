@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
 try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
 var s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@33a668521455173393bf050512b2cb05ae8ce868/alkasser-worlds.js';
+s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@00d9e3bf12e8b544e70b681c6e16bae20cefea1f/alkasser-worlds.js';
 s.async = true;
 (document.head || document.documentElement).appendChild(s);
 } catch (e) {}
@@ -1062,6 +1062,8 @@ return 'tables';
 };
 var V = 'html[data-akpw]';
 var css =
+// المرحلة 3: شرائح الأقسام الفرعية بلون العالم بدل المربعات البيضاء
+V + ' salla-slider.sub-categories .text-parent{background:var(--akp-card)!important;border:1px solid var(--akp-line)!important;box-shadow:none!important}' + V + ' salla-slider.sub-categories .sub-category-item{border-color:var(--akp-line)!important}' + V + ' salla-slider.sub-categories .title{color:#fff!important}' +
 // الشريط الترويجي (مثل «توصيل 30 ساعة بالرياض» و«خصم 40 ريال») وشارة الخصم بلون العالم
 V + ' .details-slider .ribbon,' + V + ' .details-slider .discount{background:var(--akp-acc)!important;color:var(--akp-on)!important;border:0!important;font-weight:800!important}' +
 V + ' .details-slider .ribbon *{color:var(--akp-on)!important;background-color:var(--akp-acc)!important}' +
