@@ -29,6 +29,9 @@
     var F = m && FLOW[m[1]];
     var w = F ? F.w : null;
     var lw = null; try { var qm = /[?&]world=(tables|play|moto)/.exec(location.search); lw = qm ? qm[1] : localStorage.getItem('ak-world'); } catch (e) {}
+    // الجولة 9: أقسام السكوترات الفرعية والدراجات دايم بألوان السكوترات، حتى لو العميل جاي من عالم ثاني أو من قوقل
+    var FORCE = { 726194163: 'moto', 1499711730: 'moto', 85325564: 'moto', 778074738: 'moto', 1679231858: 'moto' };
+    if (!w && m && FORCE[m[1]]) w = FORCE[m[1]];
     if (!w || (m && m[1] === '48135277')) w = PAL[lw] ? lw : (w || 'tables');
     var P = PAL[w];
     var css = ''

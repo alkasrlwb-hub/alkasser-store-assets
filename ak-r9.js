@@ -28,6 +28,10 @@
       // ---- 1) السلة في عالم السكوترات (data-akpw=moto ينحط من المحرر على صفحة السلة)
       + M + '.cart,' + M + '.cart .app-inner,' + M + '.cart #main-content{background:' + MOTO.bg + '!important;background-image:none!important}'
       + M + ' .main-nav-container.top-navbar{border-bottom:2px solid ' + MOTO.acc + '!important}'
+      // صفحات أقسام السكوترات والدراجات: الخلفية فحمي (كانت قاعدة الثيم الكحلي تغلب)
+      + M + '.product-index,' + M + '.product-index .app-inner,' + M + '.product-index #main-content{background:' + MOTO.bg + '!important;background-image:none!important}'
+      // زر «للأعلى» العائم كان أصفر في السكوترات
+      + ':is(html[data-akpw="moto"],html:has(.ak-worlds--moto)) body:not(#ak-x):not(#ak-r9) div.but>*{background:' + MOTO.acc + '!important;background-color:' + MOTO.acc + '!important;color:#fff!important;border-color:' + MOTO.acc + '!important}'
       + M + '.cart #main-content :is(h1,h2,h3,h4,p,span,label,b,strong,small,.title){color:#fff}'
       + M + '.cart #main-content .breadcrumbs :is(a,span,i){color:' + MOTO.sub + '!important}'
       + M + '.cart #main-content :is(.s-button-primary,button.btn--primary,.btn--primary,.cart-submit-wrap .s-button-btn,.akr-empty-cart a.akr-go){background:' + MOTO.acc + '!important;border-color:' + MOTO.acc + '!important;color:#fff!important;background-image:none!important}'
