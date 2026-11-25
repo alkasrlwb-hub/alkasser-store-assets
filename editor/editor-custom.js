@@ -36,7 +36,9 @@ dining: U('/طاولات-وكراسي-الطعام/c428900685'),
 decor: U('/الديكور-وأشجار-الزينة/c2112701251'),
 outdoor: U('/الملاعب-الخارجية/c481125644'),
 football: U('/كرة-القدم-والتدريب/c1119897091'),
-gymfloor: U('/أرضيات-الجيم/c780253807')
+gymfloor: U('/أرضيات-الجيم/c780253807'),
+gardenAll: U('/swings-trampolines-playground/c46021744'),
+floors: U('/الأرضيات/c48135277')
 };
 // عالم «الرياضة»: الطاولات أولًا (منتجاتنا الأساسية)، وبعدها أقسام الرياضة
 var SPORT_ALL = [
@@ -49,12 +51,7 @@ var SPORT_ALL = [
 { key: 'acc', ids: [1863569496, 780253807], title: 'الأدوات والأرضيات', url: C.acc }
 ];
 // المرحلة 2: اللياقة 4 أقسام داخل «رياضة وألعاب» بعد الطاولات (قرار المالك 04:56، الأسماء بالحرف)
-var SPORT = [
-{ key: 'cardio', ids: [1130992222, 955842393], title: 'أجهزة كارديو', url: C.treadmills },
-{ key: 'gym', ids: [490123615, 180690522], title: 'الهوم جيم والأوزان', url: C.gym },
-{ key: 'boxing', ids: [1688354139], title: 'الملاكمة', url: C.boxing },
-{ key: 'outdoor', ids: [481125644, 1119897091], title: 'الملاعب وكرة القدم', url: C.outdoor }
-];
+var SPORT = []; // قرار المالك 25 نوفمبر: الرئيسية أقسام رئيسية بس، والفرعية داخل صفحة القسم
 window.AK_WORLDS_CONFIG = {
 // أرقام الواتساب لكل عالم (المكان الوحيد اللي تتغير منه)
 WA: { tables: '966598060796', play: '966598060796', moto: '966567886993' },
@@ -75,20 +72,19 @@ tables: [
 ]
 },
 data: {
+t_game_urls: [C.billiard, C.q4, C.hockey, C.tennis, C.foos, C.bikes],
 t_size7_url: C.billiard, t_size8_url: C.billiard, t_size9_url: C.billiard, t_all_url: C.tables,
 t_cats: [
-{ title: 'طاولات البلياردو', sub: '7 · 8 · 9 قدم', image: IMG + 'b8_kb.jpg', url: C.billiard },
-{ title: '4 في 1', sub: 'بلياردو، هوكي، تنس، طاولة طعام أو مكتبية', image: IMG + 'q4.jpg', url: C.q4 },
-{ title: 'هوكي', sub: 'عداد أهداف إلكتروني', image: IMG + 'hk.jpg', url: C.hockey },
-{ title: 'تنس طاولة', sub: 'المقاس الدولي · للبيت والمدارس', image: IMG + 'tt.jpg', url: C.tennis },
-{ title: 'فرفيرة', sub: 'صناعة هندية · 3 ألوان', image: IMG + 'fb.jpg', url: C.foos },
-{ title: 'دراجات هوائية', sub: 'للكبار والأطفال · كل المقاسات', image: "https://cdn.files.salla.network/products/112199751/b59777f9-f79a-4853-87ba-16700b1ce186-thumbnail.webp", url: C.bikes, photo: true }
+{ title: 'طاولات الألعاب', sub: 'بلياردو · هوكي · تنس طاولة · فرفيرة · 4 في 1', image: IMG + 't_cat_tables.jpg', url: C.tables, photo: true },
+{ title: 'اللياقة', sub: 'أجهزة كارديو · الهوم جيم والأوزان · الملاكمة', image: IMG + 't_cat_fit.jpg', url: C.fit, photo: true },
+{ title: 'الملاعب وكرة القدم', sub: 'ملاعب خارجية · كرة القدم والتدريب', image: IMG + 't_cat_courts.jpg', url: C.outdoor, photo: true },
+{ title: 'الأرضيات', sub: 'أرضيات الجيم · أرضيات الحدائق والملاعب', image: IMG + 't_cat_floor.jpg', url: C.floors, photo: true }
 ],
 p_small_url: C.garden, p_medium_url: C.garden, p_large_url: C.garden, p_all_url: C.garden,
 p_cats: [
-{ title: 'مراجيح', image: IMG + 'p_swings.jpg', url: C.garden, photo: true },
-{ title: 'ملاعب متكاملة', image: IMG + 'p_playsets.jpg', url: C.garden, photo: true },
-{ title: 'ألعاب الروضة', image: IMG + 'p_kinder.jpg', url: C.kinder, photo: true }
+{ title: 'ألعاب الحدائق', sub: 'مراجيح · ملاعب متكاملة · نطيطات · كراسي توازن', image: IMG + 'p_swings.jpg', url: C.gardenAll, photo: true },
+{ title: 'ألعاب الروضات والمدارس', sub: 'زحاليق وألعاب آمنة للروضات', image: IMG + 'p_kinder.jpg', url: C.kinder, photo: true },
+{ title: 'الأرضيات', sub: 'بلاط مطاطي للحدائق والروضات', image: IMG + 't_cat_floor.jpg', url: C.floors, photo: true }
 ],
 b_bikes_url: C.bikes, b_all_url: C.bikes,
 b_cats: [
@@ -102,11 +98,11 @@ b_cats: [
 m_delivery_url: C.scooters, m_daily_url: C.scooters, m_farm_url: C.cargo, m_all_url: C.moto,
 m_badge: 'سكوترات كهربائية · دبابات · تكتوك · دراجات هوائية',
 m_cats: [
-{ title: 'سكوترات كهربائية', sub: 'DASH · VOXER', image: IMG + 'm_scooter.jpg', url: C.scooters },
-{ title: 'دبابات بنزين', sub: 'VOXER · SWEYD · BOXER', image: IMG + 'm_moto.jpg', url: C.motos },
-{ title: 'دبابات شحن وتكتوك', sub: 'للمزارع والمقاولات', image: IMG + 'm_tri.jpg', url: C.cargo },
-{ title: 'الدراجات الهوائية', sub: 'جبلية · للشباب والكبار', image: "https://cdn.files.salla.network/products/112199751/b59777f9-f79a-4853-87ba-16700b1ce186-thumbnail.webp", url: C.bikes, photo: true },
-{ title: 'دراجات الأطفال', sub: 'مقاس 20 · كوبرا وBritish Eagle', image: "https://cdn.files.salla.network/products/112199751/6aa69088-98dc-4bda-9e8f-1ac0f7fe6ddf-thumbnail.webp", url: C.kbikes, photo: true }
+{ title: 'سكوترات كهربائية', sub: 'DASH · VOXER', image: IMG + 'm_cat_scooter.jpg', url: C.scooters, photo: true },
+{ title: 'دبابات بنزين', sub: 'VOXER · SWEYD · BOXER', image: IMG + 'm_cat_moto.jpg', url: C.motos, photo: true },
+{ title: 'دبابات شحن وتكتوك', sub: 'للمزارع والمقاولات', image: IMG + 'm_cat_cargo.jpg', url: C.cargo, photo: true },
+{ title: 'الدراجات الهوائية', sub: 'جبلية · للشباب والكبار', image: IMG + 'm_cat_bikes.jpg', url: C.bikes, photo: true },
+{ title: 'دراجات الأطفال', sub: 'مقاس 20 · كوبرا و British Eagle', image: IMG + 'm_cat_kbikes.jpg', url: C.kbikes, photo: true }
 ],
 f_cardio_url: C.treadmills, f_easy_url: C.cardio, f_strength_url: C.gym, f_boxing_url: C.boxing, f_all_url: C.fit,
 h_dining_url: C.dining, h_office_url: C.office, h_decor_url: C.decor, h_all_url: C.home,
@@ -639,7 +635,7 @@ document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
 try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
 var s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@1393e7207ea9831d41f9d9c3b49148eecab2c79c/alkasser-worlds.js';
+s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@3bfd1306f3956fe52f82755a48d20e4bda4afd28/alkasser-worlds.js';
 s.async = true;
 (document.head || document.documentElement).appendChild(s);
 } catch (e) {}
