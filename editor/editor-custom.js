@@ -87,7 +87,7 @@ t_cats: [
 ],
 p_small_url: C.garden, p_medium_url: C.garden, p_large_url: C.garden, p_all_url: C.garden,
 p_cats: [
-{ title: 'ألعاب الحدائق', sub: 'مراجيح · ملاعب متكاملة · نطيطات · كراسي توازن', image: IMG + 'p_swings.jpg', url: C.gardenAll, photo: true },
+{ title: 'ألعاب الحدائق', sub: 'مراجيح · ملاعب متكاملة · نطيطات · كراسي توازن', image: 'https://cdn.salla.sa/cdn-cgi/image/fit=scale-down,width=1000,format=auto/xKZow/37b1b5df-08e2-4017-bf01-c5236ff4ad7e-1000x1000-LaREp3N4gsdsOKm4SIMjInX6RNYdYPROmAiczzPk.jpg', url: C.gardenAll, photo: true },
 { title: 'ألعاب الروضات والمدارس', sub: 'زحاليق وألعاب آمنة للروضات', image: IMG + 'p_kinder.jpg', url: C.kinder, photo: true },
 { title: 'نطيطات ترامبولين', sub: 'مقاسات من 8 إلى 14 قدم مع الشبك', image: IMG + 'fl/tramp.webp', url: U('/trampolines/c175080959'), photo: true },
 { title: 'ألعاب صغيرة وتوازن', sub: 'كراسي هزازة ودوّارة وكراسي توازن', image: IMG + 'fl/small.webp', url: C.rocking, photo: true },
@@ -124,7 +124,7 @@ window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
 // الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
-try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@3ad1a22e13f3cd4944f58bb94527551c91b8214c/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@8908a64b81d95fb2462f01104969ee2e92d9ced9/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
