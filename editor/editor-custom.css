@@ -58,3 +58,9 @@ salla-add-product-button button:hover{background:var(--ak-coral)!important;color
 .scroll-to-top{background:var(--ak-yellow)!important;color:var(--ak-navy)!important}
 /* hide duplicate show-all link when a section has its own product rows */
 #ak-worlds-root .ak-ksec:has(.ak-phead) > .ak-kh > small{display:none !important}
+/* الجولة 13 (شكوى المالك 20:21): صفحة التحميل حق الثيم (#parent-loader، صفحة كاملة باللوقو والنقاط) كانت تغطي الصفحة لين يشتغل سكربتها المتأخر (Rocket Loader) + 800ms. نخفيها من أول رسمة. ما فيه كلاس على body يخفي المحتوى، فالصفحة تطلع على طول */
+#parent-loader,.parent-loader{display:none!important}
+/* أول رسمة فاتحة بدل كحلي إعدادات الثيم (#012D53 / #022c40) قبل ما يوصل JS. بدون !important عشان قواعد عالم السكوترات الغامق (JS) تغلبها */
+html,html body{background-color:#F4F7FB}
+html body .main-nav-container.top-navbar,html body .main-nav-container .inner{background-color:#FFFFFF}
+html body .main-nav-container .inner :is(a,button,i,.header-btn){color:#0B1A33}
