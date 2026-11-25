@@ -130,6 +130,9 @@
         for (var k = 0; k < secs.length; k++) io.observe(secs[k]);
       } else { for (var k2 = 0; k2 < secs.length; k2++) load(secs[k2]); }
       load(secs[0]);
+      // الجولة 7: باقي الأقسام تتحمّل وحدة ورا الثانية (لو العميل نزل بسرعة أو استخدم الفلتر ما يلقى قسم فاضي)
+      var seq = 1, nextSec = function () { if (seq >= secs.length) return; load(secs[seq++]); setTimeout(nextSec, 900); };
+      setTimeout(nextSec, 1500);
 
       var topOff = function () {
         var t = 0, hs = document.querySelectorAll('header, .main-nav-container, #ak-wbar, .ak-wbar');

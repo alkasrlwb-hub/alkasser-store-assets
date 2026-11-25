@@ -54,7 +54,16 @@
       + '.akr-empty-cart .akr-main{background:' + AC + ';color:' + ON + '}'
       + '.akr-empty-cart .akr-w{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}'
       + '.akr-empty-cart .akr-w a{min-width:0;font-size:13.5px;padding-block:8px;padding-inline:14px;border:1.5px solid ' + LN + ';color:' + F + ';background:' + S + '}'
-      + '.cart-sec .no-content-placeholder>a.btn{display:none!important}';
+      + '.cart-sec .no-content-placeholder>a.btn{display:none!important}'
+      // بطاقة «عندك أطفال؟» في العالم الفاتح: العنوان كان أبيض على فاتح
+      + 'html[data-aklight] .ak-worlds-root .ak-other b{color:var(--l-fg)!important}'
+      // بطاقات المنتجات على الكمبيوتر: الصورة مربعة وكبيرة، بدون فراغ بين السعر والزر
+      + '@media (min-width:640px){body:not(#ak-x) #main-content .s-product-card-entry .s-product-card-image{flex:0 0 auto!important;aspect-ratio:1/1!important;height:auto!important}'
+      + 'body:not(#ak-x) #main-content .s-product-card-entry .s-product-card-image>a{height:100%!important}'
+      + 'body:not(#ak-x) #main-content .s-product-card-entry .s-product-card-content{flex:1 1 auto!important}'
+      + 'body:not(#ak-x) #main-content .s-product-card-entry .s-product-card-content-sub{margin-top:6px!important}'
+      + 'body:not(#ak-x) #main-content .s-product-card-entry .s-product-card-content-footer{margin-top:auto!important;padding-top:10px}}'
+      + '.akr-nonum{display:none!important}';
     var st = D.createElement('style'); st.id = 'akr-style'; st.textContent = css;
     (D.head || html).appendChild(st);
 
@@ -118,7 +127,7 @@
 
     // ---------- 4) الترتيب والفلتر في صفحات الأقسام ----------
     var state = { sort: 0, price: 0, size: 0 };
-    var PRICE = [['الكل', 0, 1e9], ['أقل من 1000', 0, 999.99], ['1000 – 2500', 1000, 2500], ['فوق 2500', 2500.01, 1e9]];
+    var PRICE = [['الكل', 0, 1e9], ['أقل من 1000', 0, 999.99], ['من 1000 إلى 2500', 1000, 2500], ['فوق 2500', 2500.01, 1e9]];
     var SORT = ['الأنسب', 'الأقل سعر', 'الأعلى سعر'];
     var sizes = [];
     var priceOf = function (card) {
@@ -205,7 +214,7 @@
       if (!D.body || !D.body.classList.contains('product-single')) return true;
       if (D.querySelector('.akr-cod')) return true;
       var p = null, ps = D.querySelectorAll('#main-content .price-timer-rate, #main-content .price-rate');
-      for (var i = 0; i < ps.length; i++) { if (ps[i].getBoundingClientRect().height > 0 && !ps[i].closest('.sticky-product-bar, [class*="sticky"]')) { p = ps[i]; break; } }
+      for (var i = 0; i < ps.length; i++) { var stk = ps[i].closest('[class*="sticky"]'); if (ps[i].getBoundingClientRect().height > 0 && (!stk || stk === D.body || stk === html)) { p = ps[i]; break; } }
       if (!p) return false;
       var el = D.createElement('div'); el.className = 'akr-cod';
       el.innerHTML = ICON_CASH + '<div><b>الدفع عند الاستلام متاح في الرياض وجدة</b><small>باقي المدن: الدفع أونلاين (مدى، Apple Pay، تابي، تمارا)</small></div>';
@@ -230,7 +239,19 @@
     };
 
     // ---------- التشغيل ----------
+    // أرقام الأقسام (05 · …) انشالت بقرار سابق، وبقى رقم في قسم الكوفيهات
+    var noNums = function () {
+      var sp = D.querySelectorAll('.ak-worlds-root .ak-ksec span:not(.akr-nonum)');
+      for (var i = 0; i < sp.length; i++) {
+        var e = sp[i];
+        if (e.children.length || !/^\s*\d{2}\s*$/.test(e.textContent)) continue;
+        e.classList.add('akr-nonum');
+        var n = e.nextSibling;
+        if (n && n.nodeType === 3) n.textContent = n.textContent.replace(/^\s*[·•\-–]\s*/, '');
+      }
+    };
     var sweep = function () {
+      noNums();
       var im = D.querySelectorAll('.s-product-card-entry img:not([data-akr])');
       for (var i = 0; i < im.length; i++) slimImg(im[i]);
       var cs = D.querySelectorAll('.s-product-card-entry:not([data-akrv])');
