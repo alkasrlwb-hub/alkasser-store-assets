@@ -123,13 +123,13 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9 + r10 من الجولة 10 + r11 من الجولة 11 + r12 من الجولة 12) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
-try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@e8aa5078ce6c1cb5b173386242155a3c748d1796/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
+// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9 + r10 من الجولة 10 + r11 من الجولة 11 + r12 من الجولة 12 + r13 من الجولة 13) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@ecbac1b5bc500b0032d36c67e863f17783fff237/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
 // المرحلة 2 (قرار المالك 04:56): أقسام اللياقة انفتحت داخل «رياضة وألعاب»، فطلعت من قائمة الإخفاء
-var HIDEID = /\/c(99902540|1338663500|428900685|2112701251|1640674614|1448847542|1165578940|1945475206|1340798385)(\D|$)|\/blog(\/|$)/;
+var HIDEID = /\/c(99902540|1338663500|428900685|2112701251|1640674614|1448847542|1165578940|1945475206|1340798385)(\D|$)|\/blog\/(.*\/)?(a-(2053465897|390577443|1589187168|864286245|299892494)|c-1807461238)(\D|$)/;
 // الأقسام المخفية لو أحد دخلها برابط مباشر يرجع للرئيسية
 try { if (HIDEID.test(decodeURIComponent(location.pathname))) location.replace(pre + '/' + (location.search.indexOf('preview') > -1 ? '?preview=true' : '')); } catch (e) {}
 var st = document.createElement('style');
@@ -167,7 +167,7 @@ css += 'footer.store-footer .footer-item:has(> salla-contacts),footer.store-foot
 'html body:not(.index):not(.product-index) #main-content .s-product-card-entry{color:#0E2A47}' +
 'html body:not(.index):not(.product-index) #main-content .s-product-card-entry .s-product-card-sale-price h4{color:#E11D48!important}' +
 'html body:not(.index) #main-content .cart-item .title a{color:#fff!important}' +
-'html body[class*="blog-"] #main-content a.py-3{color:#DCE6F5!important}' +
+'html body[class*="blog-"] #main-content a.py-3{color:#24375A!important}' +
 'html body:not(.index) #main-content .no-content-placeholder p{color:#DCE6F5!important}html body:not(.index) #main-content .no-content-placeholder .btn--outline-primary{color:#22D3EE!important;border-color:#22D3EE!important}' +
 'body.product-single #main-content :is(.s-metadata-box,.s-tabs-content-wrapper){color:#0E2A47}' +
 'body.product-single #main-content .s-tabs-content-wrapper{background:#fff;border-radius:16px;padding:10px 8px;margin-top:10px}' +
@@ -826,6 +826,8 @@ var msg = w === 'moto' ? 'السلام عليكم، عندي سؤال عن ال�
 h += '<a class="akd-wa" target="_blank" rel="noopener" href="https://wa.me/' + W[w].wa + '?text=' + encodeURIComponent(msg) + '">' + WAI + '<span>كلّمنا على الواتساب</span></a>';
 if (w === 'play') h += '<div class="akd-note">تواصل معنا للتأكد من توفر المنتج</div>';
 h += '<div class="akd-ls">';
+// الجولة 13: رابط المقالات في عالم الطاولات بس (تصنيف «طاولات الألعاب» في المدونة)
+if (w === 'tables') h += '<a class="akd-l" href="' + esc(pre + '/blog/طاولات-الألعاب/c-1252041592') + '">مقالات تهمك</a>';
 for (var k = 0; k < LINKS.length; k++) h += '<a class="akd-l" href="' + esc(page(LINKS[k][1])) + '">' + esc(LINKS[k][0]) + '</a>';
 h += '</div><button type="button" class="akd-acc"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>حسابي</span></button>';
 return h;
@@ -1059,6 +1061,8 @@ var b = document.body; if (!b) return null;
 var one = b.classList.contains('product-single'), idx = b.classList.contains('product-index');
 // الجولة 9: السلة تاخذ ألوان السكوترات لو العميل جاي من عالم السكوترات (العالمين الفاتحين يمشون من ak-light)
 if (b.classList.contains('cart')) { var cw = ''; try { cw = localStorage.getItem('ak-world') || ''; } catch (e) {} return cw === 'moto' ? 'moto' : null; }
+// الجولة 13: المدونة بشكل عالم الطاولات الفاتح
+if (/blog-(index|single)/.test(b.className) || /\/blog(\/|$)/.test(location.pathname)) return 'tables';
 if (!one && !idx) return null;
 var m = document.querySelector('meta[property="product:category"]');
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
