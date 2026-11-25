@@ -27,7 +27,7 @@
       + MW + ' .s-add-product-toast__actions button.s-button-outline{background:transparent!important;border-color:' + INK + '!important;color:#fff!important}'
       + MW + ' .s-add-product-toast__actions button.s-button-outline *{color:#fff!important}'
       // ---- 2) إخفاء المنتجين (صفحات الأقسام، و«منتجات مشابهه» داخل صفحة المنتج)
-      + HIDE.map(function (id) { return 'body.product-index #main-content ' + cardSel(id) + ',body.product-single salla-products-slider .swiper-slide:has(a[href$="/p' + id + '"])'; }).join(',') + '{display:none!important}'
+      + HIDE.map(function (id) { return 'body.product-index:not(#ak-x):not(#ak-r9):not(#ak-r10) #main-content ' + cardSel(id) + ',body.product-single:not(#ak-x):not(#ak-r10) salla-products-slider .swiper-slide:has(a[href$="/p' + id + '"])'; }).join(',') + '{display:none!important}'
       // ---- 3) واتساب واحد في المراجيح
       + '@media (max-width:1023.98px){html[data-ak-buy][data-ak-buywa]:not([data-ak-foot]) body .fixed-btm{display:none!important}}';
     var st = D.createElement('style'); st.id = 'ak-r10'; st.textContent = css;
