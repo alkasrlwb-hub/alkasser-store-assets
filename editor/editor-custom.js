@@ -57,18 +57,15 @@ window.AK_WORLDS_CONFIG = {
 WA: { tables: '966598060796', play: '966598060796', moto: '966567886993' },
 imgBase: BASE + '/img',
 products: {
+// الجولة 7: صف واحد لكل عالم في الرئيسية (طلب تقصير الرئيسية والتحميل أسرع)
 moto: [
-{ source: 'categories', value: [726194163], title: 'السكوترات الكهربائية', layout: 'slider', limit: 8, allUrl: C.scooters },
-{ source: 'categories', value: [1499711730], title: 'دبابات البنزين', layout: 'slider', limit: 8, allUrl: C.motos },
-{ source: 'categories', value: [85325564], title: 'دبابات الشحن والتكتوك', layout: 'slider', limit: 8, allUrl: C.cargo },
-{ source: 'categories', value: [778074738, 1679231858, 1340798385], title: 'الدراجات الهوائية · للكبار والأطفال', layout: 'slider', limit: 12, allUrl: C.bikes }
+{ source: 'categories', value: [726194163, 1499711730, 85325564], title: 'سكوترات ودبابات', layout: 'slider', limit: 10, allUrl: C.moto }
+],
+play: [
+{ source: 'categories', value: [1721936584, 1677012877, 427559449], title: 'مراجيح وألعاب حدائق', layout: 'slider', limit: 10, allUrl: C.gardenAll }
 ],
 tables: [
-{ source: 'categories', value: [529136902], title: 'طاولة 4 في 1', layout: 'slider', limit: 4, allUrl: C.q4 },
-{ source: 'categories', value: [993213184], title: 'طاولات البلياردو · 7 و8 و9 قدم', layout: 'slider', limit: 12, allUrl: C.billiard },
-{ source: 'categories', value: [353917441], title: 'طاولات الهوكي', layout: 'slider', limit: 4, allUrl: C.hockey },
-{ source: 'categories', value: [1303174661], title: 'طاولات تنس الطاولة', layout: 'slider', limit: 4, allUrl: C.tennis },
-{ source: 'categories', value: [1767250951], title: 'طاولات الفرفيرة', layout: 'slider', limit: 4, allUrl: C.foos }
+{ source: 'categories', value: [993213184, 529136902, 353917441, 1303174661, 1767250951], title: 'الأكثر طلباً', layout: 'slider', limit: 10, allUrl: C.tables }
 ]
 },
 data: {
@@ -116,7 +113,7 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-try { ['ak-catflow.js', 'ak-light.js'].forEach(function (f) { var x = document.createElement('script'); x.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@933dcf27184580718df83d10b773b50bf38f00ed/' + f; x.async = true; (document.head || document.documentElement).appendChild(x); }); } catch (e) {}
+try { ['ak-catflow.js', 'ak-light.js', 'ak-r7.js'].forEach(function (f) { var x = document.createElement('script'); x.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@021cd0f399a5eb08d665b9ddda953f332c46a7af/' + f; x.async = true; (document.head || document.documentElement).appendChild(x); }); } catch (e) {}
 try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@0cdb305/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
