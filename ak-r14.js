@@ -10,8 +10,8 @@
     var IDS = ['233452067', '1263427645', '31102471', '238222090', '2102502672', '1618439966', '1760080993', '101823298', '284867402'];
     if (!IDS.length) return;
     var D = document;
-    var RX = new RegExp('/p(' + IDS.join('|') + ')(?:[/?#]|$)');
-    var has = function (id) { return 'a[href$="/p' + id + '"],a[href*="/p' + id + '?"],a[href*="/p' + id + '#"]'; };
+    var RX = new RegExp('/p(' + IDS.join('|') + ')(?:[/?#\\s]|$)'); // سلة أحياناً تحط مسافة آخر الرابط
+    var has = function (id) { return 'a[href$="/p' + id + '"],a[href$="/p' + id + ' "],a[href*="/p' + id + '?"],a[href*="/p' + id + '#"]'; };
     var sel = [];
     IDS.forEach(function (id) {
       var a = has(id);
