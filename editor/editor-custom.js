@@ -1327,3 +1327,34 @@ var go = function () { var f = document.querySelector('footer.store-footer'); if
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 } catch (e) {}
 })();
+/* الجولة 14 (شكوى المالك 22:11): نافذة «خيارات الطلب» (اشترِ الآن / Apple Pay) — سؤال الدور كان بدون عنوان ظاهر لأن قواعد R10 (صفحة المنتج الغامقة) تلوّن العنوان أبيض والقائمة كحلي، والوصف ينقص داخل القائمة. هنا: عنوان غامق، سطر الشرح تحته كامل، قائمة فاتحة، ونص القائمة الفاضي قصير */
+(function () {
+try {
+if (window.__AK_R14__) return; window.__AK_R14__ = 1;
+var M = 'html body .s-order-options-modal-fields.s-order-options-modal-fields.s-order-options-modal-fields ';
+var st = document.createElement('style'); st.id = 'ak-r14';
+st.textContent =
+M + '.s-product-options-option-label{display:block!important;width:100%!important;margin:0 0 10px!important;color:#0B1A33!important;text-align:start}' +
+M + '.s-product-options-option-label b{display:block!important;color:#0B1A33!important;font-size:15px!important;font-weight:800!important;line-height:1.5!important}' +
+M + '.s-product-options-option-label b span{color:#E11D48!important}' +
+M + '.s-product-options-option-label small{display:block!important;margin:4px 0 0!important;color:#4A5B78!important;font-size:12.5px!important;font-weight:500!important;line-height:1.6!important;white-space:normal!important;overflow:visible!important}' +
+M + '.s-product-options-option select.s-form-control{width:100%!important;max-width:100%!important;height:48px!important;background-color:#FFFFFF!important;color:#0B1A33!important;border:1.5px solid #C9D6EA!important;border-radius:12px!important;font-size:15px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;padding-inline-start:12px!important;padding-inline-end:34px!important}' +
+M + '.s-product-options-option select.s-form-control:focus{border-color:#0EA5E9!important;outline:0!important;box-shadow:0 0 0 3px rgba(14,165,233,.18)!important}' +
+M + '.s-product-options-option select.s-form-control option{color:#0B1A33;background:#fff}';
+(document.head || document.documentElement).appendChild(st);
+var PH = 'اختر الدور';
+var fix = function () {
+var ss = document.querySelectorAll('.s-order-options-modal-fields select');
+for (var i = 0; i < ss.length; i++) {
+var s = ss[i], box = s.closest('.s-product-options-option'), lb = box && box.querySelector('.s-product-options-option-label b');
+if (!lb || lb.textContent.indexOf('دور') < 0) continue;
+var o = s.options[0];
+if (o && o.value === '' && o.textContent !== PH) o.textContent = PH;
+}
+};
+var q = 0;
+var mo = new MutationObserver(function () { if (q) return; q = 1; requestAnimationFrame(function () { q = 0; fix(); }); });
+var start = function () { if (document.body) { mo.observe(document.body, { childList: true, subtree: true }); fix(); } };
+if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
+} catch (e) {}
+})();
