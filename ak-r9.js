@@ -148,7 +148,9 @@
     };
     var buildBar = function () {
       var b = D.body; if (!b || !b.classList.contains('product-single')) return;
-      var s = D.querySelector('#main-content .sticky-product-bar salla-add-product-button');
+      // الزر الأصلي في صندوق الشراء (مو اللي داخل .navbar-details المخفي)
+      var all = D.querySelectorAll('#main-content .sticky-product-bar salla-add-product-button'), s = null;
+      for (var k = 0; k < all.length && !s; k++) if (!all[k].closest('.navbar-details')) s = all[k];
       if (!s) return;
       var w = world(), c = W[w] || W.tables;
       if (!bar) {
