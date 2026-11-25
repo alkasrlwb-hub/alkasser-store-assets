@@ -81,6 +81,8 @@ p_small_url: C.garden, p_medium_url: C.garden, p_large_url: C.garden, p_all_url:
 p_cats: [
 { title: 'ألعاب الحدائق', sub: 'مراجيح · ملاعب متكاملة · نطيطات · كراسي توازن', image: IMG + 'p_swings.jpg', url: C.gardenAll, photo: true },
 { title: 'ألعاب الروضات والمدارس', sub: 'زحاليق وألعاب آمنة للروضات', image: IMG + 'p_kinder.jpg', url: C.kinder, photo: true },
+{ title: 'نطيطات ترامبولين', sub: 'مقاسات من 8 إلى 14 قدم مع الشبك', image: IMG + 'fl/tramp.webp', url: U('/trampolines/c175080959'), photo: true },
+{ title: 'ألعاب صغيرة وتوازن', sub: 'كراسي هزازة ودوّارة وكراسي توازن', image: IMG + 'fl/small.webp', url: C.rocking, photo: true },
 { title: 'الأرضيات', sub: 'بلاط مطاطي للحدائق والروضات', image: IMG + 't_cat_floor.jpg', url: C.floors, photo: true }
 ],
 b_bikes_url: C.bikes, b_all_url: C.bikes,
