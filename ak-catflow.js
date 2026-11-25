@@ -9,13 +9,15 @@
       moto: ['#0D0E10', '#15161A', '#2A2C31', '#3D4047', '#D0D3D9', '#9A9FA8', '#E11D2E', '#FFFFFF', '#FFFFFF', '#FF5A66']
     };
     // رقم القسم الرئيسي: العالم + الفروع [عنوان، [أرقام التصنيفات]]
+    var IB = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@main/img/fl/', CB = 'https://alkasser.netlify.app/ban/';
+    // رقم القسم الرئيسي: العالم + الفروع [عنوان، [أرقام التصنيفات]، صورة الفرع (جيمنج)]
     var FLOW = {
-      428244369: { w: 'tables', s: [['بلياردو', [993213184]], ['هوكي', [353917441]], ['تنس طاولة', [1303174661]], ['فرفيرة', [1767250951]], ['4 في 1', [529136902]]] },
-      1473413965: { w: 'tables', s: [['أجهزة كارديو', [1130992222, 955842393]], ['الهوم جيم والأوزان', [490123615, 180690522, 1863569496]], ['الملاكمة', [1688354139]]] },
-      481125644: { w: 'tables', s: [['الملاعب الخارجية', [481125644]], ['كرة القدم والتدريب', [1119897091]], ['التنس والمضارب', [2055314181]]] },
-      48135277: { w: 'tables', s: [['أرضيات الجيم', [780253807]], ['أرضيات الحدائق والملاعب', [2020530536]]] },
-      46021744: { w: 'play', s: [['مراجيح', [1376791097]], ['ألعاب حدائق كبيرة', [1721936584]], ['نطيطات ترامبولين', [175080959]], ['زحاليق', [1121609936]], ['كراسي التوازن', [1160136731]], ['كراسي دوارة', [1248444183]], ['كراسي هزازة', [427559449]], ['أرضيات الحدائق', [2020530536]]] },
-      1599672881: { w: 'moto', s: [['سكوترات كهربائية', [726194163]], ['دبابات بنزين', [1499711730]], ['دبابات شحن وتكتوك', [85325564]]] }
+      428244369: { w: 'tables', s: [['بلياردو', [993213184], CB + 'ak_bil.webp'], ['هوكي', [353917441], CB + 'ak_t_hk.webp'], ['تنس طاولة', [1303174661], CB + 'ak_t_tt.webp'], ['فرفيرة', [1767250951], CB + 'ak_t_fb.webp'], ['4 في 1', [529136902], IB + 'q4.webp']] },
+      1473413965: { w: 'tables', s: [['أجهزة كارديو', [1130992222, 955842393], IB + 'cardio.webp'], ['الهوم جيم والأوزان', [490123615, 180690522, 1863569496], IB + 'gym.webp'], ['الملاكمة', [1688354139], IB + 'boxing.webp']] },
+      481125644: { w: 'tables', s: [['الملاعب الخارجية', [481125644], IB + 'courts.webp'], ['كرة القدم والتدريب', [1119897091]], ['التنس والمضارب', [2055314181]]] },
+      48135277: { w: 'tables', s: [['أرضيات الجيم', [780253807], IB + 'floor.webp'], ['أرضيات الحدائق والملاعب', [2020530536]]] },
+      46021744: { w: 'play', s: [['مراجيح', [1376791097], IB + 'swings.webp'], ['ألعاب حدائق كبيرة', [1721936584], IB + 'playsets.webp'], ['نطيطات ترامبولين', [175080959], IB + 'tramp.webp'], ['زحاليق', [1121609936], IB + 'slides.webp'], ['كراسي التوازن', [1160136731], IB + 'small.webp'], ['كراسي دوارة', [1248444183]], ['كراسي هزازة', [427559449]], ['أرضيات الحدائق', [2020530536]]] },
+      1599672881: { w: 'moto', s: [['سكوترات كهربائية', [726194163], IB + 'scooters.webp'], ['دبابات بنزين', [1499711730], IB + 'petrol.webp'], ['دبابات شحن وتكتوك', [85325564], IB + 'cargo.webp']] }
     };
     var LIMIT = 12;
     var m = /\/c(\d+)\/?$/.exec(decodeURIComponent(location.pathname));
@@ -35,6 +37,7 @@
       + '#ak-flow .akf-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:4px 0 12px}'
       + 'body:not(#ak-x) #ak-flow .akf-h h2{margin:0;font-size:20px;font-weight:900;color:var(--f-fg)!important;border-inline-start:4px solid var(--f-acc);padding-inline-start:10px;line-height:1.3}'
       + '#ak-flow .akf-all{font-size:13px;font-weight:800;color:var(--f-price)!important;text-decoration:none;white-space:nowrap}'
+      + '#ak-flow .akf-ban{display:block;width:100%;aspect-ratio:16/6;object-fit:cover;border-radius:14px;margin:0 0 12px;background:var(--f-card)}'
       + '#ak-flow .akf-ph{min-height:320px;border-radius:14px;background:var(--f-card);opacity:.5}'
       + '#ak-flow .akf-more{display:flex;justify-content:center;margin:12px 0 0}'
       + '#ak-flow .akf-more a{display:inline-flex;align-items:center;min-height:42px;padding:0 22px;border-radius:10px;border:1px solid var(--f-line2);color:var(--f-fg)!important;font-weight:800;font-size:13px;text-decoration:none}'
@@ -93,6 +96,7 @@
         var h = document.createElement('div'); h.className = 'akf-h';
         var h2 = document.createElement('h2'); h2.textContent = s[0]; h.appendChild(h2);
         sec.appendChild(h);
+        if (s[2]) { var bi = document.createElement('img'); bi.className = 'akf-ban'; bi.src = s[2]; bi.alt = s[0]; bi.loading = i ? 'lazy' : 'eager'; bi.decoding = 'async'; bi.onerror = function () { this.remove(); }; sec.appendChild(bi); }
         var ph = document.createElement('div'); ph.className = 'akf-ph'; sec.appendChild(ph);
         root.appendChild(sec);
       });
