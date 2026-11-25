@@ -8,7 +8,8 @@
     if (window.__AK_R10B__) return;
     window.__AK_R10B__ = 1;
     var D = document, H = D.documentElement;
-    var HIDE = ['112765573', '1498445893'];
+    // الجولة 12: صورهم صارت نظيفة، فرجعوا يطلعون (كانت ['112765573', '1498445893'])
+    var HIDE = [];
     var MW = ':is(html[data-akpw="moto"],html:has(.ak-worlds--moto)) body:not(#ak-x):not(#ak-r10b) salla-add-product-toast.s-add-product-toast';
     var A = '#E11D2E', BG = '#15161A', LN = '#2A2C31', INK = '#D0D3D9', SUB = '#9A9FA8';
     var cardSel = function (id) { return 'custom-salla-product-card:has(a[href$="/p' + id + '"])'; };
@@ -28,7 +29,7 @@
       + MW + ' .s-add-product-toast__actions button.s-button-outline{background:transparent!important;border-color:' + INK + '!important;color:#fff!important}'
       + MW + ' .s-add-product-toast__actions button.s-button-outline *{color:#fff!important}'
       // ---- 2) إخفاء المنتجين (صفحات الأقسام، و«منتجات مشابهه» داخل صفحة المنتج)
-      + HIDE.map(function (id) { return 'body.product-index:not(#ak-x):not(#ak-r9):not(#ak-r10b) #main-content ' + cardSel(id) + ',body.product-single:not(#ak-x):not(#ak-r10b) salla-products-slider .swiper-slide:has(a[href$="/p' + id + '"])'; }).join(',') + '{display:none!important}'
+      + (HIDE.length ? HIDE.map(function (id) { return 'body.product-index:not(#ak-x):not(#ak-r9):not(#ak-r10b) #main-content ' + cardSel(id) + ',body.product-single:not(#ak-x):not(#ak-r10b) salla-products-slider .swiper-slide:has(a[href$="/p' + id + '"])'; }).join(',') + '{display:none!important}' : '')
       // ---- 3) واتساب واحد في المراجيح
       + '@media (max-width:1023.98px){html[data-ak-buy][data-ak-buywa]:not([data-ak-foot]) body .fixed-btm{display:none!important}}';
     var st = D.createElement('style'); st.id = 'ak-r10b'; st.textContent = css;

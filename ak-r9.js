@@ -20,7 +20,8 @@
       play: ['#FFFBF2', '#E2D3B0', '#0B2620', '#F2C94C', '#1F1A05', '#1E4A3E'],
       moto: [MOTO.bar, MOTO.line, '#FFFFFF', MOTO.acc, '#FFFFFF', MOTO.acc]
     };
-    var HIDE_HOME = ['112765573', '1498445893'];
+    // الجولة 12: صورهم صارت نظيفة فرجعوا يطلعون في رئيسية المراجيح (كانت ['112765573', '1498445893'])
+    var HIDE_HOME = [];
     var M = 'html[data-akpw="moto"] body:not(#ak-x):not(#ak-r9)';
     var P = M + '.product-single';
     var L = 'html[data-aklight] body:not(#ak-x):not(#ak-r9)';
@@ -67,8 +68,7 @@
       + 'body.product-single .product-tags{display:none!important}'
       // ---- 9) عدّاد البنر
       + '.ak-worlds-root .ak-slide__n{display:none!important}'
-      // ---- 3) رئيسية المراجيح: احتياط لو المنتج انرسم قبل ما يتشال
-      + '.ak-worlds--play .swiper-slide:has(a[href$="/p112765573"]),.ak-worlds--play .swiper-slide:has(a[href$="/p1498445893"]){display:none!important}'
+      // ---- 3) (الجولة 12) انشال إخفاء 112765573 و1498445893 من رئيسية المراجيح
       // ---- 6) صفحات الأقسام: الصورة مربعة بنفس الارتفاع (contain بدون قص) والبطاقات بنفس الطول
       + 'body.product-index:not(#ak-x):not(#ak-r9) #main-content .s-product-card-entry{height:100%!important;display:flex!important;flex-direction:column!important}'
       + 'body.product-index:not(#ak-x):not(#ak-r9) #main-content .s-product-card-entry .s-product-card-image{flex:0 0 auto!important;width:100%!important;aspect-ratio:1/1!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important;background:#FFFFFF!important}'
