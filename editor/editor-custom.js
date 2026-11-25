@@ -123,8 +123,8 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9 + r10 من الجولة 10) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
-try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@feab8696a4ebcd8eb96636ce13a10a0f784c295d/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
+// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9 + r10 من الجولة 10 + r11 من الجولة 11) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@b4b69d763643da0e10ac38f8817143d1ebe66646/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
@@ -355,6 +355,8 @@ if (/طعام|كراسي|مكتب/.test(tx)) return false;
 return /طاولات الألعاب|طاولة ألعاب/.test(tx);
 };
 var akPrice = function () {
+// الجولة 11: لو العميل غيّر الخيار، ak-r11.js يحط سعر الحبة الجديد هنا
+if (window.__AK_LIVE_PRICE__ > 0) return window.__AK_LIVE_PRICE__;
 try {
 var ld = document.querySelectorAll('script[type="application/ld+json"]');
 for (var q = 0; q < ld.length; q++) { var m = /"price"\s*:\s*"?([0-9.]+)/.exec(ld[q].textContent); if (m) return parseFloat(m[1]); }
@@ -393,7 +395,8 @@ WSPEC.e = 'ضمان ' + WSPEC.e; WSPEC.p = 'ضمان ' + WSPEC.p;
 var shipBox = function () {
 try {
 var b = document.body; if (!b || !b.classList.contains('product-single')) return;
-if (document.getElementById('ak-ship')) return;
+// الجولة 11: المربع يتبني من جديد (في نفس مكانه) لو السعر تغيّر مع الخيار، لأن نصه يعتمد على 500 و1000 و2000
+var old = document.getElementById('ak-ship'); if (old && old.getAttribute('data-p') === String(akPrice())) return;
 var kind = akKind(); if (!kind) return;
 var f = document.querySelector('form.product-form'); if (!f) return;
 var an = document.querySelector('salla-installment, .salla-installment') || f;
@@ -423,10 +426,11 @@ body = row('الرياض', RIY) + row('جدة', 'توصيل مجاني خلال 
 body = row('الرياض', RIY) + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('القصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('التركيب في جدة والدمام والقصيم', 'مجاني إذا كانت سلتك 2000 ريال أو أكثر بعد الخصم، وإلا يوصلك بكرتونه أو نركّبه لك بـ150 ريال') + OUT;
 }
 }
-var d = document.createElement('div'); d.id = 'ak-ship'; d.setAttribute('data-kind', kind);
+var d = document.createElement('div'); d.id = 'ak-ship'; d.setAttribute('data-kind', kind); d.setAttribute('data-p', String(price));
 d.setAttribute('style', 'margin:14px 0 16px;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#0B2350,#06101F);border:2px solid #22D3EE;box-shadow:0 0 22px rgba(34,211,238,.25);color:#fff;text-align:start');
 d.innerHTML = '<div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;line-height:1.4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><span>توصيل <span style="color:#FACC15">مجاني</span> للرياض وجدة والدمام والقصيم</span></div>' + body;
 if (small) { d.innerHTML = d.innerHTML.replace(/توصيل مجاني/g, 'توصيل').replace('توصيل <span style="color:#FACC15">مجاني</span> للرياض', 'توصيل للرياض') + note('التوصيل مجاني إذا وصلت سلتك 500 ريال أو أكثر، وأقل من كذا رسومه 30 ريال'); }
+if (old) { old.setAttribute('data-kind', kind); old.setAttribute('data-p', String(price)); if (old.innerHTML !== d.innerHTML) old.innerHTML = d.innerHTML; return; }
 an.parentNode.insertBefore(d, an);
 } catch (e) {}
 };
