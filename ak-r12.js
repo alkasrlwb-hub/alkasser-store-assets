@@ -33,7 +33,11 @@
       + X + ' .ak-allt__strip{display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;container-type:inline-size;min-height:300px}'
       + X + ' .ak-allt__strip::-webkit-scrollbar{display:none}'
       + X + ' .ak-allt__strip.is-done{min-height:0}'
-      + X + ' .ak-allt__l{flex:none;display:block;max-width:none!important;min-width:0}'
+      + X + ' .ak-allt__strip{align-items:stretch}'
+      // كل القوائم بنفس طول أطول بطاقة، فكل البطاقات في الشريط نفس الارتفاع
+      + X + ' .ak-allt__l{flex:none;display:flex!important;flex-direction:column;max-width:none!important;min-width:0}'
+      + X + ' .ak-allt__l .s-products-list-wrapper{flex:1 1 auto;height:auto!important;align-content:stretch}'
+      + X + ' .ak-allt__l .s-products-list-wrapper>*{height:100%!important}'
       + X + ' .ak-allt__l .s-products-list-wrapper,' + X + ' .ak-allt__l salla-products-list>div:not([class]){display:grid!important;grid-template-columns:none!important;grid-auto-flow:column!important;grid-auto-columns:calc(50cqw - 18px)!important;align-items:stretch;gap:10px!important;width:auto!important;max-width:none!important;overflow:visible!important;padding:0!important;margin:0!important}'
       + '@media(min-width:760px){' + X + ' .ak-allt__l .s-products-list-wrapper{grid-auto-columns:calc(33.333cqw - 8px)!important}}'
       + '@media(min-width:1024px){' + X + ' .ak-allt__l .s-products-list-wrapper{grid-auto-columns:calc(25cqw - 9px)!important;gap:12px!important}' + X + ' .ak-allt__strip{gap:12px}}'
