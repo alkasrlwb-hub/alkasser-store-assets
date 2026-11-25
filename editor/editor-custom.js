@@ -402,7 +402,7 @@ var OUT = row('باقي المدن', 'كلّمنا قبل الطلب نتأكد 
 var RIY = 'توصيل وتركيب مجاني خلال 30 ساعة · الدفع عند الاستلام متاح';
 var body = '';
 if (kind === 'play') {
-body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام، والتركيب وموعده نأكده معك بالواتساب') + row('جدة والدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام، والتركيب نأكد تفاصيله معك بالواتساب') + OUT;
+body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام · الدفع عند الاستلام متاح · التركيب وموعده نأكده معك بالواتساب') + row('جدة والدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام، والتركيب نأكد تفاصيله معك بالواتساب') + OUT;
 } else if (kind === 'court') {
 body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('التركيب', 'نأكد تفاصيله معك بالواتساب') + OUT;
 } else if (kind === 'moto' || kind === 'fit') {
@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
 try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
 var s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@92c83c795b4de0080e9497810a989dec78522c08/alkasser-worlds.js';
+s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@1393e7207ea9831d41f9d9c3b49148eecab2c79c/alkasser-worlds.js';
 s.async = true;
 (document.head || document.documentElement).appendChild(s);
 } catch (e) {}
