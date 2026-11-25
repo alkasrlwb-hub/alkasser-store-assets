@@ -113,8 +113,8 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-try { ['ak-catflow.js', 'ak-light.js', 'ak-r7.js'].forEach(function (f) { var x = document.createElement('script'); x.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@79ed682fa675fa9906391d569c5b0a9f0d130cdf/' + f; x.async = true; (document.head || document.documentElement).appendChild(x); }); } catch (e) {}
-try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@0cdb305/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
+try { ['ak-catflow.js', 'ak-light.js', 'ak-r7.js'].forEach(function (f) { var x = document.createElement('script'); x.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@14c89f66d314504a7aff2d67ec6120510dc3c72f/' + f; x.async = true; (document.head || document.documentElement).appendChild(x); }); } catch (e) {}
+try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@14c89f6/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
@@ -334,7 +334,6 @@ if (allT && cols > 1) { var spn = 'span ' + (cols - (vis % cols)); if (allT.getA
 };
 // صفحة المنتج: صندوق التوصيل. «30 ساعة» والتركيب للطاولات بس، وباقي المنتجات الرياض 2–3 أيام (قرار المالك)
 var isTablePage = function () {
-if (/p554888247/.test(location.pathname)) return false;
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
 var nm = ((document.querySelector('h1') || {}).textContent || '');
 var tx = akBc(bc) + ' ' + nm;
@@ -358,12 +357,11 @@ return [akBc(bc) + ' ' + nm, nm];
 };
 // نوع المنتج عشان مربع التوصيل: طاولة / لياقة / ملاعب وأرضيات / مراجيح / سكوترات
 var akKind = function () {
-if (/p554888247/.test(location.pathname)) return null;
 var t = akTx(), tx = t[0], nm = t[1];
 if (/سكوتر|دباب|تكتوك/.test(tx) && !/هوائية|سيكل|سياكل|جبلية/.test(nm)) return 'moto';
 // قسم المنتج أول: منتج في المراجيح أو الروضات (حتى لو اسمه «دراجة هوائية» مثل دراجة الفولاذ 6 مقاعد) ياخذ مربع المراجيح
 if (/مرجيح|مراجيح|نطيط|ترامبولين|زحليق|زحاليق|ألعاب حدائق|العاب حدائق|الروض|روضة|رياض الأطفال|المدارس|هزاز/.test(akBc(null))) return 'play';
-if (/دراجة هوائية|دراجات هوائية|الدراجات الهوائية|سيكل|سياكل|دراجة جبلية|دراجات الأطفال/.test(tx)) return null;
+if (/دراجة هوائية|دراجات هوائية|الدراجات الهوائية|سيكل|سياكل|دراجة جبلية|دراجات الأطفال/.test(tx)) return 'bike';
 if (isTablePage()) return 'table';
 if (/مرجيح|مراجيح|نطيط|ترامبولين|زحليق|زحاليق|ألعاب حدائق|العاب حدائق|الروض|روضة|المدارس|هزاز/.test(tx)) return 'play';
 if (/الملاعب الخارجية|كرة القدم|أرضيات/.test(tx)) return 'court';
@@ -390,7 +388,8 @@ var an = document.querySelector('salla-installment, .salla-installment') || f;
 if (!an.parentNode) return;
 var price = akPrice();
 // المنتجات غير الطاولات والسكوترات: الشحن المجاني يبدأ من سلة 500، فما نوعد به تحتها
-if ((kind === 'fit' || kind === 'court' || kind === 'play') && price < 500) return;
+// الجولة 7: المنتجات تحت 500 ياخذون المربع بعد، بس بدون «مجاني» (الشحن المجاني من سلة 500)
+var small = (kind === 'fit' || kind === 'court' || kind === 'play' || kind === 'bike') && price < 500;
 var row = function (city, txt) { return '<div style="padding:8px 12px;margin-top:8px;border-radius:12px;background:rgba(34,211,238,.10);font-size:14.5px;line-height:1.6"><b style="display:block;color:#22D3EE">' + city + '</b><span style="display:block;font-weight:700">' + txt + '</span></div>'; };
 var note = function (txt) { return '<div style="margin-top:10px;font-size:13.5px;line-height:1.6;font-weight:700;color:#FACC15">' + txt + '</div>'; };
 var OUT = row('باقي المدن', 'كلّمنا قبل الطلب نتأكد من توفر الشحن');
@@ -400,7 +399,7 @@ if (kind === 'play') {
 body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام · الدفع عند الاستلام متاح · التركيب وموعده نأكده معك بالواتساب') + row('جدة والدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام، والتركيب نأكد تفاصيله معك بالواتساب') + OUT;
 } else if (kind === 'court') {
 body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران والقصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('التركيب', 'نأكد تفاصيله معك بالواتساب') + OUT;
-} else if (kind === 'moto' || kind === 'fit') {
+} else if (kind === 'moto' || kind === 'fit' || kind === 'bike') {
 // غير الطاولات: بدون 30 ساعة وبدون وعد تركيب
 // قرار المالك: أجهزة اللياقة اللي سعرها فوق 1000 ريال تركيبها مجاني في الرياض (بدون 30 ساعة)
 body = row('الرياض', 'توصيل مجاني خلال 2–3 أيام' + (kind === 'fit' && price > 1000 ? ' · تركيب مجاني' : '') + ' · الدفع عند الاستلام متاح') + row('جدة', 'توصيل مجاني خلال 3–5 أيام · الدفع عند الاستلام متاح') + row('الدمام والخبر والظهران', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + row('القصيم', 'توصيل مجاني خلال 3–5 أيام · الدفع أونلاين') + OUT;
@@ -415,6 +414,7 @@ body = row('الرياض', RIY) + row('جدة', 'توصيل مجاني خلال 
 var d = document.createElement('div'); d.id = 'ak-ship'; d.setAttribute('data-kind', kind);
 d.setAttribute('style', 'margin:14px 0 16px;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#0B2350,#06101F);border:2px solid #22D3EE;box-shadow:0 0 22px rgba(34,211,238,.25);color:#fff;text-align:start');
 d.innerHTML = '<div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;line-height:1.4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><span>توصيل <span style="color:#FACC15">مجاني</span> للرياض وجدة والدمام والقصيم</span></div>' + body;
+if (small) { d.innerHTML = d.innerHTML.replace(/توصيل مجاني/g, 'توصيل').replace('توصيل <span style="color:#FACC15">مجاني</span> للرياض', 'توصيل للرياض') + note('التوصيل مجاني إذا وصلت سلتك 500 ريال أو أكثر، وأقل من كذا رسومه 30 ريال'); }
 an.parentNode.insertBefore(d, an);
 } catch (e) {}
 };
