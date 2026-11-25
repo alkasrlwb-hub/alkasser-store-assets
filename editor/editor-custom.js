@@ -1,3 +1,11 @@
+/* الجولة 8: صور معرض صفحة المنتج بنسخة أخف من CDN سلة نفسه (عرض الجوال ×2، أقصى 1000px، webp/avif). رابط التكبير يبقى الأصلي، ولو فشلت النسخة ترجع الأصلية */
+(function () { try {
+if (!/\/p\d+\/?$/.test(location.pathname)) return;
+var W = Math.min(1000, Math.ceil(Math.min(window.innerWidth || 400, 1000) * Math.min(window.devicePixelRatio || 1, 2) / 100) * 100);
+var RX = /^https:\/\/(cdn\.files\.salla\.network|cdn\.salla\.sa)\/(?!cdn-cgi\/)(.+\.(?:jpe?g|png|webp))$/i;
+var fix = function () { var im = document.querySelectorAll('.swiper-slide img[data-src]:not([data-akg])'); for (var i = 0; i < im.length; i++) { var e = im[i]; e.setAttribute('data-akg', '1'); if (e.getAttribute('data-ll-status')) continue; var ds = e.getAttribute('data-src'), m = RX.exec(ds || ''); if (!m) continue; e.setAttribute('data-src', 'https://' + m[1] + '/cdn-cgi/image/fit=scale-down,width=' + W + ',format=auto/' + m[2]); (function (e, ds) { e.addEventListener('error', function () { if (e.getAttribute('src') !== ds) e.setAttribute('src', ds); }, { once: true }); })(e, ds); } };
+fix(); document.addEventListener('DOMContentLoaded', fix); var gn = 0, gi = setInterval(function () { fix(); if (++gn > 40) clearInterval(gi); }, 150);
+} catch (e) {} })();
 /* ALKASSER LOOB — عوالم الكاسر (ليل ونهار). يتحمّل من مستودع alkasser-store-assets */
 (function () {
 try {
@@ -115,8 +123,8 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-try { ['ak-catflow.js', 'ak-light.js', 'ak-r7.js'].forEach(function (f) { var x = document.createElement('script'); x.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@14c89f66d314504a7aff2d67ec6120510dc3c72f/' + f; x.async = true; (document.head || document.documentElement).appendChild(x); }); } catch (e) {}
-try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@14c89f6/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
+// الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@6fbd7d138193e2e49a1705d99e8611bdeb4b647d/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
@@ -635,10 +643,7 @@ tick();
 document.addEventListener('DOMContentLoaded', tick);
 var n = 0, iv = setInterval(function () { tick(); if (++n > 60) clearInterval(iv); }, 500);
 try { var pend = 0; new MutationObserver(function () { if (pend) return; pend = setTimeout(function () { pend = 0; tick(); }, 400); }).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
-var s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@98cfaa4dc983b624e295ac3350dfd272dfa51c44/alkasser-worlds.js';
-s.async = true;
-(document.head || document.documentElement).appendChild(s);
+// المحرك alkasser-worlds.js صار داخل ak-bundle.js (فوق)
 } catch (e) {}
 })();
 /* فرق المقاسات في بطاقات البلياردو: 9 قدم أكبر، 8 أصغر شوي، 7 أصغر (اقتراح فريق التسويق والتصميم) */
@@ -809,7 +814,7 @@ for (var j = 0; j < g.k.length; j++) { var c = isCur(g.k[j][0]); if (c) open = t
 if (g.all) { if (isCur(g.all[0])) open = true; s += '<a class="akd-s all" href="' + esc(href(g.all[0])) + '">' + esc(g.all[1]) + '</a>'; }
 h += '<div class="akd-g' + (open ? ' open' : '') + '"><button type="button" class="akd-r" aria-expanded="' + open + '"><span>' + esc(g.t) + '</span>' + CHEV + '</button><div class="akd-sub">' + s + '</div></div>';
 }
-if (w === 'tables') h += '<a class="akd-r" href="' + esc(pre + '/?world=tables#ak-size') + '"><span>وش يناسبك؟ اختر مقاس طاولتك</span></a>';
+if (w === 'tables') h += '<a class="akd-r" href="' + esc(href(993213184)) + '"><span>وش يناسبك؟ اختر مقاس طاولتك</span></a>';
 var msg = w === 'moto' ? 'السلام عليكم، عندي سؤال عن السكوترات والدبابات' : (w === 'play' ? 'السلام عليكم، ودي أتأكد من توفر منتج من المراجيح والروضات' : 'السلام عليكم، ودي أستفسر عن منتج');
 h += '<a class="akd-wa" target="_blank" rel="noopener" href="https://wa.me/' + W[w].wa + '?text=' + encodeURIComponent(msg) + '">' + WAI + '<span>كلّمنا على الواتساب</span></a>';
 if (w === 'play') h += '<div class="akd-note">تواصل معنا للتأكد من توفر المنتج</div>';
