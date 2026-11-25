@@ -124,7 +124,7 @@ window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
 // الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
-try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@752407e5917ff1ebce1f7cf75b122fc020335097/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@29cb655d63b0a08d0849224077510d7bfc795a41/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
@@ -210,7 +210,7 @@ var GONE = /^$/; // 24 نوفمبر: المالك رجّع إظهار AK-101 ا�
 var AD = /[٠-٩۰-۹]/;
 var FOOT = 'وجهتك لطاولات الألعاب في السعودية: بلياردو وهوكي وتنس وفرفيرة و4 في 1، مع المراجيح وألعاب الروضات والسكوترات والدراجات الهوائية. نوصّل مجاناً في الرياض وجدة والدمام والقصيم، وباقي المدن كلّمنا على الواتساب قبل الطلب ونتأكد لك من الشحن.';
 // اللي يجي من قوقل لصفحة قسم أو منتج: نحفظ عالمه ونخلي الشعار و«الرئيسية» يودونه لنفس العالم
-var WRX = [['moto', /سكوتر|دباب|تكتوك|سيكل|سياكل|دراجة هوائية|دراجات هوائية|دراجة جبلية/], ['play', /مراجيح|مرجيحة|نطيط|ترامبولين|ألعاب حدائق|العاب حدائق|روض|زحليق|ألعاب أطفال|العاب اطفال|مدارس/], ['tables', /طاول|بلياردو|هوكي|تنس|فرفيرة|رياض|لياقة|سير|جيم|أوزان|دمبل|ملاكمة|كرة القدم|ملاعب|أرضيات/]];
+var WRX = [['moto', /سكوتر|دباب|تكتوك|سيكل|سياكل|دراجة هوائية|دراجات هوائية|الدراجات الهوائية|دراجات الأطفال|دراجة جبلية/], ['play', /مراجيح|مرجيحة|نطيط|ترامبولين|ألعاب حدائق|العاب حدائق|روض|زحليق|ألعاب أطفال|العاب اطفال|مدارس/], ['tables', /طاول|بلياردو|هوكي|تنس|فرفيرة|رياض|لياقة|سير|جيم|أوزان|دمبل|ملاكمة|كرة القدم|ملاعب|أرضيات/]];
 // مسار الصفحة في سلة ياخذ آخر قسم زاره العميل (مثلاً سير كهربائي يطلع تحت «طاولات بلياردو»)، فقسم المنتج الحقيقي ناخذه من product:category
 var akBc = function (bc) {
 var m = document.querySelector('meta[property="product:category"]');
@@ -243,7 +243,9 @@ if (bd && /(^|\s)product-index-/.test(bd.className) && !bd.classList.contains('p
 if (!document.body || !document.body.classList.contains('product-index')) return;
 var els = document.querySelectorAll('main, .app-inner');
 if (document.documentElement.hasAttribute('data-aklight')) { for (var j = 0; j < els.length; j++) els[j].style.removeProperty('background-color'); return; } // الثيم الفاتح (قرار المالك 03:33)
-for (var i = 0; i < els.length; i++) if (els[i].style.getPropertyValue('background-color') !== 'rgb(6, 16, 31)') els[i].style.setProperty('background-color', '#06101F', 'important');
+// الجولة 9: صفحات أقسام السكوترات والدراجات فحمي #0D0E10 بدل الكحلي
+var mo = document.documentElement.getAttribute('data-akpw') === 'moto', bgc = mo ? '#0D0E10' : '#06101F', bgr = mo ? 'rgb(13, 14, 16)' : 'rgb(6, 16, 31)';
+for (var i = 0; i < els.length; i++) if (els[i].style.getPropertyValue('background-color') !== bgr) els[i].style.setProperty('background-color', bgc, 'important');
 };
 var footTxt = function () {
 var d = document.querySelector('footer.store-footer .max-w-sm');
