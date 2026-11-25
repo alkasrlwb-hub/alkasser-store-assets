@@ -1,14 +1,15 @@
 /* ALKASSER LOOB — الجولة 10 (المتابعة بعد الاعتماد، signoff-final.md › المراجعة الثانية)
    1) تنبيه «تمت الإضافة للسلة» (salla-add-product-toast) في عالم السكوترات: فحمي وأحمر بدل الأزرق
+   (الحارس __AK_R10B__ والستايل #ak-r10b، لأن __AK_R10__ و#ak-r10 مستخدمة من الجولة 6 داخل المحرر)
    2) منتج 112765573 و1498445893 (صورهم عليها سعر) ما يطلعون في صفحات الأقسام ولا في «منتجات مشابهه» (عرض بس، بياناتهم ما تغيّرت)
    3) المراجيح: الواتساب العائم ينخفي لما شريط الشراء (وفيه زر واتساب) ظاهر، ويرجع لما الشريط يختفي */
 (function () {
   try {
-    if (window.__AK_R10__) return;
-    window.__AK_R10__ = 1;
+    if (window.__AK_R10B__) return;
+    window.__AK_R10B__ = 1;
     var D = document, H = D.documentElement;
     var HIDE = ['112765573', '1498445893'];
-    var MW = ':is(html[data-akpw="moto"],html:has(.ak-worlds--moto)) body:not(#ak-x):not(#ak-r10) salla-add-product-toast.s-add-product-toast';
+    var MW = ':is(html[data-akpw="moto"],html:has(.ak-worlds--moto)) body:not(#ak-x):not(#ak-r10b) salla-add-product-toast.s-add-product-toast';
     var A = '#E11D2E', BG = '#15161A', LN = '#2A2C31', INK = '#D0D3D9', SUB = '#9A9FA8';
     var cardSel = function (id) { return 'custom-salla-product-card:has(a[href$="/p' + id + '"])'; };
     var css = ''
@@ -27,10 +28,10 @@
       + MW + ' .s-add-product-toast__actions button.s-button-outline{background:transparent!important;border-color:' + INK + '!important;color:#fff!important}'
       + MW + ' .s-add-product-toast__actions button.s-button-outline *{color:#fff!important}'
       // ---- 2) إخفاء المنتجين (صفحات الأقسام، و«منتجات مشابهه» داخل صفحة المنتج)
-      + HIDE.map(function (id) { return 'body.product-index:not(#ak-x):not(#ak-r9):not(#ak-r10) #main-content ' + cardSel(id) + ',body.product-single:not(#ak-x):not(#ak-r10) salla-products-slider .swiper-slide:has(a[href$="/p' + id + '"])'; }).join(',') + '{display:none!important}'
+      + HIDE.map(function (id) { return 'body.product-index:not(#ak-x):not(#ak-r9):not(#ak-r10b) #main-content ' + cardSel(id) + ',body.product-single:not(#ak-x):not(#ak-r10b) salla-products-slider .swiper-slide:has(a[href$="/p' + id + '"])'; }).join(',') + '{display:none!important}'
       // ---- 3) واتساب واحد في المراجيح
       + '@media (max-width:1023.98px){html[data-ak-buy][data-ak-buywa]:not([data-ak-foot]) body .fixed-btm{display:none!important}}';
-    var st = D.createElement('style'); st.id = 'ak-r10'; st.textContent = css;
+    var st = D.createElement('style'); st.id = 'ak-r10b'; st.textContent = css;
     (D.head || H).appendChild(st);
 
     // «منتجات مشابهه»: نشيل الشريحة نفسها عشان السلايدر ما يخلّي فراغ
