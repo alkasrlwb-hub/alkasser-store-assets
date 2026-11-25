@@ -40,8 +40,24 @@
         if (c && c.style.display !== 'none') c.style.setProperty('display', 'none', 'important');
       }
     };
-    var q = false, sch = function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; try { clean(); } catch (e) {} }); };
-    var go = function () { clean(); try { new MutationObserver(sch).observe(D.body, { childList: true, subtree: true }); } catch (e) {} };
+    // صفحة القسم: النسخ المخفية تاخذ أماكن في أول صفحة (15)، فنضغط «عرض المزيد» بنفسنا عشان الأصول كلها تبان (مرة وحدة لكل قائمة)
+    var more = function () {
+      if (!D.body || !D.body.classList.contains('product-index')) return;
+      var ls = D.querySelectorAll('salla-products-list');
+      for (var i = 0; i < ls.length; i++) {
+        var l = ls[i], n = l.__akMore || 0;
+        if (n >= 1) continue;
+        var cs = l.querySelectorAll('custom-salla-product-card,.s-product-card-entry'), hid = 0;
+        for (var j = 0; j < cs.length; j++) { var a = cs[j].querySelector('a[href*="/p"]'); if (a && RX.test(a.getAttribute('href') || '')) hid++; }
+        if (!hid) continue;
+        var b = l.querySelector('.s-infinite-scroll-btn') || (l.parentNode && l.parentNode.querySelector('.s-infinite-scroll-btn'));
+        if (!b || b.offsetParent === null || b.disabled) continue;
+        l.__akMore = 1;
+        try { b.click(); } catch (e) {}
+      }
+    };
+    var q = false, sch = function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; try { clean(); } catch (e) {} try { more(); } catch (e) {} }); };
+    var go = function () { clean(); try { more(); } catch (e) {} try { new MutationObserver(sch).observe(D.body, { childList: true, subtree: true }); } catch (e) {} };
     if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', go); else go();
   } catch (e) {}
 })();

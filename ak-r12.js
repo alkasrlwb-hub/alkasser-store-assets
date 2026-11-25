@@ -74,7 +74,7 @@
           l.setAttribute('data-k', G[i].k);
           l.setAttribute('source', 'categories');
           l.setAttribute('source-value', '[' + G[i].id + ']');
-          l.setAttribute('limit', '12');
+          l.setAttribute('limit', G[i].id === 993213184 ? '21' : '12'); // الجولة 14: +9 لأن نسخ cm المخفية (ak-r14.js) تاخذ أماكن في البلياردو
           strip.appendChild(l); ls.push(l);
         } catch (e) {}
       }

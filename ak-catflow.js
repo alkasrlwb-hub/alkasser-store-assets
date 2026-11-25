@@ -116,14 +116,14 @@
         if (sec.getAttribute('data-ld')) return; sec.setAttribute('data-ld', '1');
         var i = +sec.getAttribute('data-i'), s = F.s[i];
         var pl = document.createElement('salla-products-list');
-        pl.setAttribute('source', 'categories'); pl.setAttribute('source-value', JSON.stringify(s[1])); pl.setAttribute('limit', String(LIMIT));
+        pl.setAttribute('source', 'categories'); pl.setAttribute('source-value', JSON.stringify(s[1])); pl.setAttribute('limit', String(LIMIT + (s[1].indexOf(993213184) > -1 ? 9 : 0))); /* الجولة 14: +9 لنسخ cm المخفية */
         var ph = sec.querySelector('.akf-ph'); sec.replaceChild(pl, ph);
         var tries = 0, iv = setInterval(function () {
           tries++;
           var cards = pl.querySelectorAll('custom-salla-product-card, .s-product-card-entry');
           if (cards.length) {
             fit(pl);
-            if (cards.length >= LIMIT && s[1].length === 1 && !sec.querySelector('.akf-more')) {
+            if (cards.length >= LIMIT + (s[1].indexOf(993213184) > -1 ? 9 : 0) && s[1].length === 1 && !sec.querySelector('.akf-more')) {
               var u = catUrl(s[1][0]);
               if (u) { var mo = document.createElement('div'); mo.className = 'akf-more'; var a = document.createElement('a'); a.href = u; a.textContent = 'كل ' + s[0] + ' ←'; mo.appendChild(a); sec.appendChild(mo); }
             }
