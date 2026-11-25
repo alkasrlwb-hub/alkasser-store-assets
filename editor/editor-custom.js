@@ -1063,7 +1063,7 @@ return 'tables';
 var V = 'html[data-akpw]';
 var css =
 // المرحلة 3: شرائح الأقسام الفرعية بلون العالم بدل المربعات البيضاء
-V + ' salla-slider.sub-categories .text-parent{background:var(--akp-card)!important;border:1px solid var(--akp-line)!important;box-shadow:none!important}' + V + ' salla-slider.sub-categories .sub-category-item{border-color:var(--akp-line)!important}' + V + ' salla-slider.sub-categories .title{color:#fff!important}' +
+V + ' body #main-content salla-slider.sub-categories .text-parent{background:var(--akp-card)!important;border:1px solid var(--akp-line)!important;box-shadow:none!important}' + V + ' body #main-content salla-slider.sub-categories .sub-category-item{border-color:var(--akp-line)!important}' + V + ' body #main-content salla-slider.sub-categories .title{color:#fff!important}' +
 // الشريط الترويجي (مثل «توصيل 30 ساعة بالرياض» و«خصم 40 ريال») وشارة الخصم بلون العالم
 V + ' .details-slider .ribbon,' + V + ' .details-slider .discount{background:var(--akp-acc)!important;color:var(--akp-on)!important;border:0!important;font-weight:800!important}' +
 V + ' .details-slider .ribbon *{color:var(--akp-on)!important;background-color:var(--akp-acc)!important}' +
