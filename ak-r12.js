@@ -3,6 +3,7 @@
       الترتيب: تنس طاولة ← فرفيرة ← هوكي ← بلياردو. كل نوع له عنوان صغير وصف أفقي يتمرر بالجوال،
       بنفس بطاقة العالم المعتمدة (.ak-products). المنتجات من سلة نفسها (salla-products-list بالقسم)،
       فالمخفي والمحذوف ما يطلع. كل صف ما ينحمّل إلا لما يقرب من الشاشة (IntersectionObserver).
+   3) صفحات الأقسام في الرياضة والمراجيح: شرائح الأقسام والمقاسات فاتحة (كانت كحلي غامق).
    2) احتياط: أي بطاقة «مميزة/ترويجية» من الثيم (تدرج أخضر-بنفسجي على .s-product-card-entry) ما تبان في أي عالم.
    الحارس __AK_R12__ والستايل #ak-r12 (أسماء جديدة، مو مستخدمة في المحرر ولا الحزمة). */
 (function () {
@@ -45,6 +46,9 @@
       + R + ' .ak-allt__ph i{display:block;height:300px;border-radius:14px;background:linear-gradient(90deg,var(--ak-card2,#EEF3F9),var(--ak-card,#fff),var(--ak-card2,#EEF3F9));background-size:200% 100%;animation:akAlltSh 1.4s linear infinite}'
       + '@keyframes akAlltSh{to{background-position:-200% 0}}'
       + '@media(prefers-reduced-motion:reduce){' + R + ' .ak-allt__ph i{animation:none}}'
+      // 3) صفحة القسم في العالمين الفاتحين: شرائح الأقسام والمقاسات (من المحرر، كانت كحلي غامق بنص أبيض) تصير فاتحة مثل أزرار الترتيب
+      + 'html[data-aklight]:not(#ak-r12) body .ak-chips .ak-chip:not(.is-on){background:var(--l-surf,#fff)!important;border-color:var(--l-line2,#C9D5E6)!important;color:var(--l-fg,#0B1A33)!important}'
+      + 'html[data-aklight]:not(#ak-r12) body .ak-chips--f b{color:var(--l-sub,#55667F)!important}'
       // 2) بطاقة الثيم «المميزة»: تدرج أخضر-بنفسجي (app.css حق الثيم) يرجع لشكل بطاقات العالم
       + 'html body:not(#ak-r12) .s-product-card-entry.s-product-card-special,html body:not(#ak-r12) .s-product-card-special{background-image:none!important}';
     var st = D.createElement('style'); st.id = 'ak-r12'; st.textContent = css;
