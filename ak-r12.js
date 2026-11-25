@@ -30,7 +30,7 @@
       + R + ' .ak-allt__nav button{flex:none;display:inline-flex;align-items:center;min-height:34px;padding:0 11px;border-radius:999px;border:1px solid var(--ak-line2,#C9D5E6);background:var(--ak-card,#fff);color:var(--ak-fg);font:inherit;font-size:12.5px;font-weight:800;white-space:nowrap;cursor:pointer}'
       + R + ' .ak-allt__nav button.is-on{background:var(--ak-accent,#22D3EE);border-color:var(--ak-accent,#22D3EE);color:var(--ak-on-accent,#06101F)}'
       // الشريط الواحد: القوائم الأربع ورا بعض في صف واحد يتمرر أفقياً
-      + X + ' .ak-allt__strip{display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;container-type:inline-size;min-height:300px}'
+      + X + ' .ak-allt__strip{display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;container-type:inline-size;min-height:300px;overflow-anchor:none}'
       + X + ' .ak-allt__strip::-webkit-scrollbar{display:none}'
       + X + ' .ak-allt__strip.is-done{min-height:0}'
       + X + ' .ak-allt__strip{align-items:stretch}'
@@ -87,6 +87,8 @@
         }
         var ph = strip.querySelector('.ak-allt__ph');
         if (all && ph) ph.parentNode.removeChild(ph);
+        // القوائم توصل بأوقات مختلفة، فالشريط ممكن ينط لنوع ثاني. لين العميل يلمسه، نخليه على أول التنس
+        if (!box.__akTouched && strip.scrollLeft !== 0) strip.scrollLeft = 0;
         if (done === ls.length || n > 60) {
           for (var q = 0; q < ls.length; q++) if (!cardsIn(ls[q]).length) { ls[q].classList.add('is-empty'); var b = box.querySelector('.ak-allt__nav [data-k="' + ls[q].getAttribute('data-k') + '"]'); if (b) b.style.display = 'none'; }
           if (ph && ph.parentNode) ph.parentNode.removeChild(ph);
@@ -126,7 +128,7 @@
       // الشرائح: تحرّك الشريط لأول طاولة من النوع (بدون ما تتحرك الصفحة)
       box.querySelector('.ak-allt__nav').addEventListener('click', function (ev) {
         var b = ev.target.closest && ev.target.closest('button[data-k]'); if (!b) return;
-        load(box);
+        box.__akTouched = 1; load(box);
         var l = strip.querySelector('.ak-allt__l[data-k="' + b.getAttribute('data-k') + '"]'); if (!l) return;
         var sr = strip.getBoundingClientRect(), lr = l.getBoundingClientRect(), rtl = getComputedStyle(strip).direction === 'rtl';
         var dx = rtl ? lr.right - sr.right : lr.left - sr.left;
@@ -134,6 +136,9 @@
         var bs = box.querySelectorAll('.ak-allt__nav button');
         for (var j = 0; j < bs.length; j++) bs[j].classList.toggle('is-on', bs[j] === b);
       });
+      var touch = function () { box.__akTouched = 1; };
+      strip.addEventListener('pointerdown', touch, { passive: true }); strip.addEventListener('touchstart', touch, { passive: true }); strip.addEventListener('wheel', touch, { passive: true });
+      box.querySelector('.ak-allt__nav').addEventListener('pointerdown', touch, { passive: true });
       var raf = 0;
       strip.addEventListener('scroll', function () { if (raf) return; raf = requestAnimationFrame(function () { raf = 0; sync(box); }); }, { passive: true });
     };
