@@ -63,7 +63,9 @@
       + 'body:not(#ak-x) #main-content .s-product-card-entry .s-product-card-content{flex:1 1 auto!important}'
       + 'body:not(#ak-x) #main-content .s-product-card-entry .s-product-card-content-sub{margin-top:6px!important}'
       + 'body:not(#ak-x) #main-content .s-product-card-entry .s-product-card-content-footer{margin-top:auto!important;padding-top:10px}}'
-      + '.akr-nonum{display:none!important}';
+      + '.akr-nonum{display:none!important}'
+      // الرئيسية: بطاقة «خلّ عيالك يستانسون» تنشال (مفتاح العوالم فوق يكفي، الفحص الشامل بند 12)
+      + '.ak-worlds-root .ak-ksec:has(>.ak-other),.ak-worlds-root .ak-other{display:none!important}';
     var st = D.createElement('style'); st.id = 'akr-style'; st.textContent = css;
     (D.head || html).appendChild(st);
 
@@ -83,7 +85,7 @@
         + '<input type="search" name="q" autocomplete="off" enterkeyhint="search" aria-label="بحث في المتجر" placeholder="وش تدوّر عليه؟ بلياردو، مرجيحة، سكوتر…">'
         + '<button type="submit">بحث</button></form>';
       box.querySelector('input').value = q;
-      box.querySelector('form').addEventListener('submit', function (e) { var v = box.querySelector('input').value.trim(); if (!v) { e.preventDefault(); box.querySelector('input').focus(); } });
+      box.querySelector('form').addEventListener('submit', function (e) { var inp = box.querySelector('input'), v = inp.value.trim(); if (!v) { e.preventDefault(); inp.focus(); return; } inp.value = normQ(v); });
       hdr.parentNode.insertBefore(box, hdr.nextSibling);
       return true;
     };
@@ -250,8 +252,54 @@
         if (n && n.nodeType === 3) n.textContent = n.textContent.replace(/^\s*[·•\-–]\s*/, '');
       }
     };
+    // ---------- 7) رقم الواتساب حسب العالم من أول لحظة (القائمة الجانبية والزر العائم وأي رابط) ----------
+    var WA = (window.AK_WORLDS_CONFIG && window.AK_WORLDS_CONFIG.WA) || { tables: '966598060796', play: '966598060796', moto: '966567886993' };
+    var worldNow = function () {
+      try {
+        if (D.body && D.body.classList.contains('index')) {
+          var q = /[?&]world=(tables|play|moto)/.exec(location.search); if (q) return q[1];
+          var r = D.querySelector('.ak-worlds-root .ak-worlds'); if (r) { var m = /ak-worlds--(tables|play|moto)/.exec(r.className); if (m) return m[1]; }
+        }
+        var pw = html.getAttribute('data-akpw'); if (pw && WA[pw]) return pw;
+        var lw = localStorage.getItem('ak-world'); if (lw && WA[lw]) return lw;
+      } catch (e) {}
+      return 'tables';
+    };
+    var fixWa = function (a) {
+      var num = WA[worldNow()] || WA.tables, h = a.getAttribute('href') || '';
+      var nh = h.replace(/(wa\.me\/)\+?\d+/, '$1' + num).replace(/([?&]phone=)\+?\d+/, '$1' + num);
+      if (nh !== h) a.setAttribute('href', nh);
+    };
+    var waSweep = function () {
+      var as = D.querySelectorAll('.akd-wa, .fixed-btm a[href*="wa.me/"], .fixed-btm a[href*="whatsapp.com/send"]');
+      for (var i = 0; i < as.length; i++) fixWa(as[i]);
+    };
+    D.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest && e.target.closest('a[href*="wa.me/"], a[href*="whatsapp.com/send"]');
+      if (a && !a.closest('.ak-worlds-root, #ak-ship, #ak-wa, #ak-wa-cart')) fixWa(a);
+    }, true);
+
+    // ---------- 8) أيقونة البحث في الهيدر تروح لشريط البحث الظاهر (بحث صفحة سلة يلقى «4 في 1» و«سيكل») ----------
+    D.addEventListener('click', function (e) {
+      var b = e.target && e.target.closest && e.target.closest('.main-nav-container .header-btn, .main-nav-container [class*="search"]');
+      if (!b || b.closest('#akr-search') || !/search/i.test(b.innerHTML + ' ' + b.className)) return;
+      var inp = D.querySelector('#akr-search input'); if (!inp) return;
+      e.preventDefault(); e.stopPropagation(); inp.focus(); inp.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }, true);
+    var SYN = [[/سياكل|سيكل|سيكلات/g, 'دراجة'], [/4\s*في\s*1|٤\s*في\s*١|4\s*\*\s*1|4in1/gi, '4 في 1']];
+    var normQ = function (v) { for (var i = 0; i < SYN.length; i++) v = v.replace(SYN[i][0], SYN[i][1]); return v; };
+
+    // ---------- 9) «cm» تصير «سم» في نصوصنا ----------
+    var cmFix = function () {
+      var r = D.querySelectorAll('.ak-worlds-root .ak-qz, .ak-worlds-root .ak-size, #ak-flow, .akr-var');
+      for (var i = 0; i < r.length; i++) {
+        var w = D.createTreeWalker(r[i], NodeFilter.SHOW_TEXT, null), n;
+        while ((n = w.nextNode())) if (/\bcm\b/i.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/\bcm\b/gi, 'سم');
+      }
+    };
+
     var sweep = function () {
-      noNums();
+      noNums(); waSweep(); cmFix();
       var im = D.querySelectorAll('.s-product-card-entry img:not([data-akr])');
       for (var i = 0; i < im.length; i++) slimImg(im[i]);
       var cs = D.querySelectorAll('.s-product-card-entry:not([data-akrv])');
