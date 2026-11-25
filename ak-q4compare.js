@@ -232,8 +232,9 @@
     if (c.on === false || window.__akq4xL) return;
     if (!/\/c529136902(\D|$)/.test(decodeURIComponent(location.pathname))) return;
     window.__akq4xL = 1;
-    var me = document.querySelector('script[src*="ak-q4compare.js"]');
-    var base = me ? me.src.replace(/\/ak-q4compare\.js.*$/, '') : 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@main';
+    // الجولة 8: الملف صار داخل ak-bundle.js، فنفس المكان يتحسب من أي واحد منهم
+    var me = document.querySelector('script[src*="ak-bundle.js"]') || document.querySelector('script[src*="ak-q4compare.js"]');
+    var base = me ? me.src.replace(/\/ak-(?:bundle|q4compare)\.js.*$/, '') : 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@main';
     var s = document.createElement('script'); s.src = base + '/ak-q4explain.js'; s.async = true;
     (document.head || document.documentElement).appendChild(s);
   } catch (e) {}

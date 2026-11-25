@@ -56,6 +56,10 @@
       + B + ' salla-metadata :is(h2,h3,b,strong,dt){color:var(--l-fg)!important}' + B + ' salla-metadata :is(span,dd,p,li){color:var(--l-ink)!important}'
       + B + ' form.product-form :is(label,span,p,h4,b){color:var(--l-fg)!important}'
       + B + ' form.product-form :is(input,textarea,select){background:#fff!important;color:var(--l-fg)!important;border-color:var(--l-line2)!important}'
+      // زرّا «إضافة ملاحظة» و«إرفاق ملف»: خلفية فاتحة ونص غامق واضح (كانت غامق على غامق)
+      + B + ' form.product-form .btn-tab{background:var(--l-surf2)!important;background-image:none!important;border:1px solid var(--l-line2)!important;color:var(--l-fg)!important;border-radius:10px!important;font-weight:700}'
+      + B + ' form.product-form .btn-tab :is(span,i,b,svg){color:var(--l-fg)!important;fill:currentColor}'
+      + B + ' form.product-form .btn-tab:is(:hover,:focus-visible,.is-active,[aria-expanded="true"]){background:var(--l-surf)!important;border-color:var(--l-acc)!important}'
       // التبويبات: النشط بلون التمييز، الباقي سطح بحدود
       + B + ' salla-tabs .s-tabs{background:transparent!important}'
       + B + ' salla-tabs .s-tabs-header{display:flex!important;gap:8px!important;flex-wrap:wrap;background:transparent!important;border:0!important;padding:0!important;margin:0 0 12px!important}'

@@ -212,15 +212,30 @@
     };
 
     // ---------- 5) الدفع عند الاستلام تحت السعر ----------
+    // يلقى السعر الظاهر (مو الشريط الثابت) ويرجّع العنصر اللي السطر يجي بعده على طول
+    var codAnchor = function () {
+      var ps = D.querySelectorAll('#main-content .price-timer-rate, #main-content .price-rate');
+      for (var i = 0; i < ps.length; i++) {
+        var stk = ps[i].closest('[class*="sticky"]');
+        if (ps[i].getBoundingClientRect().height > 0 && (!stk || stk === D.body || stk === html)) {
+          var p = ps[i];
+          return p.classList.contains('price-rate') && p.parentElement.classList.contains('price-timer-rate') ? p.parentElement : p;
+        }
+      }
+      return null;
+    };
+    // السطر لازم يكون تحت السعر على طول، حتى لو ak-light.js نقل المواصفات والتبويبات بعد السعر
+    var keepCod = function () {
+      var el = D.querySelector('.akr-cod'); if (!el) return;
+      var a = codAnchor(); if (a && a.nextElementSibling !== el) a.parentNode.insertBefore(el, a.nextSibling);
+    };
     var addCod = function () {
       if (!D.body || !D.body.classList.contains('product-single')) return true;
-      if (D.querySelector('.akr-cod')) return true;
-      var p = null, ps = D.querySelectorAll('#main-content .price-timer-rate, #main-content .price-rate');
-      for (var i = 0; i < ps.length; i++) { var stk = ps[i].closest('[class*="sticky"]'); if (ps[i].getBoundingClientRect().height > 0 && (!stk || stk === D.body || stk === html)) { p = ps[i]; break; } }
-      if (!p) return false;
+      if (D.querySelector('.akr-cod')) { keepCod(); return true; }
+      var anchor = codAnchor();
+      if (!anchor) return false;
       var el = D.createElement('div'); el.className = 'akr-cod';
       el.innerHTML = ICON_CASH + '<div><b>الدفع عند الاستلام متاح في الرياض وجدة</b><small>باقي المدن: الدفع أونلاين (مدى، Apple Pay، تابي، تمارا)</small></div>';
-      var anchor = p.classList.contains('price-rate') && p.parentElement.classList.contains('price-timer-rate') ? p.parentElement : p;
       anchor.parentNode.insertBefore(el, anchor.nextSibling);
       return true;
     };
@@ -320,7 +335,7 @@
         requestAnimationFrame(function () {
           pend = 0; sweep();
           if (isCat) { if (!D.getElementById('akr-tools')) addTools(); else apply(); }
-          if (D.body.classList.contains('product-single') && !D.querySelector('.akr-cod')) addCod();
+          if (D.body.classList.contains('product-single')) addCod();
           if (!D.getElementById('akr-search')) addSearch();
         });
       }).observe(D.body, { childList: true, subtree: true });
