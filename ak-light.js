@@ -41,6 +41,9 @@
       + B + ' footer.store-footer{border-top:3px solid var(--l-acc)!important}'
       + B + ' footer.store-footer :is(p,a,span,h2,h3,h4,li,i,div,small,b){color:var(--l-ink)!important}'
       + B + ' footer.store-footer :is(h2,h3,h4,b){color:var(--l-fg)!important}'
+      // بلاطات الأقسام (صور غامقة): السطر الصغير تحت العنوان أبيض عشان ينقرأ (كان يتلوّن غامق من قاعدة النص فوق)
+      + B + ' #main-content .ak-tile--photo .ak-tile__tx small,' + B + ' #main-content .ak-tile--photo .ak-tile__tx b{color:#FFFFFF!important;text-shadow:0 1px 3px rgba(0,0,0,.55)}'
+      + B + ' #main-content .ak-tile--photo .ak-tile__tx small{color:rgba(255,255,255,.9)!important}'
       // الشرائح الفرعية في صفحة القسم
       + B + ' #main-content salla-slider.sub-categories .text-parent{background:var(--l-surf)!important;border:1px solid var(--l-line2)!important}'
       + B + ' #main-content salla-slider.sub-categories .title{color:var(--l-fg)!important}'
