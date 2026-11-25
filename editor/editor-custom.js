@@ -116,7 +116,7 @@ window.AK_WORLDS_CONFIG.data.whatsapp = window.AK_WORLDS_CONFIG.WA.tables;
 window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
-try { ['ak-catflow.js', 'ak-light.js'].forEach(function (f) { var x = document.createElement('script'); x.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@98cfaa4dc983b624e295ac3350dfd272dfa51c44/' + f; x.async = true; (document.head || document.documentElement).appendChild(x); }); } catch (e) {}
+try { ['ak-catflow.js', 'ak-light.js'].forEach(function (f) { var x = document.createElement('script'); x.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@933dcf27184580718df83d10b773b50bf38f00ed/' + f; x.async = true; (document.head || document.documentElement).appendChild(x); }); } catch (e) {}
 try { var q4s = document.createElement('script'); q4s.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@0cdb305/ak-q4compare.js'; q4s.async = true; (document.head || document.documentElement).appendChild(q4s); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
