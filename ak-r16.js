@@ -115,7 +115,8 @@
       var btn = D.querySelector('#main-content .s-infinite-scroll-btn');
       var more = btn && btn.offsetParent !== null && !btn.disabled && !btn.classList.contains('s-button-loading');
       var anyHidden = hidden || D.querySelector('#main-content [data-akcm]');
-      if (isSearch && more && anyHidden && loads < 6) {
+      // الجولة 17: نحمّل باقي الصفحات دايم في البحث (عشان العنوان يكون الرقم الحقيقي مو «أكثر من 15»)
+      if (isSearch && more && loads < 6) {
         var wait = 1200 - (Date.now() - lastLoad);
         if (wait <= 0) { loads++; lastLoad = Date.now(); try { btn.click(); } catch (e) {} setTimeout(run, 1300); }
         else setTimeout(run, wait + 50);
