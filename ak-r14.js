@@ -35,24 +35,24 @@
     };
     // السلايدرات: نشيل الشريحة نفسها عشان ما يبقى فراغ، ونحدّث Swiper
     // الجولة 16: في «منتجات مشابهه» سلة تحط كلاس swiper-slide على الخانة بعد ما تنضاف البطاقة،
-    // فالبطاقة تنعلّم والخانة لا، وتبقى خانات فاضية (السلايدر يطلع فاضي). فنعلّم الخانة من البطاقة المعلّمة داخلها
-    // (أي ابن مباشر لـ .swiper-wrapper) ونشيلها، ونحدّث Swiper ونرجعه لأول شريحة.
+    // فالبطاقة تنعلّم والخانة لا، وتبقى خانات فاضية (السلايدر يطلع فاضي). فنعلّم الخانة كاملة (أي ابن مباشر لـ .swiper-wrapper)
+    // فتختفي بقاعدة [data-akcm]، وSwiper يتجاهل الخانات المخفية لما نسوي update(). ما نشيلها من الصفحة
+    // (الشيل يلخبط سلة لما تعيد رسم السلايدر، فيطلع فاضي)، ونرجّع السلايدر لأول شريحة.
     var clean = function () {
-      var cs = D.querySelectorAll('.swiper-wrapper [data-akcm]');
+      var cs = D.querySelectorAll('.swiper-wrapper [data-akcm]'), sws = [];
       for (var k = 0; k < cs.length; k++) {
         var e = cs[k];
         while (e && e.parentElement && !e.parentElement.classList.contains('swiper-wrapper')) e = e.parentElement;
-        if (e && e.parentElement && !e.hasAttribute('data-akcm')) e.setAttribute('data-akcm', '1');
+        if (!e || !e.parentElement || e.hasAttribute('data-akcm')) continue;
+        e.setAttribute('data-akcm', '1');
       }
-      var ss = D.querySelectorAll('.swiper-slide[data-akcm], .swiper-wrapper > [data-akcm]'), sws = [];
-      for (var i = 0; i < ss.length; i++) {
-        var sl = ss[i]; if (!sl.parentNode) continue;
-        var sw = sl.closest('.swiper');
-        sl.parentNode.removeChild(sl);
-        if (sw && sws.indexOf(sw) < 0) sws.push(sw);
+      var ns = D.querySelectorAll('.swiper-wrapper > [data-akcm]:not([data-akcmu])');
+      for (var m = 0; m < ns.length; m++) {
+        ns[m].setAttribute('data-akcmu', '1');
+        var sw = ns[m].closest('.swiper'); if (sw && sws.indexOf(sw) < 0) sws.push(sw);
       }
       for (var j = 0; j < sws.length; j++) {
-        try { var s = sws[j].swiper; if (s) { s.update(); if (s.activeIndex >= s.slides.length) s.slideTo(0, 0); } } catch (e2) {}
+        try { var s = sws[j].swiper; if (s) { s.update(); s.slideTo(0, 0); } } catch (e2) {}
       }
     };
     // احتياط: لو كلاس الخانة جا بعد آخر تغيير في الصفحة، نعيد التنظيف كم مرة في أول 12 ثانية
