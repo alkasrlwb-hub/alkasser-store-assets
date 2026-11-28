@@ -1,3 +1,5 @@
+/* الجولة 16: بطاقة الثيم تشتغل أحياناً قبل ترجمات سلة (خطأ ar.trans في الكونسول)، فتنتظرها */
+(function(){try{var g=function(){var C=window.customElements&&customElements.get('custom-salla-product-card');if(!C||C.prototype.__akLang)return;var o=C.prototype.onReady;if(typeof o!=='function')return;C.prototype.__akLang=1;C.prototype.onReady=function(){var s=this,a=arguments,ok=function(){return window.salla&&salla.lang&&salla.lang.messages};if(ok())return o.apply(s,a);var n=0,t=setInterval(function(){if(ok()||++n>100){clearInterval(t);try{o.apply(s,a)}catch(e){}}},100)}};if(window.customElements&&customElements.get('custom-salla-product-card'))g();else if(window.customElements)customElements.whenDefined('custom-salla-product-card').then(g)}catch(e){}})();
 /* الجولة 8: صور معرض صفحة المنتج بنسخة أخف من CDN سلة نفسه (عرض الجوال ×2، أقصى 1000px، webp/avif). رابط التكبير يبقى الأصلي، ولو فشلت النسخة ترجع الأصلية */
 (function () { try {
 if (!/\/p\d+\/?$/.test(location.pathname)) return;
@@ -124,7 +126,7 @@ window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
 // الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9 + r10 من الجولة 10 + r11 من الجولة 11 + r12 من الجولة 12 + r13 من الجولة 13 + r14 من الجولة 14) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
-try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@fc5d95109ff615d6cf6950212414f06d2cf8c134/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@24b3990983e4051405d3e21281345fbf2100b0f5/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
