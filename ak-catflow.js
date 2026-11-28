@@ -69,16 +69,45 @@
       + 'body.ak-flow-on #categories-container,body.ak-flow-on #sub-categories-slider,body.ak-flow-on .ak-flow-native{display:none!important}';
     var st = document.createElement('style'); st.id = 'ak-flow-css'; st.textContent = css; document.head.appendChild(st);
 
-    var lines = function (a) { var r = document.createRange(); r.selectNodeContents(a); var t = {}; var n = 0; var q = r.getClientRects(); for (var i = 0; i < q.length; i++) { if (q[i].width > 1) { var k = Math.round(q[i].top); if (!t[k]) { t[k] = 1; n++; } } } return n; };
+    // الجولة 15: قص العنوان لسطرين كان يكتب في البطاقة ويقيس الصفحة كلها مع كل كلمة (تجمد نص ثانية على الجوال).
+    // الحين نقرأ كل المقاسات أول، ونجرب القص في عنصر قياس مخفي معزول (contain) بنفس الخط والعرض، وبعدها نكتب النتيجة مرة وحدة.
+    var MS = null;
+    var meter = function () {
+      if (MS && MS.isConnected) return MS;
+      MS = document.createElement('div'); MS.setAttribute('aria-hidden', 'true');
+      MS.style.cssText = 'position:absolute;top:-10000px;left:0;visibility:hidden;pointer-events:none;contain:layout size style paint;height:20em;overflow:hidden;white-space:normal;padding:0;margin:0;border:0';
+      MS.appendChild(document.createElement('span'));
+      document.body.appendChild(MS); return MS;
+    };
+    var lines = function (el) { var r = document.createRange(); r.selectNodeContents(el); var t = {}; var n = 0; var q = r.getClientRects(); for (var i = 0; i < q.length; i++) { if (q[i].width > 1) { var k = Math.round(q[i].top); if (!t[k]) { t[k] = 1; n++; } } } return n; };
     var fit = function (root) {
-      var as = root.querySelectorAll('.s-product-card-content-title a');
-      for (var i = 0; i < as.length; i++) {
-        var a = as[i]; if (!a.offsetWidth) continue;
-        var key = a.offsetWidth + '|' + a.textContent; if (a.getAttribute('data-akf') === key) continue;
-        if (!(a.dataset.akFull && a.textContent.trim() === a.dataset.akDone)) a.dataset.akFull = a.textContent.trim();
-        var f = a.dataset.akFull; a.textContent = f;
-        if (lines(a) > 2) { var ws = f.split(/\s+/), n = ws.length; while (n > 1) { n--; a.textContent = ws.slice(0, n).join(' ') + '…'; if (lines(a) <= 2) break; } a.title = f; }
-        a.dataset.akDone = a.textContent.trim(); a.setAttribute('data-akf', a.offsetWidth + '|' + a.textContent);
+      var as = root.querySelectorAll('.s-product-card-content-title a'), job = [];
+      for (var i = 0; i < as.length; i++) { // 1) قراءة بس
+        var a = as[i], w = a.offsetWidth; if (!w) continue;
+        if (a.getAttribute('data-akf') === w + '|' + a.textContent) continue;
+        var cs = getComputedStyle(a), cw = a.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+        job.push([a, w, cw, cs.font, cs.letterSpacing, cs.wordSpacing, cs.direction]);
+      }
+      if (!job.length) return;
+      var m = meter(), sp = m.firstChild, out = [];
+      for (var j = 0; j < job.length; j++) { // 2) القياس داخل العنصر المعزول
+        var it = job[j], a2 = it[0];
+        if (!(a2.dataset.akFull && a2.textContent.trim() === a2.dataset.akDone)) a2.dataset.akFull = a2.textContent.trim();
+        var f = a2.dataset.akFull;
+        m.style.width = it[2] + 'px'; m.style.font = it[3]; m.style.letterSpacing = it[4]; m.style.wordSpacing = it[5]; m.style.direction = it[6];
+        sp.textContent = f; var txt = f;
+        if (lines(sp) > 2) {
+          var ws = f.split(/\s+/), lo = 1, hi = ws.length - 1, best = 1;
+          while (lo <= hi) { var mid = (lo + hi) >> 1; sp.textContent = ws.slice(0, mid).join(' ') + '…'; if (lines(sp) <= 2) { best = mid; lo = mid + 1; } else hi = mid - 1; }
+          txt = ws.slice(0, best).join(' ') + '…';
+        }
+        out.push([a2, it[1], txt, f]);
+      }
+      for (var k = 0; k < out.length; k++) { // 3) كتابة مرة وحدة
+        var o = out[k], el = o[0];
+        if (el.textContent !== o[2]) el.textContent = o[2];
+        if (o[2] !== o[3]) el.title = o[3];
+        el.dataset.akDone = o[2].trim(); el.setAttribute('data-akf', o[1] + '|' + o[2]);
       }
     };
     setInterval(function () { fit(document); }, 1500);

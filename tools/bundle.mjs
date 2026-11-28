@@ -22,6 +22,8 @@ if (eng.split(LIM).length !== 2) throw new Error('engine limit hook not found ex
 const TOP4 = '[1821944654,2001169038,1369835354,736397998]';
 eng = eng.replace(LIM, 'n.setAttribute(`limit`,String(o+(/993213184/.test(String(i||``))?9:0))),t===`ak-tables-0-0`&&(n.setAttribute(`source`,`selected`),n.setAttribute(`source-value`,`' + TOP4 + '`),n.setAttribute(`limit`,`4`))');
 if (/:has\(\.ak-worlds--/.test(eng)) throw new Error('engine :has left');
+// الجولة 15: قص عناوين البطاقات صار في ak-catflow.js بس (بدون قياس الصفحة كلها مع كل كلمة)، فنوقف نسخة المحرك المكررة (tail-fit، الحارس __AK_TFIT__)
+out += 'window.__AK_TFIT__=1;\n';
 out += eng.replace(/\s*$/, '') + '\n;\n';
 for (const f of parts) {
   const src = readFileSync(path.join(root, f), 'utf8');
