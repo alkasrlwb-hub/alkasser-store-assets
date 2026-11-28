@@ -146,7 +146,7 @@
       var m = /(\d{1,2})\s*قدم/.exec(t); return m ? m[1] : '';
     };
     var cards = function () { return D.querySelectorAll('#main-content .s-product-card-entry'); };
-    // الجولة 15: العداد يحسب اللي يشوفه العميل بس (بدون نسخ cm المخفية، وبدون اللي أخفاها فلتر المحرر)
+    // الجولة 15: العداد يحسب اللي يشوفه العميل بس (بدون نسخ cm المخفية، وبدون اللي أخفاها فلتر المحرر، وبدون المكرر المخفي)
     var isCm = function (c) { if (c.closest('[data-akcm]')) return true; var a = c.querySelector('a[href*="/p"]'), rx = window.__AK_CMRX__; return !!(a && rx && rx.test(a.getAttribute('href') || '')); };
     var visN = function () {
       var cs = D.querySelectorAll('#main-content .s-product-card-entry'), n = 0, seen = [];
@@ -154,6 +154,7 @@
         var c = cs[i], box = c.closest('custom-salla-product-card,salla-product-card') || c;
         if (seen.indexOf(box) > -1) continue; seen.push(box);
         if (box.closest('.akr-hide,.ak-fhide') || c.classList.contains('akr-hide') || isCm(c)) continue;
+        if (!box.getClientRects().length) continue; // مخفي بقسم ثاني (مثل القائمة الأصلية تحت أقسام الصفحة المتصلة)
         n++;
       }
       return n;
