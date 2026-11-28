@@ -38,6 +38,8 @@
       + '#akr-tools .akr-c.on{background:' + AC + ';border-color:' + AC + ';color:' + ON + '}'
       + '#akr-tools .akr-n{font-size:12px;color:' + SUB + '}'
       + '.akr-hide{display:none!important}'
+      // الجولة 15: قاعدة r9 (display:flex!important بثلاث معرّفات) كانت تلغي إخفاء الفلتر، فهذي أقوى منها (5 معرّفات)
+      + 'html body:not(#ak-x):not(#ak-r9):not(#ak-f1):not(#ak-f2):not(#ak-f3) :is(.akr-hide,.ak-fhide){display:none!important}'
       + '.akf-sec.akr-empty,.akf-chip.akr-empty{display:none!important}'
       + 'body.akr-tools-on .flex.items-center:has(>#product-filter){display:none!important}'
       // سطر اللون والجوخ في بطاقات البلياردو
@@ -144,6 +146,19 @@
       var m = /(\d{1,2})\s*قدم/.exec(t); return m ? m[1] : '';
     };
     var cards = function () { return D.querySelectorAll('#main-content .s-product-card-entry'); };
+    // الجولة 15: العداد يحسب اللي يشوفه العميل بس (بدون نسخ cm المخفية، وبدون اللي أخفاها فلتر المحرر)
+    var isCm = function (c) { if (c.closest('[data-akcm]')) return true; var a = c.querySelector('a[href*="/p"]'), rx = window.__AK_CMRX__; return !!(a && rx && rx.test(a.getAttribute('href') || '')); };
+    var visN = function () {
+      var cs = D.querySelectorAll('#main-content .s-product-card-entry'), n = 0, seen = [];
+      for (var i = 0; i < cs.length; i++) {
+        var c = cs[i], box = c.closest('custom-salla-product-card,salla-product-card') || c;
+        if (seen.indexOf(box) > -1) continue; seen.push(box);
+        if (box.closest('.akr-hide,.ak-fhide') || c.classList.contains('akr-hide') || isCm(c)) continue;
+        n++;
+      }
+      return n;
+    };
+    window.__AK_VISN__ = visN;
     var apply = function () {
       var cs = cards(), seen = {};
       for (var i = 0; i < cs.length; i++) {
@@ -170,7 +185,7 @@
         secs[k].classList.toggle('akr-empty', !!empty);
         var chip = D.querySelector('#ak-flow .akf-chip[data-i="' + secs[k].getAttribute('data-i') + '"]'); if (chip) chip.classList.toggle('akr-empty', !!empty);
       }
-      var n = D.querySelectorAll('#main-content .s-product-card-entry:not(.akr-hide)').length;
+      var n = visN();
       var nEl = D.querySelector('#akr-tools .akr-n'); if (nEl) nEl.textContent = n ? n + ' منتج' : 'ما فيه منتجات بهالاختيار';
       vis = n; return vis;
     };

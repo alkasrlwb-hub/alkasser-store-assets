@@ -11,33 +11,36 @@
     if (!IDS.length) return;
     var D = document;
     var RX = new RegExp('/p(' + IDS.join('|') + ')(?:[/?#\\s]|$)'); // سلة أحياناً تحط مسافة آخر الرابط
-    var has = function (id) { return 'a[href$="/p' + id + '"],a[href$="/p' + id + ' "],a[href*="/p' + id + '?"],a[href*="/p' + id + '#"]'; };
-    var sel = [];
-    IDS.forEach(function (id) {
-      var a = has(id);
-      sel.push(':is(custom-salla-product-card,.s-product-card-entry):has(' + a + ')');
-      sel.push('.swiper-slide:has(' + a + ')');
-      sel.push(':is(.s-search-product,.s-search-results li,salla-search li):has(' + a + ')');
-    });
+    window.__AK_CMRX__ = RX;
+    // الجولة 15: بدل قواعد :has() (كانت 27 قاعدة تعيد حساب الصفحة كلها مع كل بطاقة) نعلّم البطاقة نفسها بـ data-akcm من الجافاسكربت
+    var BOX = 'custom-salla-product-card,.s-product-card-entry,.swiper-slide,.s-search-product,.s-search-results li,salla-search li';
     var st = D.createElement('style'); st.id = 'ak-r14h';
-    st.textContent = 'body:not(#ak-x) ' + sel.join(',body:not(#ak-x) ') + '{display:none!important}';
+    st.textContent = 'html body:not(#ak-x):not(#ak-r9):not(#ak-cm1):not(#ak-cm2):not(#ak-cm3) [data-akcm]{display:none!important}';
     (D.head || D.documentElement).appendChild(st);
-
+    var mark = function (a) {
+      var h = a.getAttribute('href') || '';
+      if (!RX.test(h)) return;
+      var e = a.parentElement, up = 0;
+      while (e && e !== D.body && up < 12) {
+        if (e.matches(BOX)) { if (!e.hasAttribute('data-akcm')) e.setAttribute('data-akcm', '1'); if (e.matches('.swiper-slide,li')) break; }
+        e = e.parentElement; up++;
+      }
+    };
+    var scan = function (n) {
+      if (!n || n.nodeType !== 1) return;
+      if (n.tagName === 'A') { mark(n); return; }
+      if (!n.querySelectorAll) return;
+      var as = n.querySelectorAll('a[href*="/p"]');
+      for (var i = 0; i < as.length; i++) mark(as[i]);
+    };
     // السلايدرات: نشيل الشريحة نفسها عشان ما يبقى فراغ، ونحدّث Swiper
     var clean = function () {
-      var as = D.querySelectorAll('a[href*="/p"]');
-      for (var i = 0; i < as.length; i++) {
-        var h = as[i].getAttribute('href') || '';
-        if (!RX.test(h)) continue;
-        var sl = as[i].closest('.swiper-slide');
-        if (sl && sl.parentNode) {
-          var sw = sl.closest('.swiper');
-          sl.parentNode.removeChild(sl);
-          try { if (sw && sw.swiper) sw.swiper.update(); } catch (e) {}
-          continue;
-        }
-        var c = as[i].closest('custom-salla-product-card,.s-product-card-entry');
-        if (c && c.style.display !== 'none') c.style.setProperty('display', 'none', 'important');
+      var ss = D.querySelectorAll('.swiper-slide[data-akcm]');
+      for (var i = 0; i < ss.length; i++) {
+        var sl = ss[i]; if (!sl.parentNode) continue;
+        var sw = sl.closest('.swiper');
+        sl.parentNode.removeChild(sl);
+        try { if (sw && sw.swiper) sw.swiper.update(); } catch (e) {}
       }
     };
     // صفحة القسم: النسخ المخفية تاخذ أماكن في أول صفحة (15)، فنضغط «عرض المزيد» بنفسنا عشان الأصول كلها تبان (مرة وحدة لكل قائمة)
@@ -57,7 +60,15 @@
       }
     };
     var q = false, sch = function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; try { clean(); } catch (e) {} try { more(); } catch (e) {} }); };
-    var go = function () { clean(); try { more(); } catch (e) {} try { new MutationObserver(sch).observe(D.body, { childList: true, subtree: true }); } catch (e) {} };
+    var onMut = function (rs) {
+      for (var i = 0; i < rs.length; i++) {
+        var r = rs[i];
+        if (r.type === 'attributes') { if (r.target.tagName === 'A') mark(r.target); continue; }
+        for (var j = 0; j < r.addedNodes.length; j++) scan(r.addedNodes[j]);
+      }
+      sch();
+    };
+    var go = function () { scan(D.body); clean(); try { more(); } catch (e) {} try { new MutationObserver(onMut).observe(D.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] }); } catch (e) {} };
     if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', go); else go();
   } catch (e) {}
 })();
