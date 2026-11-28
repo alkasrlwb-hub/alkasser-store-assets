@@ -1,5 +1,5 @@
 // الجولة 8: يدمج سكربتات المتجر في ملف واحد ak-bundle.js (طلب واحد بدل خمسة).
-// الترتيب: المحرك (مضغوط من المصدر) ← catflow ← light ← r7 ← q4compare ← r9 (الجولة 9) ← r10 ← r11 (الجولة 11) ← r12 (الجولة 12) ← r13 (الجولة 13: المدونة) ← r14 (الجولة 14: إخفاء نسخ cm). كل ملف IIFE فيه حارس
+// الترتيب: المحرك (مضغوط من المصدر) ← catflow ← light ← r7 ← q4compare ← r9 (الجولة 9) ← r10 ← r11 (الجولة 11) ← r12 (الجولة 12) ← r13 (الجولة 13: المدونة) ← r14 (الجولة 14: إخفاء نسخ cm) ← r15 ← r16 (الجولة 16: البحث بالعالم والتباين). كل ملف IIFE فيه حارس
 // (window.__AK_…__) فلو انحمّل مرتين ما يشتغل مرتين. ak-q4explain.js يبقى منفصل (قسم 4 في 1 بس).
 // التشغيل: node tools/bundle.mjs   (يحتاج esbuild: /opt/npm-tools/node_modules/esbuild أو ESBUILD=…)
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -10,7 +10,7 @@ import { gzipSync } from 'node:zlib';
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const req = createRequire(import.meta.url);
 const esbuild = req(process.env.ESBUILD || '/opt/npm-tools/node_modules/esbuild');
-const parts = ['ak-catflow.js', 'ak-light.js', 'ak-r7.js', 'ak-q4compare.js', 'ak-r9.js', 'ak-r10.js', 'ak-r11.js', 'ak-r12.js', 'ak-r13.js', 'ak-r14.js', 'ak-r15.js'];
+const parts = ['ak-catflow.js', 'ak-light.js', 'ak-r7.js', 'ak-q4compare.js', 'ak-r9.js', 'ak-r10.js', 'ak-r11.js', 'ak-r12.js', 'ak-r13.js', 'ak-r14.js', 'ak-r15.js', 'ak-r16.js'];
 // الجولة 15: :has(.ak-worlds--X) كان يعيد حساب تنسيق الصفحة كلها مع كل تعديل (تجمد ثواني على الجوال).
 // نحوّله لكلاس على <html> (akw-X) يحطه ak-r15.js. وسلايدرات العوالم اللي فيها قسم البلياردو تجيب 9 زيادة لأن نسخ cm المخفية تاخذ أماكن.
 const fix = (code) => code.replace(/:has\(\.ak-worlds--(tables|play|moto)\)/g, '.akw-$1');

@@ -49,13 +49,16 @@
       }
       var nEl = D.querySelector('#akr-tools .akr-n');
       if (nEl && window.__AK_VISN__) { var n = window.__AK_VISN__(), t = n ? n + ' منتج' : 'ما فيه منتجات بهالاختيار'; if (nEl.textContent !== t) nEl.textContent = t; }
-      if (!cm) return; // العنوان ما نلمسه إلا في الأقسام اللي فيها نسخ مخفية
+      // الجولة 16: العنوان يتبع اللي يشوفه العميل: بعد الفلترة (المقاس/السعر) وبعد إخفاء الأثاث والعوالم الثانية في البحث (ak-r16.js)
+      var vis = window.__AK_VISN__ ? window.__AK_VISN__() : real;
+      var hid = cm || vis < real || D.querySelector('#main-content .ak-wx');
+      if (!hid && title0 === null) return; // قسم ما فيه شي مخفي: العنوان الأصلي من سلة صح
       var h = D.getElementById('page-main-title'), sp = h && h.querySelector('span'); if (!sp) return;
       if (title0 === null) title0 = sp.textContent;
       var btn = D.querySelector('#main-content .s-infinite-scroll-btn');
       var done = !btn || btn.offsetParent === null || btn.disabled;
-      var want = done ? String(real) : title0.replace(/\d+/, String(real));
-      if (!done && /أكثر من/.test(title0) === false) want = title0;
+      var want = done ? String(vis) : (/أكثر من/.test(title0) ? 'أكثر من ' + vis : title0);
+      if (!done && vis < real && !/أكثر من/.test(title0)) want = String(vis); // فلتر شغّال: الرقم = الظاهر
       if (sp.textContent !== want) sp.textContent = want;
     };
     var ct = 0, schCount = function () { if (ct) return; ct = setTimeout(function () { ct = 0; try { count(); } catch (e) {} }, 300); };

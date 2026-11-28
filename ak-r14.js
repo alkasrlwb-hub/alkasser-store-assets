@@ -34,15 +34,29 @@
       for (var i = 0; i < as.length; i++) mark(as[i]);
     };
     // السلايدرات: نشيل الشريحة نفسها عشان ما يبقى فراغ، ونحدّث Swiper
+    // الجولة 16: في «منتجات مشابهه» سلة تحط كلاس swiper-slide على الخانة بعد ما تنضاف البطاقة،
+    // فالبطاقة تنعلّم والخانة لا، وتبقى خانات فاضية (السلايدر يطلع فاضي). فنعلّم الخانة من البطاقة المعلّمة داخلها
+    // (أي ابن مباشر لـ .swiper-wrapper) ونشيلها، ونحدّث Swiper ونرجعه لأول شريحة.
     var clean = function () {
-      var ss = D.querySelectorAll('.swiper-slide[data-akcm]');
+      var cs = D.querySelectorAll('.swiper-wrapper [data-akcm]');
+      for (var k = 0; k < cs.length; k++) {
+        var e = cs[k];
+        while (e && e.parentElement && !e.parentElement.classList.contains('swiper-wrapper')) e = e.parentElement;
+        if (e && e.parentElement && !e.hasAttribute('data-akcm')) e.setAttribute('data-akcm', '1');
+      }
+      var ss = D.querySelectorAll('.swiper-slide[data-akcm], .swiper-wrapper > [data-akcm]'), sws = [];
       for (var i = 0; i < ss.length; i++) {
         var sl = ss[i]; if (!sl.parentNode) continue;
         var sw = sl.closest('.swiper');
         sl.parentNode.removeChild(sl);
-        try { if (sw && sw.swiper) sw.swiper.update(); } catch (e) {}
+        if (sw && sws.indexOf(sw) < 0) sws.push(sw);
+      }
+      for (var j = 0; j < sws.length; j++) {
+        try { var s = sws[j].swiper; if (s) { s.update(); if (s.activeIndex >= s.slides.length) s.slideTo(0, 0); } } catch (e2) {}
       }
     };
+    // احتياط: لو كلاس الخانة جا بعد آخر تغيير في الصفحة، نعيد التنظيف كم مرة في أول 12 ثانية
+    var late = 0, lateT = setInterval(function () { try { clean(); } catch (e) {} if (++late > 12) clearInterval(lateT); }, 1000);
     // صفحة القسم: النسخ المخفية تاخذ أماكن في أول صفحة (15)، فنضغط «عرض المزيد» بنفسنا عشان الأصول كلها تبان (مرة وحدة لكل قائمة)
     var more = function () {
       if (!D.body || !D.body.classList.contains('product-index')) return;

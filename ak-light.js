@@ -24,12 +24,14 @@
     };
     var H = 'html[data-aklight]:not(#ak-x)';
     var B = H + ' body:not(#ak-x):not(#ak-y)';
+    var DK = ':not(:is(.akx,.akq,.ak-dk) *)';
     var css = ''
       + 'html[data-aklight="tables"]{' + V('tables') + '}html[data-aklight="play"]{' + V('play') + '}'
       // الخلفية والنص
       + H + ',' + B + ',' + B + ' .app-inner,' + B + ' main,' + B + ' #main-content{background:var(--l-bg)!important;background-color:var(--l-bg)!important;color:var(--l-fg)!important}'
-      + B + ' #main-content :is(h1,h2,h3,h4,h5,.section-title,.title,.s-block__title,.s-slider-block__title h2){color:var(--l-fg)!important}'
-      + B + ' #main-content :is(p,label,li,small,.s-filters-label){color:var(--l-ink)!important}'
+      // الجولة 16: الصناديق الغامقة المقصودة (هيدر 4 في 1 .akx، والمقارنة .akq، وأي .ak-dk) تحتفظ بألوانها البيضاء
+      + B + ' #main-content :is(h1,h2,h3,h4,h5,.section-title,.title,.s-block__title,.s-slider-block__title h2)' + DK + '{color:var(--l-fg)!important}'
+      + B + ' #main-content :is(p,label,li,small,.s-filters-label)' + DK + '{color:var(--l-ink)!important}'
       + B + ' .breadcrumbs,' + B + ' .breadcrumbs :is(a,span,i){color:var(--l-sub)!important}'
       // الهيدر
       + B + ' .main-nav-container.top-navbar,' + B + ' .main-nav-container .inner{background:#FFFFFF!important;box-shadow:0 2px 12px rgba(11,26,51,.08)!important}'
@@ -95,7 +97,23 @@
       + H + ' #ak-dr :is(.akd-r,.akd-h,.akd-ls){border-color:var(--l-line)!important}'
       + H + ' #ak-dr :is(.akd-open,.akd-s.all,.akd-r.cur,.akd-s.cur){color:var(--l-link)!important}'
       + H + ' #ak-dr .akd-w{color:var(--l-ink)!important;border-color:var(--l-line2)!important}'
-      + H + ' #ak-dr .akd-x{background:var(--l-surf2)!important;color:var(--l-fg)!important}';
+      + H + ' #ak-dr .akd-x{background:var(--l-surf2)!important;color:var(--l-fg)!important}'
+      // الجولة 16: القائمة المنسدلة على الحاسوب (#ak-dn): لوحة كل عالم غامقة بلونه، فالروابط داخلها ترجع فاتحة
+      // (قاعدة الهيدر فوق كانت تلوّنها كحلي على كحلي). الأزرار الثلاثة فوق تبقى غامقة على الهيدر الأبيض
+      + B + ' .main-nav-container .inner #ak-dn .akn-p :is(.akn-h,.akn-h *){color:#FFFFFF!important}'
+      + B + ' .main-nav-container .inner #ak-dn .akn-p .akn-s{color:var(--n-ink2,#C5D3EC)!important}'
+      + B + ' .main-nav-container .inner #ak-dn .akn-p :is(.akn-all,a.akn-h:hover,.akn-s:hover,.akn-s.cur,.akn-h.cur){color:var(--n-acc,#22D3EE)!important}'
+      // الجولة 16: صفحات السياسات والسلة: صناديق .bg-white تطلع أزرق سلة الغامق (5,89,163) والنص كحلي فوقه.
+      // في العالمين الفاتحين تصير سطح أبيض بحدود، والنص غامق واضح (الأزرار وزر الواتساب ما تنلمس)
+      + B + ' #main-content :is(.bg-white,.content--single-page,section.attachments){background:var(--l-surf)!important;background-image:none!important;color:var(--l-fg)!important;border:1px solid var(--l-line)!important}'
+      + B + ' #main-content :is(.bg-white,.content--single-page,section.attachments) :is(a,span,b,strong,h1,h2,h3,h4,h5,dt,th):not(.btn):not(.s-button-element):not(.s-button-text):not(#ak-wa-cart *):not(.akx *):not(.akq *){color:var(--l-fg)!important}'
+      + B + ' #main-content :is(.bg-white,.content--single-page,section.attachments) :is(p,li,small,label,dd,td,.text-gray-500):not(.btn):not(#ak-wa-cart *):not(.akx *):not(.akq *){color:var(--l-ink)!important}'
+      + B + ' #main-content .content--single-page a:not(.btn){color:var(--l-link)!important;text-decoration:underline}'
+      + B + ' #main-content :is(.filepond--drop-label,.filepond--panel-root){background:var(--l-surf2)!important;color:var(--l-ink)!important}'
+      + B + ' #main-content .btn-tab{background:var(--l-surf2)!important;background-image:none!important;border:1px solid var(--l-line2)!important;color:var(--l-fg)!important}'
+      + B + ' #main-content .btn-tab :is(span,i,b){color:var(--l-fg)!important}'
+      // زر «تواصل معنا على الواتساب» في السلة: أخضر أغمق عشان الكلام الأبيض ينقرأ (كان 2:1)
+      + B + ' #ak-wa-cart a{background:#128C4A!important}' + B + ' #ak-wa-cart a *{color:#FFFFFF!important}';
     var st = document.createElement('style'); st.id = 'ak-light-css'; st.textContent = css;
     var put = function () { (document.head || document.documentElement).appendChild(st); };
     put();
