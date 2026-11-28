@@ -126,7 +126,7 @@ window.AK_WORLDS_CONFIG.data.m_whatsapp = window.AK_WORLDS_CONFIG.WA.moto;
 // مقارنة طاولات 4 في 1 (قسم 4 في 1 + صفحات الطاولات الثلاث). أي نص في ak-q4compare.js يتغير من هنا بنفس الاسم: title, lead, common, rows, diff, notes
 window.AK_WORLDS_CONFIG.q4cmp = { on: true };
 // الجولة 8: ملف واحد ak-bundle.js = المحرك + catflow + light + r7 + q4compare (+ r9 من الجولة 9 + r10 من الجولة 10 + r11 من الجولة 11 + r12 من الجولة 12 + r13 من الجولة 13 + r14 من الجولة 14) (بدل 5 طلبات). المصدر في المستودع، ويتبنى بـ tools/bundle.mjs
-try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@7308ee6dd2a880b6e0870f271afb80a0a9a3b94c/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
+try { var akb = document.createElement('script'); akb.src = 'https://cdn.jsdelivr.net/gh/alkasrlwb-hub/alkasser-store-assets@48ec5f69881535256e2da0d3d5d94936ccedc107/ak-bundle.js'; akb.async = true; (document.head || document.documentElement).appendChild(akb); } catch (e) {}
 // مؤقتًا: إخفاء أقسام القائمة غير المعروضة (الطاولات والمراجيح والسكوترات فقط)
 var HIDE = ['أثاث منزلي - مكتبي', 'سيارات الأطفال', 'المدونة', 'أجهزة رياضية ولياقة', 'زحاليق', 'طاولات وكراسي الطعام', 'الديكور وأشجار الزينة'];
 // نفس الأقسام بالرقم (تشمل الأقسام الفرعية و«عرض الكل») + المدونة
@@ -223,6 +223,8 @@ var worldSync = function () {
 try {
 var b = document.body; if (!b || b.classList.contains('index')) return;
 if (!(b.classList.contains('product-index') || b.classList.contains('product-single'))) return;
+// الجولة 17: صفحة البحث ما تغيّر عالم العميل (كان «طاولة أطفال» من عالم المراجيح يحوّله لعالم الطاولات)
+if (/\/search\/?$/.test(location.pathname)) return;
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
 var tx = akBc(bc) + ' ' + ((document.querySelector('h1') || {}).textContent || '');
 var w = null; for (var i = 0; i < WRX.length && !w; i++) if (WRX[i][1].test(tx)) w = WRX[i][0];
@@ -1066,6 +1068,8 @@ if (b.classList.contains('cart')) { var cw = ''; try { cw = localStorage.getItem
 // الجولة 13: المدونة بشكل عالم الطاولات الفاتح
 if (/blog-(index|single)/.test(b.className) || /\/blog(\/|$)/.test(location.pathname)) return 'tables';
 if (!one && !idx) return null;
+// الجولة 17: صفحة البحث تبقى في عالم العميل المحفوظ
+if (idx && /\/search\/?$/.test(location.pathname)) { var sw0 = ''; try { sw0 = localStorage.getItem('ak-world') || ''; } catch (e) {} if (sw0 === 'play' || sw0 === 'moto') return sw0; }
 var m = document.querySelector('meta[property="product:category"]');
 var bc = document.querySelector('.breadcrumbs, nav[aria-label*="breadcrumb"], salla-breadcrumb');
 var h1 = ((document.querySelector('h1') || {}).textContent || '').replace(/\s+/g, ' ');
