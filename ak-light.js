@@ -108,6 +108,12 @@
       + B + ' #main-content :is(.bg-white,.content--single-page,section.attachments){background:var(--l-surf)!important;background-image:none!important;color:var(--l-fg)!important;border:1px solid var(--l-line)!important}'
       + B + ' #main-content :is(.bg-white,.content--single-page,section.attachments) :is(a,span,b,strong,h1,h2,h3,h4,h5,dt,th):not(.btn):not(.s-button-element):not(.s-button-text):not(#ak-wa-cart *):not(.akx *):not(.akq *){color:var(--l-fg)!important}'
       + B + ' #main-content :is(.bg-white,.content--single-page,section.attachments) :is(p,li,small,label,dd,td,.text-gray-500):not(.btn):not(#ak-wa-cart *):not(.akx *):not(.akq *){color:var(--l-ink)!important}'
+      // الجولة 17: صندوق خيارات المنتج في السلة (اللون، الدور...): salla-product-options نفسه أزرق (5,89,163) والنص كحلي (1.7 إلى 2.5:1)، والقائمة نصها أبيض على فاتح
+      + B + ' #main-content :is(salla-product-options,.s-product-options-wrapper){background:transparent!important;background-image:none!important;color:var(--l-fg)!important;border:0!important;box-shadow:none!important}'
+      + B + ' #main-content :is(salla-product-options,.s-product-options-wrapper) :is(label,b,span,small,p,div,legend,h3,h4):not(.btn):not(.s-button-text){color:var(--l-fg)!important}'
+      + B + ' #main-content :is(salla-product-options,.s-product-options-wrapper) :is(small,.s-product-options-option-label small){color:var(--l-ink)!important}'
+      + B + ' #main-content :is(salla-product-options,.s-product-options-wrapper) :is(select,input:not([type=radio]):not([type=checkbox]),textarea,.s-form-control){background:var(--l-surf2)!important;color:var(--l-fg)!important;border:1px solid var(--l-line2)!important}'
+      + B + ' #main-content :is(salla-product-options,.s-product-options-wrapper) option{background:#FFFFFF!important;color:#0B1A33!important}'
       + B + ' #main-content .content--single-page a:not(.btn){color:var(--l-link)!important;text-decoration:underline}'
       + B + ' #main-content :is(.filepond--drop-label,.filepond--panel-root){background:var(--l-surf2)!important;color:var(--l-ink)!important}'
       + B + ' #main-content .btn-tab{background:var(--l-surf2)!important;background-image:none!important;border:1px solid var(--l-line2)!important;color:var(--l-fg)!important}'

@@ -77,6 +77,8 @@
       return (p && p.category && p.category.name) || '';
     };
 
+    var KIDS = /أطفال|اطفال|روض|مدرس|مدارس/;
+    var searchQ = function () { try { return decodeURIComponent((/[?&]q=([^&]*)/.exec(location.search) || [, ''])[1].replace(/\+/g, ' ')); } catch (e) { return ''; } };
     var noneMsg = function (show) {
       var el = D.getElementById('ak-wx-none');
       if (!show) { if (el) el.remove(); return; }
@@ -95,6 +97,8 @@
       var cs = D.querySelectorAll('#main-content custom-salla-product-card, #main-content salla-product-card');
       if (!cs.length) return;
       var w = curWorld(), info = [], has = false, hidden = 0;
+      // الجولة 17: بحث عن أطفال/روضة/مدرسة يعرض منتجات المراجيح والروضات (طاولات الأطفال) حتى لو العميل في عالم الطاولات
+      if (isSearch && w === 'tables' && KIDS.test(searchQ())) w = 'play';
       for (var i = 0; i < cs.length; i++) {
         var k = worldOfCat(catOf(cs[i]));
         info.push(k);

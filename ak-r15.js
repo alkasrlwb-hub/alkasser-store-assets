@@ -51,7 +51,8 @@
       if (nEl && window.__AK_VISN__) { var n = window.__AK_VISN__(), t = n ? n + ' منتج' : 'ما فيه منتجات بهالاختيار'; if (nEl.textContent !== t) nEl.textContent = t; }
       // الجولة 16: العنوان يتبع اللي يشوفه العميل: بعد الفلترة (المقاس/السعر) وبعد إخفاء الأثاث والعوالم الثانية في البحث (ak-r16.js)
       var vis = window.__AK_VISN__ ? window.__AK_VISN__() : real;
-      var hid = cm || vis < real || D.querySelector('#main-content .ak-wx');
+      // الجولة 17: صفحة البحث دايم نعرض عدد الظاهر بعد ما تخلص الصفحات (نتايج عالم ثاني كانت تبقى «أكثر من 15» مع 19 منتج)
+      var hid = cm || vis < real || D.querySelector('#main-content .ak-wx') || /\/search\/?$/.test(location.pathname);
       if (!hid && title0 === null) return; // قسم ما فيه شي مخفي: العنوان الأصلي من سلة صح
       var h = D.getElementById('page-main-title'), sp = h && h.querySelector('span'); if (!sp) return;
       if (title0 === null) title0 = sp.textContent;
