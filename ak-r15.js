@@ -57,8 +57,8 @@
       if (title0 === null) title0 = sp.textContent;
       var btn = D.querySelector('#main-content .s-infinite-scroll-btn');
       var done = !btn || btn.offsetParent === null || btn.disabled;
-      var want = done ? String(vis) : (/أكثر من/.test(title0) ? 'أكثر من ' + vis : title0);
-      if (!done && vis < real && !/أكثر من/.test(title0)) want = String(vis); // فلتر شغّال: الرقم = الظاهر
+      // خلصت الصفحات أو فيه فلتر شغّال: الرقم = الظاهر بالضبط. وقت التحميل بدون فلتر: عنوان سلة الأصلي
+      var want = (done || vis < real) ? String(vis) : title0;
       if (sp.textContent !== want) sp.textContent = want;
     };
     var ct = 0, schCount = function () { if (ct) return; ct = setTimeout(function () { ct = 0; try { count(); } catch (e) {} }, 300); };

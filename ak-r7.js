@@ -34,7 +34,7 @@
       + '#akr-tools .akr-row{display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}'
       + '#akr-tools .akr-row::-webkit-scrollbar{display:none}'
       // الجولة 16: على الجوال الضيق (360) زر «فوق 2500» كان يختفي برا الشاشة بدون أي إشارة، فالصف ينزل سطر ثاني بدل التمرير
-      + '@media (max-width:480px){#akr-tools .akr-row{flex-wrap:wrap;overflow-x:visible;row-gap:6px}}'
+      + '@media (max-width:480px){#akr-tools .akr-row{flex-wrap:wrap;overflow-x:visible;row-gap:6px;gap:5px}#akr-tools .akr-c{padding-inline:10px;font-size:12.5px}#akr-tools .akr-lb{min-width:40px}}'
       + '#akr-tools .akr-lb{flex:0 0 auto;font-size:13px;font-weight:700;color:' + SUB + ';min-width:46px}'
       + '#akr-tools .akr-c{flex:0 0 auto;border:1.5px solid ' + LN + ';background:' + S + ';color:' + F + ';border-radius:999px;font:inherit;font-size:13px;font-weight:600;padding-block:6px;padding-inline:14px;cursor:pointer;white-space:nowrap}'
       + '#akr-tools .akr-c.on{background:' + AC + ';border-color:' + AC + ';color:' + ON + '}'
