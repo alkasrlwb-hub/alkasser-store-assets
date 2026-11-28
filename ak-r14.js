@@ -73,7 +73,11 @@
         try { b.click(); } catch (e) {}
       }
     };
-    var q = false, sch = function () { if (q) return; q = true; requestAnimationFrame(function () { q = false; try { clean(); } catch (e) {} try { more(); } catch (e) {} }); };
+    var lt = 0, q = false, sch = function () {
+      // الجولة 16: تنظيف ثاني بعد ما تهدأ الإضافات (Swiper يحط كلاساته بعد إضافة البطاقات)
+      if (lt) clearTimeout(lt); lt = setTimeout(function () { lt = 0; try { clean(); } catch (e) {} }, 700);
+      if (q) return; q = true; requestAnimationFrame(function () { q = false; try { clean(); } catch (e) {} try { more(); } catch (e) {} });
+    };
     var onMut = function (rs) {
       for (var i = 0; i < rs.length; i++) {
         var r = rs[i];

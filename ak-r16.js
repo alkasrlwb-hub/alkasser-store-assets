@@ -111,9 +111,10 @@
       var btn = D.querySelector('#main-content .s-infinite-scroll-btn');
       var more = btn && btn.offsetParent !== null && !btn.disabled && !btn.classList.contains('s-button-loading');
       var anyHidden = hidden || D.querySelector('#main-content [data-akcm]');
-      if (isSearch && more && anyHidden && loads < 8 && Date.now() - lastLoad > 1500) {
-        loads++; lastLoad = Date.now();
-        try { btn.click(); } catch (e) {}
+      if (isSearch && more && anyHidden && loads < 6) {
+        var wait = 1200 - (Date.now() - lastLoad);
+        if (wait <= 0) { loads++; lastLoad = Date.now(); try { btn.click(); } catch (e) {} setTimeout(run, 1300); }
+        else setTimeout(run, wait + 50);
       }
       if (isSearch) {
         var vis = window.__AK_VISN__ ? window.__AK_VISN__() : 0;
