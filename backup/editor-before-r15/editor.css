@@ -1,0 +1,66 @@
+/* ALKASSER LOOB — ليل ونهار */
+:root{--ak-cream:#FFF6E6;--ak-cream2:#FFEBC7;--ak-navy:#0E2A47;--ak-navy2:#16406B;--ak-yellow:#FFC93C;--ak-coral:#FF6B5B;--ak-shadow:0 8px 24px rgba(14,42,71,.10)}
+html,body,.app-inner,#main-content{background:var(--ak-cream)!important;color:var(--ak-navy)!important}
+
+/* header */
+.top-navbar,.top-navbar .inner,.top-navbar .sub-menu{background:#fff!important}
+.top-navbar{box-shadow:0 2px 16px rgba(14,42,71,.08)!important;border-bottom:3px solid var(--ak-yellow)!important}
+.top-navbar a,.top-navbar i,.top-navbar span,.top-navbar button,.top-navbar p{color:var(--ak-navy)!important}
+.top-navbar .sub-menu{border-radius:16px!important;box-shadow:var(--ak-shadow)!important}
+.top-navbar .sub-menu a:hover{color:var(--ak-coral)!important}
+
+/* hero = night */
+.hero-sec .custom-slide{background:radial-gradient(circle at 80% 20%,var(--ak-navy2),var(--ak-navy) 70%)!important;border-radius:28px!important;overflow:hidden}
+.hero-sec .custom-slide *{color:#fff}
+.hero-sec a,.hero-sec .btn,.hero-sec button:not(.s-slider-nav-arrow){background:var(--ak-yellow)!important;color:var(--ak-navy)!important;border:0!important;border-radius:999px!important;font-weight:700!important}
+
+/* content = day */
+#main-content section:not(.hero-sec) :is(h1,h2,h3,h4,h5,p,span,small,i,label,.section-title,.title){color:var(--ak-navy)!important}
+#main-content section:not(.hero-sec) h2{font-weight:800!important;position:relative}
+#main-content .section-title::after{content:"";display:block;width:56px;height:5px;border-radius:9px;margin-top:8px;background:linear-gradient(90deg,var(--ak-yellow),var(--ak-coral))}
+#main-content .item-box{background:#fff!important;border:1px solid rgba(14,42,71,.08)!important;border-radius:22px!important;box-shadow:var(--ak-shadow)!important}
+#main-content .item-box *{color:var(--ak-navy)!important}
+
+/* slider arrows */
+.s-slider-nav-arrow{background:#fff!important;color:var(--ak-navy)!important;border:2px solid var(--ak-navy)!important;border-radius:50%!important}
+.s-slider-nav-arrow:hover{background:var(--ak-yellow)!important}
+.s-slider-nav-arrow *{color:var(--ak-navy)!important}
+.s-slider-nav-arrow svg,.s-slider-nav-arrow svg *{fill:var(--ak-navy)!important}
+
+/* product card */
+.s-product-card-entry{background:#fff!important;border-radius:22px!important;overflow:hidden!important;box-shadow:var(--ak-shadow)!important;border:1px solid rgba(14,42,71,.06)!important;transition:transform .25s,box-shadow .25s}
+.s-product-card-entry:hover{transform:translateY(-5px);box-shadow:0 14px 34px rgba(14,42,71,.16)!important}
+.s-product-card-image,.s-product-card-content{background:#fff!important}
+.s-product-card-content,.s-product-card-content *{color:var(--ak-navy)!important}
+.s-product-card-content-title{font-weight:700!important}
+.s-product-card-price,.s-product-card-price *{color:var(--ak-coral)!important;font-weight:800!important}
+.s-product-card-promotion-title{background:var(--ak-coral)!important;color:#fff!important;border-radius:999px!important}
+salla-add-product-button button,salla-add-product-button .s-button-element{background:var(--ak-yellow)!important;color:var(--ak-navy)!important;border:0!important;border-radius:999px!important;font-weight:700!important}
+salla-add-product-button{background:transparent!important}
+salla-add-product-button button:hover{background:var(--ak-coral)!important;color:#fff!important}
+
+/* buttons */
+.s-button-primary,.btn--primary,.s-button-solid{background:var(--ak-yellow)!important;color:var(--ak-navy)!important;border-color:var(--ak-yellow)!important}
+.btn-theme{background:var(--ak-yellow)!important;color:var(--ak-navy)!important;border:0!important;border-radius:999px!important;font-weight:700!important}
+.btn-theme:hover{background:var(--ak-coral)!important;color:#fff!important}
+
+/* category + photo captions */
+.section-title{color:var(--ak-navy)!important;font-weight:800!important}
+#main-content .text-parent{background:#fff!important;border-color:rgba(14,42,71,.12)!important}
+#main-content .text-parent .title{color:var(--ak-navy)!important;font-weight:700!important;opacity:1!important}
+#main-content section .custom-slide .title{color:#fff!important;text-shadow:0 2px 10px rgba(0,0,0,.75)}
+
+/* footer = night */
+.store-footer,.store-footer__inner{background:var(--ak-navy)!important}
+.store-footer *{color:var(--ak-cream)!important}
+.store-footer a:hover{color:var(--ak-yellow)!important}
+.store-footer{border-top:5px solid var(--ak-yellow)!important}
+.scroll-to-top{background:var(--ak-yellow)!important;color:var(--ak-navy)!important}
+/* hide duplicate show-all link when a section has its own product rows */
+#ak-worlds-root .ak-ksec:has(.ak-phead) > .ak-kh > small{display:none !important}
+/* الجولة 13 (شكوى المالك 20:21): صفحة التحميل حق الثيم (#parent-loader، صفحة كاملة باللوقو والنقاط) كانت تغطي الصفحة لين يشتغل سكربتها المتأخر (Rocket Loader) + 800ms. نخفيها من أول رسمة. ما فيه كلاس على body يخفي المحتوى، فالصفحة تطلع على طول */
+#parent-loader,.parent-loader{display:none!important}
+/* أول رسمة فاتحة بدل كحلي إعدادات الثيم (#012D53 / #022c40) قبل ما يوصل JS. بدون !important عشان قواعد عالم السكوترات الغامق (JS) تغلبها */
+html,html body{background-color:#F4F7FB}
+html body .main-nav-container.top-navbar,html body .main-nav-container .inner{background-color:#FFFFFF}
+html body .main-nav-container .inner :is(a,button,i,.header-btn){color:#0B1A33}
